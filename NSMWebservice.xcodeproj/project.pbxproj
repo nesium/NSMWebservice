@@ -1,0 +1,625 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2CE38E8E1E16613800EDFC3D /* NSMWebservice.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CE38E841E16613800EDFC3D /* NSMWebservice.framework */; };
+		2CE38E931E16613800EDFC3D /* NSMWebserviceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE38E921E16613800EDFC3D /* NSMWebserviceTests.swift */; };
+		2CE38E951E16613800EDFC3D /* NSMWebservice.h in Headers */ = {isa = PBXBuildFile; fileRef = 2CE38E871E16613800EDFC3D /* NSMWebservice.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2CE38EA91E16614700EDFC3D /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE38E9F1E16614700EDFC3D /* APIError.swift */; };
+		2CE38EAA1E16614700EDFC3D /* JSONConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE38EA01E16614700EDFC3D /* JSONConvertible.swift */; };
+		2CE38EAB1E16614700EDFC3D /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE38EA11E16614700EDFC3D /* Keychain.swift */; };
+		2CE38EAC1E16614700EDFC3D /* ObjectID.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE38EA21E16614700EDFC3D /* ObjectID.swift */; };
+		2CE38EAD1E16614700EDFC3D /* ParseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE38EA31E16614700EDFC3D /* ParseError.swift */; };
+		2CE38EAE1E16614700EDFC3D /* Requests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE38EA41E16614700EDFC3D /* Requests.swift */; };
+		2CE38EAF1E16614700EDFC3D /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE38EA51E16614700EDFC3D /* Session.swift */; };
+		2CE38EB01E16614700EDFC3D /* NSFormatterExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE38EA71E16614700EDFC3D /* NSFormatterExtensions.swift */; };
+		2CE38EB11E16614700EDFC3D /* ValueTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE38EA81E16614700EDFC3D /* ValueTransformer.swift */; };
+		2CE38EF81E16690900EDFC3D /* Swifter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CE38EED1E1668E800EDFC3D /* Swifter.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		2CE38E8F1E16613800EDFC3D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2CE38E7B1E16613800EDFC3D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2CE38E831E16613800EDFC3D;
+			remoteInfo = NSMWebservice;
+		};
+		2CE38EE61E1668E800EDFC3D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2CE38EDB1E1668E800EDFC3D /* Swifter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 7C839B6E19422CFF003A6950;
+			remoteInfo = SwifterSampleiOS;
+		};
+		2CE38EE81E1668E800EDFC3D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2CE38EDB1E1668E800EDFC3D /* Swifter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 7CCD1B651C8F7CEC0016D664;
+			remoteInfo = SwifterSampletvOS;
+		};
+		2CE38EEA1E1668E800EDFC3D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2CE38EDB1E1668E800EDFC3D /* Swifter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 7CA4813B19A2EA8D0030B30D;
+			remoteInfo = SwifterSampleOSX;
+		};
+		2CE38EEC1E1668E800EDFC3D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2CE38EDB1E1668E800EDFC3D /* Swifter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 7AE893E71C05127900A29F63;
+			remoteInfo = SwifteriOS;
+		};
+		2CE38EEE1E1668E800EDFC3D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2CE38EDB1E1668E800EDFC3D /* Swifter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 7AE893FB1C0512C400A29F63;
+			remoteInfo = SwifterMac;
+		};
+		2CE38EF01E1668E800EDFC3D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2CE38EDB1E1668E800EDFC3D /* Swifter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 7CCD1BC41C8F84E60016D664;
+			remoteInfo = SwiftertvOS;
+		};
+		2CE38EF21E1668E800EDFC3D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2CE38EDB1E1668E800EDFC3D /* Swifter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 7CCD875C1C66099B0068099B;
+			remoteInfo = SwifteriOSTests;
+		};
+		2CE38EF41E1668E800EDFC3D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2CE38EDB1E1668E800EDFC3D /* Swifter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 7CCD87791C660EA30068099B;
+			remoteInfo = SwifterOSXTests;
+		};
+		2CE38EF61E1668FC00EDFC3D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2CE38EDB1E1668E800EDFC3D /* Swifter.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 7AE893E61C05127900A29F63;
+			remoteInfo = SwifteriOS;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		2CE38E841E16613800EDFC3D /* NSMWebservice.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NSMWebservice.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2CE38E871E16613800EDFC3D /* NSMWebservice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NSMWebservice.h; sourceTree = "<group>"; };
+		2CE38E881E16613800EDFC3D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2CE38E8D1E16613800EDFC3D /* NSMWebserviceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NSMWebserviceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		2CE38E921E16613800EDFC3D /* NSMWebserviceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSMWebserviceTests.swift; sourceTree = "<group>"; };
+		2CE38E941E16613800EDFC3D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2CE38E9F1E16614700EDFC3D /* APIError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
+		2CE38EA01E16614700EDFC3D /* JSONConvertible.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONConvertible.swift; sourceTree = "<group>"; };
+		2CE38EA11E16614700EDFC3D /* Keychain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
+		2CE38EA21E16614700EDFC3D /* ObjectID.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObjectID.swift; sourceTree = "<group>"; };
+		2CE38EA31E16614700EDFC3D /* ParseError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseError.swift; sourceTree = "<group>"; };
+		2CE38EA41E16614700EDFC3D /* Requests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Requests.swift; sourceTree = "<group>"; };
+		2CE38EA51E16614700EDFC3D /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
+		2CE38EA71E16614700EDFC3D /* NSFormatterExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSFormatterExtensions.swift; sourceTree = "<group>"; };
+		2CE38EA81E16614700EDFC3D /* ValueTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValueTransformer.swift; sourceTree = "<group>"; };
+		2CE38EDB1E1668E800EDFC3D /* Swifter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Swifter.xcodeproj; path = Carthage/Checkouts/swifter/XCode/Swifter.xcodeproj; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		2CE38E801E16613800EDFC3D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2CE38E8A1E16613800EDFC3D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2CE38EF81E16690900EDFC3D /* Swifter.framework in Frameworks */,
+				2CE38E8E1E16613800EDFC3D /* NSMWebservice.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2CE38E7A1E16613800EDFC3D = {
+			isa = PBXGroup;
+			children = (
+				2CE38E861E16613800EDFC3D /* NSMWebservice */,
+				2CE38E911E16613800EDFC3D /* NSMWebserviceTests */,
+				2CE38E851E16613800EDFC3D /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		2CE38E851E16613800EDFC3D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2CE38E841E16613800EDFC3D /* NSMWebservice.framework */,
+				2CE38E8D1E16613800EDFC3D /* NSMWebserviceTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2CE38E861E16613800EDFC3D /* NSMWebservice */ = {
+			isa = PBXGroup;
+			children = (
+				2CE38E871E16613800EDFC3D /* NSMWebservice.h */,
+				2CE38E881E16613800EDFC3D /* Info.plist */,
+				2CE38E9E1E16614700EDFC3D /* Classes */,
+			);
+			path = NSMWebservice;
+			sourceTree = "<group>";
+		};
+		2CE38E911E16613800EDFC3D /* NSMWebserviceTests */ = {
+			isa = PBXGroup;
+			children = (
+				2CE38E921E16613800EDFC3D /* NSMWebserviceTests.swift */,
+				2CE38E941E16613800EDFC3D /* Info.plist */,
+				2CE38EDB1E1668E800EDFC3D /* Swifter.xcodeproj */,
+			);
+			path = NSMWebserviceTests;
+			sourceTree = "<group>";
+		};
+		2CE38E9E1E16614700EDFC3D /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				2CE38E9F1E16614700EDFC3D /* APIError.swift */,
+				2CE38EA01E16614700EDFC3D /* JSONConvertible.swift */,
+				2CE38EA11E16614700EDFC3D /* Keychain.swift */,
+				2CE38EA21E16614700EDFC3D /* ObjectID.swift */,
+				2CE38EA31E16614700EDFC3D /* ParseError.swift */,
+				2CE38EA41E16614700EDFC3D /* Requests.swift */,
+				2CE38EA51E16614700EDFC3D /* Session.swift */,
+				2CE38EA61E16614700EDFC3D /* Transformers */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		2CE38EA61E16614700EDFC3D /* Transformers */ = {
+			isa = PBXGroup;
+			children = (
+				2CE38EA71E16614700EDFC3D /* NSFormatterExtensions.swift */,
+				2CE38EA81E16614700EDFC3D /* ValueTransformer.swift */,
+			);
+			path = Transformers;
+			sourceTree = "<group>";
+		};
+		2CE38EDC1E1668E800EDFC3D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2CE38EE71E1668E800EDFC3D /* SwifterSampleiOS.app */,
+				2CE38EE91E1668E800EDFC3D /* SwifterSampletvOS.app */,
+				2CE38EEB1E1668E800EDFC3D /* SwifterSampleOSX */,
+				2CE38EED1E1668E800EDFC3D /* Swifter.framework */,
+				2CE38EEF1E1668E800EDFC3D /* Swifter.framework */,
+				2CE38EF11E1668E800EDFC3D /* SwiftertvOS.framework */,
+				2CE38EF31E1668E800EDFC3D /* SwifteriOSTests.xctest */,
+				2CE38EF51E1668E800EDFC3D /* SwifterOSXTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		2CE38E811E16613800EDFC3D /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2CE38E951E16613800EDFC3D /* NSMWebservice.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		2CE38E831E16613800EDFC3D /* NSMWebservice */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2CE38E981E16613800EDFC3D /* Build configuration list for PBXNativeTarget "NSMWebservice" */;
+			buildPhases = (
+				2CE38E7F1E16613800EDFC3D /* Sources */,
+				2CE38E801E16613800EDFC3D /* Frameworks */,
+				2CE38E811E16613800EDFC3D /* Headers */,
+				2CE38E821E16613800EDFC3D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = NSMWebservice;
+			productName = NSMWebservice;
+			productReference = 2CE38E841E16613800EDFC3D /* NSMWebservice.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		2CE38E8C1E16613800EDFC3D /* NSMWebserviceTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2CE38E9B1E16613800EDFC3D /* Build configuration list for PBXNativeTarget "NSMWebserviceTests" */;
+			buildPhases = (
+				2CE38E891E16613800EDFC3D /* Sources */,
+				2CE38E8A1E16613800EDFC3D /* Frameworks */,
+				2CE38E8B1E16613800EDFC3D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2CE38EF71E1668FC00EDFC3D /* PBXTargetDependency */,
+				2CE38E901E16613800EDFC3D /* PBXTargetDependency */,
+			);
+			name = NSMWebserviceTests;
+			productName = NSMWebserviceTests;
+			productReference = 2CE38E8D1E16613800EDFC3D /* NSMWebserviceTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		2CE38E7B1E16613800EDFC3D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0820;
+				LastUpgradeCheck = 0820;
+				ORGANIZATIONNAME = nesiumdotcom;
+				TargetAttributes = {
+					2CE38E831E16613800EDFC3D = {
+						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = EMF866L2YQ;
+						ProvisioningStyle = Automatic;
+					};
+					2CE38E8C1E16613800EDFC3D = {
+						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = EMF866L2YQ;
+						LastSwiftMigration = 0820;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 2CE38E7E1E16613800EDFC3D /* Build configuration list for PBXProject "NSMWebservice" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 2CE38E7A1E16613800EDFC3D;
+			productRefGroup = 2CE38E851E16613800EDFC3D /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 2CE38EDC1E1668E800EDFC3D /* Products */;
+					ProjectRef = 2CE38EDB1E1668E800EDFC3D /* Swifter.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				2CE38E831E16613800EDFC3D /* NSMWebservice */,
+				2CE38E8C1E16613800EDFC3D /* NSMWebserviceTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		2CE38EE71E1668E800EDFC3D /* SwifterSampleiOS.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = SwifterSampleiOS.app;
+			remoteRef = 2CE38EE61E1668E800EDFC3D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		2CE38EE91E1668E800EDFC3D /* SwifterSampletvOS.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = SwifterSampletvOS.app;
+			remoteRef = 2CE38EE81E1668E800EDFC3D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		2CE38EEB1E1668E800EDFC3D /* SwifterSampleOSX */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = SwifterSampleOSX;
+			remoteRef = 2CE38EEA1E1668E800EDFC3D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		2CE38EED1E1668E800EDFC3D /* Swifter.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Swifter.framework;
+			remoteRef = 2CE38EEC1E1668E800EDFC3D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		2CE38EEF1E1668E800EDFC3D /* Swifter.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Swifter.framework;
+			remoteRef = 2CE38EEE1E1668E800EDFC3D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		2CE38EF11E1668E800EDFC3D /* SwiftertvOS.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = SwiftertvOS.framework;
+			remoteRef = 2CE38EF01E1668E800EDFC3D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		2CE38EF31E1668E800EDFC3D /* SwifteriOSTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = SwifteriOSTests.xctest;
+			remoteRef = 2CE38EF21E1668E800EDFC3D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		2CE38EF51E1668E800EDFC3D /* SwifterOSXTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = SwifterOSXTests.xctest;
+			remoteRef = 2CE38EF41E1668E800EDFC3D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		2CE38E821E16613800EDFC3D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2CE38E8B1E16613800EDFC3D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2CE38E7F1E16613800EDFC3D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2CE38EAF1E16614700EDFC3D /* Session.swift in Sources */,
+				2CE38EA91E16614700EDFC3D /* APIError.swift in Sources */,
+				2CE38EAC1E16614700EDFC3D /* ObjectID.swift in Sources */,
+				2CE38EB01E16614700EDFC3D /* NSFormatterExtensions.swift in Sources */,
+				2CE38EAA1E16614700EDFC3D /* JSONConvertible.swift in Sources */,
+				2CE38EAE1E16614700EDFC3D /* Requests.swift in Sources */,
+				2CE38EAB1E16614700EDFC3D /* Keychain.swift in Sources */,
+				2CE38EB11E16614700EDFC3D /* ValueTransformer.swift in Sources */,
+				2CE38EAD1E16614700EDFC3D /* ParseError.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2CE38E891E16613800EDFC3D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2CE38E931E16613800EDFC3D /* NSMWebserviceTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		2CE38E901E16613800EDFC3D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2CE38E831E16613800EDFC3D /* NSMWebservice */;
+			targetProxy = 2CE38E8F1E16613800EDFC3D /* PBXContainerItemProxy */;
+		};
+		2CE38EF71E1668FC00EDFC3D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SwifteriOS;
+			targetProxy = 2CE38EF61E1668FC00EDFC3D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		2CE38E961E16613800EDFC3D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		2CE38E971E16613800EDFC3D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		2CE38E991E16613800EDFC3D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = EMF866L2YQ;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = NSMWebservice/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.nesium.NSMWebservice;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		2CE38E9A1E16613800EDFC3D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = EMF866L2YQ;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = NSMWebservice/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.nesium.NSMWebservice;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+		2CE38E9C1E16613800EDFC3D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				DEVELOPMENT_TEAM = EMF866L2YQ;
+				INFOPLIST_FILE = NSMWebserviceTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.nesium.NSMWebserviceTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		2CE38E9D1E16613800EDFC3D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				DEVELOPMENT_TEAM = EMF866L2YQ;
+				INFOPLIST_FILE = NSMWebserviceTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.nesium.NSMWebserviceTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2CE38E7E1E16613800EDFC3D /* Build configuration list for PBXProject "NSMWebservice" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2CE38E961E16613800EDFC3D /* Debug */,
+				2CE38E971E16613800EDFC3D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2CE38E981E16613800EDFC3D /* Build configuration list for PBXNativeTarget "NSMWebservice" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2CE38E991E16613800EDFC3D /* Debug */,
+				2CE38E9A1E16613800EDFC3D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2CE38E9B1E16613800EDFC3D /* Build configuration list for PBXNativeTarget "NSMWebserviceTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2CE38E9C1E16613800EDFC3D /* Debug */,
+				2CE38E9D1E16613800EDFC3D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 2CE38E7B1E16613800EDFC3D /* Project object */;
+}
