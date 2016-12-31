@@ -7,6 +7,13 @@
 //
 
 import Foundation
+import PromiseKit
+
+internal let classNameKey = "__classname"
+
+public struct WebserviceResponse<T> {
+    public let data: T
+}
 
 public class Session {
     
@@ -15,13 +22,14 @@ public class Session {
     
     private var registeredClasses: [String: JSONConvertible.Type] = [:]
     
-    enum HTTPMethod : String {
+    public enum HTTPMethod : String {
+        case get = "GET"
         case post = "POST"
         case put = "PUT"
         case delete = "DELETE"
     }
     
-    init(baseURL: URL) {
+    public init(baseURL: URL) {
         self.baseURL = baseURL
         self.session = URLSession(
             configuration: URLSessionConfiguration.default)
@@ -30,66 +38,93 @@ public class Session {
     public func registerClass(_ clazz: JSONConvertible.Type) {
         registeredClasses[clazz.JSONClassName] = clazz
     }
-    
-    public func fetchItem<T>(path: String) -> ItemRequest<T> {
-        let request = ItemRequest<T>(deserializer: deserializer())
-        fetchDataWithRequest(path, request: request)
-        return request
+       
+    @discardableResult public func request<T>(_ cls: T.Type,
+        item: JSONConvertible? = nil, path: String,
+        method: HTTPMethod = .get) -> Promise<WebserviceResponse<T>> {
+        let promise: ItemPromise<T> = ItemPromise(deserializer: deserializer())
+        performRequest(with: promise, item: item, path: path, method: method)
+        return promise
     }
     
-    public func fetchCollection<T>(path: String) -> CollectionRequest<T> {
-        let request = CollectionRequest<T>(deserializer: deserializer())
-        fetchDataWithRequest(path, request: request)
-        return request
+    @discardableResult public func requestCollection<T>(_ cls: T.Type,
+        item: JSONConvertible? = nil, path: String,
+        method: HTTPMethod = .get) -> Promise<WebserviceResponse<[T]>> {
+        let promise: CollectionPromise<T> = CollectionPromise(deserializer: deserializer())
+        performRequest(with: promise, item: item, path: path, method: method)
+        return promise
     }
     
-    public func saveItem(_ item: JSONConvertible, path: String) -> ItemRequest<Void> {
-        return sendItem(item, path: path, method: .post)
+    @discardableResult public func request<T>(_ cls: T.Type,
+        item: [JSONConvertible], path: String,
+        method: HTTPMethod = .get) -> Promise<WebserviceResponse<T>> {
+        let promise: ItemPromise<T> = ItemPromise(deserializer: deserializer())
+        performRequest(with: promise, item: item, path: path, method: method)
+        return promise
     }
     
-    public func updateItem<T>(_ item: JSONConvertible, path: String) -> ItemRequest<T> {
-        return sendItem(item, path: path, method: .put)
+    @discardableResult public func requestCollection<T>(_ cls: T.Type,
+        item: [JSONConvertible], path: String,
+        method: HTTPMethod = .get) -> Promise<WebserviceResponse<[T]>> {
+        let promise: CollectionPromise<T> = CollectionPromise(deserializer: deserializer())
+        performRequest(with: promise, item: item, path: path, method: method)
+        return promise
     }
     
-    public func deleteItem(path: String) -> ItemRequest<Void> {
-        return sendItem(nil, path: path, method: .delete)
-    }
-    
-    internal func sendItem<T>(_ item: JSONConvertible?, path: String,
-        method: HTTPMethod) -> ItemRequest<T> {
-        let request = ItemRequest<T>(deserializer: deserializer())
-        let url = baseURL.appendingPathComponent(path)
-        
-        var urlRequest = URLRequest(url: url)
+    private func performRequest<ItemType, ResultType>(
+        with promise: WebservicePromise<ItemType, ResultType>, item: JSONConvertible? = nil,
+        path: String, method: HTTPMethod) {
+        var urlRequest = requestWithPath(path: path, method: method)
         
         if item != nil {
             do {
                 urlRequest.httpBody = try JSONSerialization.data(
-                    withJSONObject: item!.JSONObject(), options: [])
-            } catch {}
+                    withJSONObject: item!.JSONObjectIncludingClassName(), options: [])
+            } catch {
+                promise.fail(error)
+                return
+            }
         }
+        
+        perform(request: urlRequest, promise: promise)
+    }
+    
+    private func performRequest<ItemType, ResultType>(
+        with promise: WebservicePromise<ItemType, ResultType>, item: [JSONConvertible],
+        path: String, method: HTTPMethod) {
+        var urlRequest = requestWithPath(path: path, method: method)
+        
+        do {
+            urlRequest.httpBody = try JSONSerialization.data(withJSONObject: item, options: [])
+        } catch {
+            promise.fail(error)
+            return
+        }
+        
+        perform(request: urlRequest, promise: promise)
+    }
+    
+    private func requestWithPath(path: String, method: HTTPMethod) -> URLRequest {
+        let url = baseURL.appendingPathComponent(path)
+        var urlRequest = URLRequest(url: url)
         
         urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
         urlRequest.setValue("application/json", forHTTPHeaderField: "Accept")
         urlRequest.httpMethod = method.rawValue
         
-        session.dataTask(with: urlRequest) { (data, response, error) -> Void in
-            request.fulfill(data: data, response: response, error: error)
-        }.resume()
-        
-        return request
+        return urlRequest
     }
     
-    private func fetchDataWithRequest<T: FulfillableRequest>(_ path: String, request: T) {
-        let url = baseURL.appendingPathComponent(path)
-        session.dataTask(with: url) { (data, response, error) -> Void in
-            request.fulfill(data: data, response: response, error: error)
+    private func perform<ItemType, ResultType>(request: URLRequest,
+        promise: WebservicePromise<ItemType, ResultType>) {
+        session.dataTask(with: request) { (data, response, error) -> Void in
+            promise.fulfill(data: data, response: response, error: error)
         }.resume()
     }
     
     private func deserializer<T>() -> ([String: Any]) throws -> T {
         return { [weak self] dict in
-            guard let className = dict["__className"] as? String else {
+            guard let className = dict[classNameKey] as? String else {
                 throw ParseError.missingClassName
             }
             
@@ -103,18 +138,42 @@ public class Session {
 }
 
 
-internal protocol FulfillableRequest: Request {
-    var successHandlers: [(U) -> ()] { get }
-    var failureHandlers: [(Error) -> ()] { get }
 
-    func fulfill(data: Data?, response: URLResponse?, error: Error?)
-    func fulfillWithJSONObject(_ obj: Any) throws
-    func fulfill()
-    func fail(_ error: Error)
-}
-
-
-extension FulfillableRequest {
+fileprivate class WebservicePromise<ItemType, ResultType>: Promise<WebserviceResponse<ResultType>> {
+    typealias JSONDeserializer = ([String: Any]) throws -> (ItemType)
+    let deserializer: JSONDeserializer
+    
+    var fulfill: ((WebserviceResponse<ResultType>) -> Void)!
+    var reject: ((Error) -> Void)!
+    
+    init(deserializer: @escaping JSONDeserializer) {
+        self.deserializer = deserializer
+        
+        var fulfill: ((WebserviceResponse<ResultType>) -> Void)?
+        var reject: ((Error) -> Void)?
+        
+        super.init() { f, r in
+            fulfill = f
+            reject = r
+        }
+        
+        self.fulfill = fulfill!
+        self.reject = reject!
+    }
+    
+    required init(resolvers: (@escaping (WebserviceResponse<ResultType>) -> Void,
+        @escaping (Error) -> Void) throws -> Void) {
+        fatalError("init(resolvers:) has not been implemented")
+    }
+    
+    required init(value: WebserviceResponse<ResultType>) {
+        fatalError("init(value:) has not been implemented")
+    }
+    
+    required init(error: Error) {
+        fatalError("init(error:) has not been implemented")
+    }
+    
     func fulfill(data: Data?, response: URLResponse?, error: Error?) {
         guard error == nil else {
             fail(error!)
@@ -136,8 +195,8 @@ extension FulfillableRequest {
             print(respStr)
         }
         
-        if U.self is Void.Type {
-            fulfill()
+        if ResultType.self is Void.Type {
+            fulfill(WebserviceResponse(data: () as! ResultType))
             return
         }
         
@@ -157,93 +216,44 @@ extension FulfillableRequest {
     }
     
     func fail(_ error: Error) {
-        let theErr: NSError
-        
-        if let err = error as? ParseError {
-            let msg: String
-            
-            switch err {
-                case .invalidRootType:
-                    msg = "Invalid Root Type"
-                case .invalidLeafType:
-                    msg = "Invalid Leaf Type"
-                case .missingClassName:
-                    msg = "Missing Class Name"
-                case .unexpectedResponse:
-                    msg = "Unexpected Response"
-                case .unknownClassName(_):
-                    msg = "Invalid Class Name"
-                case .missingFields(let className, let missingFields):
-                    let joinedFields = missingFields.joined(separator: ", ")
-                    msg = "Missing fields (\(joinedFields)) in class \(className)"
-                case .formattingFailed(let errMsg):
-                    msg = errMsg
-            }
-            
-            theErr = NSError(
-            	domain: "",
-                code: -1,
-                userInfo: [NSLocalizedDescriptionKey: msg]
-            )
-        } else {
-            // http://stackoverflow.com/questions/32572033/casting-customnserror-to-errortype-to-nserror-loses-userinfo
-            theErr = ((error as Any) as! NSError)
-        }
-        
-        for handler in failureHandlers {
-            DispatchQueue.main.async(execute: {
-                handler(theErr)
-            })
-        }
+        reject(error)
+    }
+    
+    func fulfillWithJSONObject(_ obj: Any) throws {
+        fatalError("fulfillWithJSONObject must be implemented in a subclass")
     }
 }
 
 
-typealias ParameterlessCompletionHandler = () -> Void
 
-
-extension ItemRequest {
-    func fulfillWithJSONObject(_ obj: Any) throws {
+fileprivate class ItemPromise<ItemType>: WebservicePromise<ItemType, ItemType> {
+    
+    override func fulfillWithJSONObject(_ obj: Any) throws {
         guard let dict = obj as? [String: Any] else {
             throw ParseError.invalidLeafType
         }
-        let result: U = try deserializer(dict)
-        for handler in successHandlers {
-            DispatchQueue.main.async(execute: {
-                handler(result)
-            })
-        }
-    }
-    
-    func fulfill() {
-        for handler in successHandlers {
-            DispatchQueue.main.async(execute: { () -> Void in
-                unsafeBitCast(handler, to: ParameterlessCompletionHandler.self)()
-            })
-        }
+        let result: ItemType = try deserializer(dict)
+        fulfill(WebserviceResponse(data: result))
     }
 }
 
 
-extension CollectionRequest {
-    func fulfillWithJSONObject(_ obj: Any) throws {
+
+fileprivate class CollectionPromise<ItemType>: WebservicePromise<ItemType, [ItemType]> {
+
+    override func fulfillWithJSONObject(_ obj: Any) throws {
         guard let arr = obj as? [[String: Any]] else {
             throw ParseError.invalidRootType
         }
         
-        var result: U = []
+        var result: [ItemType] = []
         for item in arr {
-            try result.append(deserializer(item))
+            print(item)
+            print(ItemType.self)
+            let item = try deserializer(item)
+            result.append(item)
         }
         
-        for handler in successHandlers {
-            DispatchQueue.main.async(execute: {
-                handler(result)
-            })
-        }
-    }
-    
-    func fulfill() {
-        assertionFailure()
+        fulfill(WebserviceResponse(data: result))
     }
 }

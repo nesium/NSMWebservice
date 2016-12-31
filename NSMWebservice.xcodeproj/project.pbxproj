@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2C059F511E1798F500F18CD3 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C059F501E1798F500F18CD3 /* PromiseKit.framework */; };
+		2C059F541E17CB7600F18CD3 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C059F501E1798F500F18CD3 /* PromiseKit.framework */; };
 		2CE38E8E1E16613800EDFC3D /* NSMWebservice.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CE38E841E16613800EDFC3D /* NSMWebservice.framework */; };
 		2CE38E931E16613800EDFC3D /* NSMWebserviceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE38E921E16613800EDFC3D /* NSMWebserviceTests.swift */; };
 		2CE38E951E16613800EDFC3D /* NSMWebservice.h in Headers */ = {isa = PBXBuildFile; fileRef = 2CE38E871E16613800EDFC3D /* NSMWebservice.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -15,7 +17,6 @@
 		2CE38EAB1E16614700EDFC3D /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE38EA11E16614700EDFC3D /* Keychain.swift */; };
 		2CE38EAC1E16614700EDFC3D /* ObjectID.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE38EA21E16614700EDFC3D /* ObjectID.swift */; };
 		2CE38EAD1E16614700EDFC3D /* ParseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE38EA31E16614700EDFC3D /* ParseError.swift */; };
-		2CE38EAE1E16614700EDFC3D /* Requests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE38EA41E16614700EDFC3D /* Requests.swift */; };
 		2CE38EAF1E16614700EDFC3D /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE38EA51E16614700EDFC3D /* Session.swift */; };
 		2CE38EB01E16614700EDFC3D /* NSFormatterExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE38EA71E16614700EDFC3D /* NSFormatterExtensions.swift */; };
 		2CE38EB11E16614700EDFC3D /* ValueTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE38EA81E16614700EDFC3D /* ValueTransformer.swift */; };
@@ -36,13 +37,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 7C839B6E19422CFF003A6950;
 			remoteInfo = SwifterSampleiOS;
-		};
-		2CE38EE81E1668E800EDFC3D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2CE38EDB1E1668E800EDFC3D /* Swifter.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 7CCD1B651C8F7CEC0016D664;
-			remoteInfo = SwifterSampletvOS;
 		};
 		2CE38EEA1E1668E800EDFC3D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -96,6 +90,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2C059F501E1798F500F18CD3 /* PromiseKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PromiseKit.framework; path = Carthage/Build/iOS/PromiseKit.framework; sourceTree = "<group>"; };
 		2CE38E841E16613800EDFC3D /* NSMWebservice.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NSMWebservice.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2CE38E871E16613800EDFC3D /* NSMWebservice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NSMWebservice.h; sourceTree = "<group>"; };
 		2CE38E881E16613800EDFC3D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -107,7 +102,6 @@
 		2CE38EA11E16614700EDFC3D /* Keychain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
 		2CE38EA21E16614700EDFC3D /* ObjectID.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObjectID.swift; sourceTree = "<group>"; };
 		2CE38EA31E16614700EDFC3D /* ParseError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseError.swift; sourceTree = "<group>"; };
-		2CE38EA41E16614700EDFC3D /* Requests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Requests.swift; sourceTree = "<group>"; };
 		2CE38EA51E16614700EDFC3D /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		2CE38EA71E16614700EDFC3D /* NSFormatterExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSFormatterExtensions.swift; sourceTree = "<group>"; };
 		2CE38EA81E16614700EDFC3D /* ValueTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValueTransformer.swift; sourceTree = "<group>"; };
@@ -119,6 +113,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C059F511E1798F500F18CD3 /* PromiseKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -128,18 +123,28 @@
 			files = (
 				2CE38EF81E16690900EDFC3D /* Swifter.framework in Frameworks */,
 				2CE38E8E1E16613800EDFC3D /* NSMWebservice.framework in Frameworks */,
+				2C059F541E17CB7600F18CD3 /* PromiseKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2C059F4F1E1798F500F18CD3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2C059F501E1798F500F18CD3 /* PromiseKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		2CE38E7A1E16613800EDFC3D = {
 			isa = PBXGroup;
 			children = (
 				2CE38E861E16613800EDFC3D /* NSMWebservice */,
 				2CE38E911E16613800EDFC3D /* NSMWebserviceTests */,
 				2CE38E851E16613800EDFC3D /* Products */,
+				2C059F4F1E1798F500F18CD3 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -180,7 +185,6 @@
 				2CE38EA11E16614700EDFC3D /* Keychain.swift */,
 				2CE38EA21E16614700EDFC3D /* ObjectID.swift */,
 				2CE38EA31E16614700EDFC3D /* ParseError.swift */,
-				2CE38EA41E16614700EDFC3D /* Requests.swift */,
 				2CE38EA51E16614700EDFC3D /* Session.swift */,
 				2CE38EA61E16614700EDFC3D /* Transformers */,
 			);
@@ -200,11 +204,10 @@
 			isa = PBXGroup;
 			children = (
 				2CE38EE71E1668E800EDFC3D /* SwifterSampleiOS.app */,
-				2CE38EE91E1668E800EDFC3D /* SwifterSampletvOS.app */,
 				2CE38EEB1E1668E800EDFC3D /* SwifterSampleOSX */,
 				2CE38EED1E1668E800EDFC3D /* Swifter.framework */,
 				2CE38EEF1E1668E800EDFC3D /* Swifter.framework */,
-				2CE38EF11E1668E800EDFC3D /* SwiftertvOS.framework */,
+				2CE38EF11E1668E800EDFC3D /* Swifter.framework */,
 				2CE38EF31E1668E800EDFC3D /* SwifteriOSTests.xctest */,
 				2CE38EF51E1668E800EDFC3D /* SwifterOSXTests.xctest */,
 			);
@@ -233,6 +236,7 @@
 				2CE38E801E16613800EDFC3D /* Frameworks */,
 				2CE38E811E16613800EDFC3D /* Headers */,
 				2CE38E821E16613800EDFC3D /* Resources */,
+				2C059F481E1798A000F18CD3 /* Carthage */,
 			);
 			buildRules = (
 			);
@@ -250,6 +254,7 @@
 				2CE38E891E16613800EDFC3D /* Sources */,
 				2CE38E8A1E16613800EDFC3D /* Frameworks */,
 				2CE38E8B1E16613800EDFC3D /* Resources */,
+				2C059F5B1E17CC5800F18CD3 /* Carthage */,
 			);
 			buildRules = (
 			);
@@ -317,13 +322,6 @@
 			remoteRef = 2CE38EE61E1668E800EDFC3D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		2CE38EE91E1668E800EDFC3D /* SwifterSampletvOS.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = SwifterSampletvOS.app;
-			remoteRef = 2CE38EE81E1668E800EDFC3D /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		2CE38EEB1E1668E800EDFC3D /* SwifterSampleOSX */ = {
 			isa = PBXReferenceProxy;
 			fileType = "compiled.mach-o.executable";
@@ -345,10 +343,10 @@
 			remoteRef = 2CE38EEE1E1668E800EDFC3D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		2CE38EF11E1668E800EDFC3D /* SwiftertvOS.framework */ = {
+		2CE38EF11E1668E800EDFC3D /* Swifter.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
-			path = SwiftertvOS.framework;
+			path = Swifter.framework;
 			remoteRef = 2CE38EF01E1668E800EDFC3D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -385,6 +383,39 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		2C059F481E1798A000F18CD3 /* Carthage */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/PromiseKit.framework",
+			);
+			name = Carthage;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
+		};
+		2C059F5B1E17CC5800F18CD3 /* Carthage */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/PromiseKit.framework",
+			);
+			name = Carthage;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		2CE38E7F1E16613800EDFC3D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -395,7 +426,6 @@
 				2CE38EAC1E16614700EDFC3D /* ObjectID.swift in Sources */,
 				2CE38EB01E16614700EDFC3D /* NSFormatterExtensions.swift in Sources */,
 				2CE38EAA1E16614700EDFC3D /* JSONConvertible.swift in Sources */,
-				2CE38EAE1E16614700EDFC3D /* Requests.swift in Sources */,
 				2CE38EAB1E16614700EDFC3D /* Keychain.swift in Sources */,
 				2CE38EB11E16614700EDFC3D /* ValueTransformer.swift in Sources */,
 				2CE38EAD1E16614700EDFC3D /* ParseError.swift in Sources */,
@@ -534,6 +564,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = NSMWebservice/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -553,6 +587,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = NSMWebservice/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -568,6 +606,10 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = EMF866L2YQ;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = NSMWebserviceTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.nesium.NSMWebserviceTests;
@@ -581,6 +623,10 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = EMF866L2YQ;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = NSMWebserviceTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.nesium.NSMWebserviceTests;

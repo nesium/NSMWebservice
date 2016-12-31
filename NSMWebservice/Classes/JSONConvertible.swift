@@ -13,3 +13,11 @@ public protocol JSONConvertible {
     func JSONObject() -> [String: Any]
     static var JSONClassName: String { get }
 }
+
+extension JSONConvertible {
+    func JSONObjectIncludingClassName() -> [String: Any] {
+        var obj = self.JSONObject()
+        obj[classNameKey] = type(of: self).JSONClassName
+        return obj
+    }
+}
