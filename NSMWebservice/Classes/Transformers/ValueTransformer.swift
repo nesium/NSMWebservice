@@ -21,9 +21,7 @@ public class DateTimeTransformer : ValueTransformer {
     public typealias OutType = Date
     
     public func transformedValue(_ value: InType) throws -> OutType {
-        let date: Date = try DateTimeTransformer.formatter.objectValueForString(value)
-        return date.addingTimeInterval(
-        	Double(TimeZone.autoupdatingCurrent.secondsFromGMT(for: date)))
+        return try DateTimeTransformer.formatter.objectValueForString(value)
     }
     
     public func reverseTransformedValue(_ value: OutType) -> InType {

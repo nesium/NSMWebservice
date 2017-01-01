@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		2C059F511E1798F500F18CD3 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C059F501E1798F500F18CD3 /* PromiseKit.framework */; };
 		2C059F541E17CB7600F18CD3 /* PromiseKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C059F501E1798F500F18CD3 /* PromiseKit.framework */; };
+		2C4027951E18DC480030E7C8 /* JSONCoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4027941E18DC480030E7C8 /* JSONCoder.swift */; };
 		2CE38E8E1E16613800EDFC3D /* NSMWebservice.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CE38E841E16613800EDFC3D /* NSMWebservice.framework */; };
 		2CE38E931E16613800EDFC3D /* NSMWebserviceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE38E921E16613800EDFC3D /* NSMWebserviceTests.swift */; };
 		2CE38E951E16613800EDFC3D /* NSMWebservice.h in Headers */ = {isa = PBXBuildFile; fileRef = 2CE38E871E16613800EDFC3D /* NSMWebservice.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -90,6 +91,7 @@
 
 /* Begin PBXFileReference section */
 		2C059F501E1798F500F18CD3 /* PromiseKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PromiseKit.framework; path = Carthage/Build/iOS/PromiseKit.framework; sourceTree = "<group>"; };
+		2C4027941E18DC480030E7C8 /* JSONCoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONCoder.swift; sourceTree = "<group>"; };
 		2CE38E841E16613800EDFC3D /* NSMWebservice.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NSMWebservice.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2CE38E871E16613800EDFC3D /* NSMWebservice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NSMWebservice.h; sourceTree = "<group>"; };
 		2CE38E881E16613800EDFC3D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -179,6 +181,7 @@
 			isa = PBXGroup;
 			children = (
 				2CE38EA01E16614700EDFC3D /* JSONConvertible.swift */,
+				2C4027941E18DC480030E7C8 /* JSONCoder.swift */,
 				2CE38EA11E16614700EDFC3D /* Keychain.swift */,
 				2CE38EA21E16614700EDFC3D /* ObjectID.swift */,
 				2CE38EA31E16614700EDFC3D /* ParseError.swift */,
@@ -422,6 +425,7 @@
 				2CE38EAC1E16614700EDFC3D /* ObjectID.swift in Sources */,
 				2CE38EB01E16614700EDFC3D /* NSFormatterExtensions.swift in Sources */,
 				2CE38EAA1E16614700EDFC3D /* JSONConvertible.swift in Sources */,
+				2C4027951E18DC480030E7C8 /* JSONCoder.swift in Sources */,
 				2CE38EAB1E16614700EDFC3D /* Keychain.swift in Sources */,
 				2CE38EB11E16614700EDFC3D /* ValueTransformer.swift in Sources */,
 				2CE38EAD1E16614700EDFC3D /* ParseError.swift in Sources */,

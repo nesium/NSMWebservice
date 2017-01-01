@@ -12,8 +12,8 @@ public enum ParseError : Error {
     case missingClassName
     case unexpectedResponse
     case unknownClassName(givenClassName: String)
-    case missingFields([String], cls: String)
     case missingField(String, cls: String)
+    case incorrectFieldType(String, expected: String, found: String, cls: String)
     case formattingFailed(msg: String)
     
     var localizedDescription: String {
@@ -28,11 +28,10 @@ public enum ParseError : Error {
                 return "Unexpected Response"
             case .unknownClassName(_):
                 return "Invalid Class Name"
-            case .missingFields(let missingFields, let className):
-                let joinedFields = missingFields.joined(separator: ", ")
-                return "Missing fields (\(joinedFields)) in class \(className)"
             case .missingField(let missingField, let className):
                 return "Missing field '\(missingField)' in class \(className)"
+            case .incorrectFieldType(let missingField, let expectedType, let foundType, let className):
+                return "Found incorrect type for field '\(missingField)' in class \(className). Expected '\(expectedType)', found \(foundType) instead."
             case .formattingFailed(let errMsg):
                 return errMsg
         }

@@ -79,7 +79,7 @@ public class Session {
         if item != nil {
             do {
                 urlRequest.httpBody = try JSONSerialization.data(
-                    withJSONObject: item!.JSONObjectIncludingClassName(), options: [])
+                    withJSONObject: try item!.JSONObjectIncludingClassName(), options: [])
             } catch {
                 promise.fail(error)
                 return
@@ -132,7 +132,8 @@ public class Session {
                 throw ParseError.unknownClassName(givenClassName: className)
             }
             
-            return try clazz.init(json: dict) as! T
+            return try clazz.init(decoder: JSONDecoder(dict,
+            	className: String(describing: clazz))) as! T
         }
     }
 }

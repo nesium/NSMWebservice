@@ -15,6 +15,7 @@ class MyClass: JSONConvertible {
     
     public let a: String
     public let b: Int
+    public let c: String?
     
     static var JSONClassName: String {
         return "myclass"
@@ -23,26 +24,19 @@ class MyClass: JSONConvertible {
     init(a: String, b: Int) {
         self.a = a
         self.b = b
+        self.c = nil
     }
     
-    required init(json: [String : Any]) throws {
-        guard let a = json["a"] as? String else {
-            throw ParseError.missingField("a", cls: String(describing: MyClass.self))
-        }
-        
-        guard let b = json["b"] as? Int else {
-            throw ParseError.missingField("b", cls: String(describing: MyClass.self))
-        }
-        
-        self.a = a
-        self.b = b
+    required init(decoder: JSONDecoder) throws {
+        self.a = try decoder.decode("a")
+        self.b = try decoder.decode("b")
+        self.c = try decoder.decode("c")
     }
     
-    func JSONObject() -> [String : Any] {
-        return [
-            "a": a,
-            "b": b
-        ]
+    func encode(encoder: JSONEncoder) throws {
+        encoder.encode("a", a)
+        encoder.encode("b", b)
+        encoder.encode("c", c)
     }
 }
 
@@ -179,12 +173,14 @@ class NSMWebserviceTests: XCTestCase {
             }
             
             switch err {
-                case .missingField(let field, let cls):
+                case .incorrectFieldType(let field, let expectedType, let foundType, let cls):
                     XCTAssertEqual(field, "b")
+                    XCTAssertEqual(expectedType, "Int")
+                    XCTAssertEqual(foundType, "NSTaggedPointerString")
                     XCTAssertEqual(cls, "MyClass")
                     break
                 default:
-                    XCTFail("Error should be of type .missingField")
+                    XCTFail("Error should be of type .incorrectFieldType")
             }
             
             fetchExpectation.fulfill()

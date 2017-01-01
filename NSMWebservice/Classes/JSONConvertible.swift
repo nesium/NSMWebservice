@@ -9,14 +9,17 @@
 import Foundation
 
 public protocol JSONConvertible {
-    init(json: [String: Any]) throws
-    func JSONObject() -> [String: Any]
+    init(decoder: JSONDecoder) throws
+    func encode(encoder: JSONEncoder) throws
+    
     static var JSONClassName: String { get }
 }
 
 extension JSONConvertible {
-    func JSONObjectIncludingClassName() -> [String: Any] {
-        var obj = self.JSONObject()
+    func JSONObjectIncludingClassName() throws -> [String: Any] {
+        let encoder = JSONEncoder(className: String(describing: type(of: self)))
+        try self.encode(encoder: encoder)
+        var obj = encoder.jsonDictionary
         obj[classNameKey] = type(of: self).JSONClassName
         return obj
     }
