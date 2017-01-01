@@ -9,22 +9,24 @@
 import Foundation
 
 public protocol ValueTransformer {
-    associatedtype InType
+    associatedtype InType: JSONValue
     associatedtype OutType
     
     func transformedValue(_ value: InType) throws -> OutType
     func reverseTransformedValue(_ value: OutType) -> InType
 }
 
-public class DateTimeTransformer : ValueTransformer {
-    public typealias InType = String
-    public typealias OutType = Date
+
+
+class DateTimeTransformer : ValueTransformer {
+    typealias InType = String
+    typealias OutType = Date
     
-    public func transformedValue(_ value: InType) throws -> OutType {
+    func transformedValue(_ value: InType) throws -> OutType {
         return try DateTimeTransformer.formatter.objectValueForString(value)
     }
     
-    public func reverseTransformedValue(_ value: OutType) -> InType {
+    func reverseTransformedValue(_ value: OutType) -> InType {
         return DateTimeTransformer.formatter.string(from: value)
     }
     
@@ -38,11 +40,11 @@ public class DateTimeTransformer : ValueTransformer {
 }
 
 
-public class URLTransformer : ValueTransformer {
-    public typealias InType = String
-    public typealias OutType = URL
+class URLTransformer : ValueTransformer {
+    typealias InType = String
+    typealias OutType = URL
     
-    public func transformedValue(_ value: InType) throws -> OutType {
+    func transformedValue(_ value: InType) throws -> OutType {
         let url = URL(string: value)
         
         guard url != nil else {
@@ -52,7 +54,21 @@ public class URLTransformer : ValueTransformer {
         return url!
     }
     
-    public func reverseTransformedValue(_ value: OutType) -> InType {
+    func reverseTransformedValue(_ value: OutType) -> InType {
         return value.absoluteString
+    }
+}
+
+
+class DecimalNumberTransformer: ValueTransformer {
+    typealias InType = String
+    typealias OutType = NSDecimalNumber
+    
+    func transformedValue(_ value: String) throws -> NSDecimalNumber {
+        return NSDecimalNumber(string: value, locale: Locale(identifier: "en_US_POSIX"))
+    }
+    
+    func reverseTransformedValue(_ value: NSDecimalNumber) -> String {
+        return value.stringValue
     }
 }

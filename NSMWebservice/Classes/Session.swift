@@ -56,18 +56,18 @@ public class Session {
     }
     
     @discardableResult public func request<T>(_ cls: T.Type,
-        item: [JSONConvertible], path: String,
+        items: [JSONConvertible], path: String,
         method: HTTPMethod = .get) -> Promise<WebserviceResponse<T>> {
         let promise: ItemPromise<T> = ItemPromise(deserializer: deserializer())
-        performRequest(with: promise, item: item, path: path, method: method)
+        performRequest(with: promise, items: items, path: path, method: method)
         return promise
     }
     
     @discardableResult public func requestCollection<T>(_ cls: T.Type,
-        item: [JSONConvertible], path: String,
+        items: [JSONConvertible], path: String,
         method: HTTPMethod = .get) -> Promise<WebserviceResponse<[T]>> {
         let promise: CollectionPromise<T> = CollectionPromise(deserializer: deserializer())
-        performRequest(with: promise, item: item, path: path, method: method)
+        performRequest(with: promise, items: items, path: path, method: method)
         return promise
     }
     
@@ -90,12 +90,15 @@ public class Session {
     }
     
     private func performRequest<ItemType, ResultType>(
-        with promise: WebservicePromise<ItemType, ResultType>, item: [JSONConvertible],
+        with promise: WebservicePromise<ItemType, ResultType>, items: [JSONConvertible],
         path: String, method: HTTPMethod) {
         var urlRequest = requestWithPath(path: path, method: method)
         
         do {
-            urlRequest.httpBody = try JSONSerialization.data(withJSONObject: item, options: [])
+            let jsonItems = try items.map { item in
+                return try item.JSONObjectIncludingClassName()
+            }
+            urlRequest.httpBody = try JSONSerialization.data(withJSONObject: jsonItems, options: [])
         } catch {
             promise.fail(error)
             return
