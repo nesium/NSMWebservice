@@ -12,7 +12,6 @@
 		2CE38E8E1E16613800EDFC3D /* NSMWebservice.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CE38E841E16613800EDFC3D /* NSMWebservice.framework */; };
 		2CE38E931E16613800EDFC3D /* NSMWebserviceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE38E921E16613800EDFC3D /* NSMWebserviceTests.swift */; };
 		2CE38E951E16613800EDFC3D /* NSMWebservice.h in Headers */ = {isa = PBXBuildFile; fileRef = 2CE38E871E16613800EDFC3D /* NSMWebservice.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		2CE38EA91E16614700EDFC3D /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE38E9F1E16614700EDFC3D /* APIError.swift */; };
 		2CE38EAA1E16614700EDFC3D /* JSONConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE38EA01E16614700EDFC3D /* JSONConvertible.swift */; };
 		2CE38EAB1E16614700EDFC3D /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE38EA11E16614700EDFC3D /* Keychain.swift */; };
 		2CE38EAC1E16614700EDFC3D /* ObjectID.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE38EA21E16614700EDFC3D /* ObjectID.swift */; };
@@ -97,7 +96,6 @@
 		2CE38E8D1E16613800EDFC3D /* NSMWebserviceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NSMWebserviceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2CE38E921E16613800EDFC3D /* NSMWebserviceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSMWebserviceTests.swift; sourceTree = "<group>"; };
 		2CE38E941E16613800EDFC3D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2CE38E9F1E16614700EDFC3D /* APIError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
 		2CE38EA01E16614700EDFC3D /* JSONConvertible.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONConvertible.swift; sourceTree = "<group>"; };
 		2CE38EA11E16614700EDFC3D /* Keychain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
 		2CE38EA21E16614700EDFC3D /* ObjectID.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObjectID.swift; sourceTree = "<group>"; };
@@ -180,7 +178,6 @@
 		2CE38E9E1E16614700EDFC3D /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				2CE38E9F1E16614700EDFC3D /* APIError.swift */,
 				2CE38EA01E16614700EDFC3D /* JSONConvertible.swift */,
 				2CE38EA11E16614700EDFC3D /* Keychain.swift */,
 				2CE38EA21E16614700EDFC3D /* ObjectID.swift */,
@@ -422,7 +419,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				2CE38EAF1E16614700EDFC3D /* Session.swift in Sources */,
-				2CE38EA91E16614700EDFC3D /* APIError.swift in Sources */,
 				2CE38EAC1E16614700EDFC3D /* ObjectID.swift in Sources */,
 				2CE38EB01E16614700EDFC3D /* NSFormatterExtensions.swift in Sources */,
 				2CE38EAA1E16614700EDFC3D /* JSONConvertible.swift in Sources */,
