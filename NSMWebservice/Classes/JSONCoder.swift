@@ -35,12 +35,15 @@ private let decimalNumberTransformer: DecimalNumberTransformer = {
 
 public class JSONDecoder {
     
+    private let deserializer: JSONDeserializer
+    
     private let dict: [String: Any]
     private let className: String
     
-    internal init(_ dict: [String: Any], className: String) {
+    internal init(_ dict: [String: Any], className: String, deserializer: JSONDeserializer) {
         self.dict = dict
         self.className = className
+        self.deserializer = deserializer
     }
     
     public func decode<T: JSONValue>(_ key: String) throws -> T {
@@ -67,6 +70,88 @@ public class JSONDecoder {
         }
         
         return result
+    }
+    
+    public func decode<T: JSONConvertible>(_ key: String) throws -> T {
+        guard let value = dict[key] else {
+            throw ParseError.missingField(key, cls: className)
+        }
+        
+        guard let dict = value as? [String: Any] else {
+            throw ParseError.incorrectFieldType(key, expected: String(describing: T.self),
+            	found: String(describing: type(of: value)), cls: className)
+        }
+        
+        return try deserializer.deserialize(dict)
+    }
+    
+    public func decode<T: JSONConvertible>(_ key: String) throws -> T? {
+        guard let value = dict[key] else {
+            return nil
+        }
+        
+        guard let dict = value as? [String: Any] else {
+            throw ParseError.incorrectFieldType(key, expected: String(describing: T.self),
+            	found: String(describing: type(of: value)), cls: className)
+        }
+        
+        return try deserializer.deserialize(dict)
+    }
+    
+    public func decode<T: JSONValue>(_ key: String) throws -> [T] {
+        guard let value = dict[key] else {
+            throw ParseError.missingField(key, cls: className)
+        }
+        
+        guard let result = value as? [T] else {
+            throw ParseError.incorrectFieldType(key, expected: String(describing: T.self),
+            	found: String(describing: type(of: value)), cls: className)
+        }
+        
+        return result
+    }
+    
+    public func decode<T: JSONValue>(_ key: String) throws -> [T]? {
+        guard let value = dict[key] else {
+            return nil
+        }
+        
+        guard let result = value as? [T] else {
+            throw ParseError.incorrectFieldType(key, expected: String(describing: T.self),
+            	found: String(describing: type(of: value)), cls: className)
+        }
+        
+        return result
+    }
+    
+    public func decode<T: JSONConvertible>(_ key: String) throws -> [T] {
+        guard let value = dict[key] else {
+            throw ParseError.missingField(key, cls: className)
+        }
+        
+        guard let result = value as? [[String: Any]] else {
+            throw ParseError.incorrectFieldType(key, expected: String(describing: T.self),
+            	found: String(describing: type(of: value)), cls: className)
+        }
+        
+        return try result.map { item in
+            return try deserializer.deserialize(item)
+        }
+    }
+    
+    public func decode<T: JSONConvertible>(_ key: String) throws -> [T]? {
+        guard let value = dict[key] else {
+            return nil
+        }
+        
+        guard let result = value as? [[String: Any]] else {
+            throw ParseError.incorrectFieldType(key, expected: String(describing: T.self),
+            	found: String(describing: type(of: value)), cls: className)
+        }
+        
+        return try result.map { item in
+            return try deserializer.deserialize(item)
+        }
     }
     
     public func decode<Transformer: ValueTransformer>(_ key: String,
@@ -122,49 +207,58 @@ public class JSONEncoder {
         self.className = className
     }
     
-    public func encode<T: JSONValue>(_ key: String, _ value: T) {
-        jsonDictionary[key] = value
+    public func encode<T: JSONValue>(_ key: String, _ value: T?) throws {
+        guard value != nil else {
+            return
+        }
+        
+        jsonDictionary[key] = value!
     }
     
-    public func encode<T: JSONValue>(_ key: String, _ value: T?) {
-        if value != nil {
-            encode(key, value!)
+    public func encode<T: JSONConvertible>(_ key: String, _ value: T?) throws {
+        guard value != nil else {
+            return
+        }
+        
+        jsonDictionary[key] = try value?.JSONObjectIncludingClassName()
+    }
+    
+    public func encode<T: JSONValue>(_ key: String, _ value: [T]?) throws {
+        guard value != nil else {
+            return
+        }
+        
+        jsonDictionary[key] = value!
+    }
+    
+    public func encode<T: JSONConvertible>(_ key: String, _ value: [T]?) throws {
+        guard value != nil else {
+            return
+        }
+        
+        jsonDictionary[key] = try value!.map { item in
+            return try item.JSONObjectIncludingClassName()
         }
     }
     
     public func encode<Transformer: ValueTransformer>(_ key: String,
-    	_ value: Transformer.OutType, transformer: Transformer) {
-        encode(key, transformer.reverseTransformedValue(value))
-    }
-    
-    public func encode<Transformer: ValueTransformer>(_ key: String,
-    	_ value: Transformer.OutType?, transformer: Transformer) {
-        if value != nil {
-            encode(key, value!, transformer: transformer)
+    	_ value: Transformer.OutType?, transformer: Transformer) throws {
+        guard value != nil else {
+            return
         }
+        
+        try encode(key, transformer.reverseTransformedValue(value!))
     }
     
-    public func encode(_ key: String, _ value: Date) {
-        encode(key, value, transformer: dateTransformer)
+    public func encode(_ key: String, _ value: Date?) throws {
+        try encode(key, value, transformer: dateTransformer)
     }
     
-    public func encode(_ key: String, _ value: Date?) {
-        encode(key, value, transformer: dateTransformer)
+    public func encode(_ key: String, _ value: URL?) throws {
+        try encode(key, value, transformer: urlTransformer)
     }
     
-    public func encode(_ key: String, _ value: URL) {
-        encode(key, value, transformer: urlTransformer)
-    }
-    
-    public func encode(_ key: String, _ value: URL?) {
-        encode(key, value, transformer: urlTransformer)
-    }
-    
-    public func encode(_ key: String, _ value: NSDecimalNumber) {
-        encode(key, value, transformer: decimalNumberTransformer)
-    }
-    
-    public func encode(_ key: String, _ value: NSDecimalNumber?) {
-        encode(key, value, transformer: decimalNumberTransformer)
+    public func encode(_ key: String, _ value: NSDecimalNumber?) throws {
+        try encode(key, value, transformer: decimalNumberTransformer)
     }
 }

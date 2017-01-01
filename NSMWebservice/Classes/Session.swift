@@ -19,8 +19,7 @@ public class Session {
     
     private let baseURL: URL
     private let session: URLSession
-    
-    private var registeredClasses: [String: JSONConvertible.Type] = [:]
+    private let deserializer = JSONDeserializer()
     
     public enum HTTPMethod : String {
         case get    = "GET"
@@ -36,13 +35,13 @@ public class Session {
     }
     
     public func registerClass(_ clazz: JSONConvertible.Type) {
-        registeredClasses[clazz.JSONClassName] = clazz
+        deserializer.registeredClasses[clazz.JSONClassName] = clazz
     }
        
     @discardableResult public func request<T>(_ cls: T.Type,
         item: JSONConvertible? = nil, path: String,
         method: HTTPMethod = .get) -> Promise<WebserviceResponse<T>> {
-        let promise: ItemPromise<T> = ItemPromise(deserializer: deserializer())
+        let promise: ItemPromise<T> = ItemPromise(deserializer: deserializer)
         performRequest(with: promise, item: item, path: path, method: method)
         return promise
     }
@@ -50,7 +49,7 @@ public class Session {
     @discardableResult public func requestCollection<T>(_ cls: T.Type,
         item: JSONConvertible? = nil, path: String,
         method: HTTPMethod = .get) -> Promise<WebserviceResponse<[T]>> {
-        let promise: CollectionPromise<T> = CollectionPromise(deserializer: deserializer())
+        let promise: CollectionPromise<T> = CollectionPromise(deserializer: deserializer)
         performRequest(with: promise, item: item, path: path, method: method)
         return promise
     }
@@ -58,7 +57,7 @@ public class Session {
     @discardableResult public func request<T>(_ cls: T.Type,
         items: [JSONConvertible], path: String,
         method: HTTPMethod = .get) -> Promise<WebserviceResponse<T>> {
-        let promise: ItemPromise<T> = ItemPromise(deserializer: deserializer())
+        let promise: ItemPromise<T> = ItemPromise(deserializer: deserializer)
         performRequest(with: promise, items: items, path: path, method: method)
         return promise
     }
@@ -66,7 +65,7 @@ public class Session {
     @discardableResult public func requestCollection<T>(_ cls: T.Type,
         items: [JSONConvertible], path: String,
         method: HTTPMethod = .get) -> Promise<WebserviceResponse<[T]>> {
-        let promise: CollectionPromise<T> = CollectionPromise(deserializer: deserializer())
+        let promise: CollectionPromise<T> = CollectionPromise(deserializer: deserializer)
         performRequest(with: promise, items: items, path: path, method: method)
         return promise
     }
@@ -124,33 +123,17 @@ public class Session {
             promise.fulfill(data: data, response: response, error: error)
         }.resume()
     }
-    
-    private func deserializer<T>() -> ([String: Any]) throws -> T {
-        return { [weak self] dict in
-            guard let className = dict[classNameKey] as? String else {
-                throw ParseError.missingClassName
-            }
-            
-            guard let clazz = self?.registeredClasses[className] else {
-                throw ParseError.unknownClassName(givenClassName: className)
-            }
-            
-            return try clazz.init(decoder: JSONDecoder(dict,
-            	className: String(describing: clazz))) as! T
-        }
-    }
 }
 
 
 
 fileprivate class WebservicePromise<ItemType, ResultType>: Promise<WebserviceResponse<ResultType>> {
-    typealias JSONDeserializer = ([String: Any]) throws -> (ItemType)
     let deserializer: JSONDeserializer
     
     var fulfill: ((WebserviceResponse<ResultType>) -> Void)!
     var reject: ((Error) -> Void)!
     
-    init(deserializer: @escaping JSONDeserializer) {
+    init(deserializer: JSONDeserializer) {
         self.deserializer = deserializer
         
         var fulfill: ((WebserviceResponse<ResultType>) -> Void)?
@@ -236,7 +219,7 @@ fileprivate class ItemPromise<ItemType>: WebservicePromise<ItemType, ItemType> {
         guard let dict = obj as? [String: Any] else {
             throw ParseError.invalidLeafType
         }
-        let result: ItemType = try deserializer(dict)
+        let result: ItemType = try deserializer.deserialize(dict)
         fulfill(WebserviceResponse(data: result))
     }
 }
@@ -252,12 +235,30 @@ fileprivate class CollectionPromise<ItemType>: WebservicePromise<ItemType, [Item
         
         var result: [ItemType] = []
         for item in arr {
-            print(item)
-            print(ItemType.self)
-            let item = try deserializer(item)
+            let item: ItemType = try deserializer.deserialize(item)
             result.append(item)
         }
         
         fulfill(WebserviceResponse(data: result))
+    }
+}
+
+
+
+class JSONDeserializer {
+
+    var registeredClasses: [String: JSONConvertible.Type] = [:]
+    
+    func deserialize<T>(_ dict: [String: Any]) throws -> T {
+        guard let className = dict[classNameKey] as? String else {
+            throw ParseError.missingClassName
+        }
+        
+        guard let clazz = self.registeredClasses[className] else {
+            throw ParseError.unknownClassName(givenClassName: className)
+        }
+        
+        return try clazz.init(decoder: JSONDecoder(dict,
+            className: String(describing: clazz), deserializer: self)) as! T
     }
 }
