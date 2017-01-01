@@ -13,6 +13,7 @@ internal let classNameKey = "__classname"
 
 public struct WebserviceResponse<T> {
     public let data: T
+    public let headerFields: [String: String]
 }
 
 public class Session {
@@ -177,13 +178,21 @@ fileprivate class WebservicePromise<ItemType, ResultType>: Promise<WebserviceRes
             return
         }
         
+        
+        var headers: [String: String]? = nil
+        if response is HTTPURLResponse {
+            headers = (response as! HTTPURLResponse).allHeaderFields as? [String: String]
+        }
+        
         // Debug
         if let respStr = NSString(data: data!, encoding: String.Encoding.utf8.rawValue) {
             print(respStr)
         }
         
         if ResultType.self is Void.Type {
-            fulfill(WebserviceResponse(data: () as! ResultType))
+            fulfill(WebserviceResponse(
+                data: () as! ResultType,
+                headerFields: headers ?? [:]))
             return
         }
         
@@ -196,7 +205,7 @@ fileprivate class WebservicePromise<ItemType, ResultType>: Promise<WebserviceRes
         }
         
         do {
-            try fulfillWithJSONObject(obj)
+            try fulfillWithJSONObject(obj, headers: headers)
         } catch let err {
             fail(err)
         }
@@ -206,7 +215,7 @@ fileprivate class WebservicePromise<ItemType, ResultType>: Promise<WebserviceRes
         reject(error)
     }
     
-    func fulfillWithJSONObject(_ obj: Any) throws {
+    func fulfillWithJSONObject(_ obj: Any, headers: [String: String]?) throws {
         fatalError("fulfillWithJSONObject must be implemented in a subclass")
     }
 }
@@ -215,12 +224,12 @@ fileprivate class WebservicePromise<ItemType, ResultType>: Promise<WebserviceRes
 
 fileprivate class ItemPromise<ItemType>: WebservicePromise<ItemType, ItemType> {
     
-    override func fulfillWithJSONObject(_ obj: Any) throws {
+    override func fulfillWithJSONObject(_ obj: Any, headers: [String: String]?) throws {
         guard let dict = obj as? [String: Any] else {
             throw ParseError.invalidLeafType
         }
         let result: ItemType = try deserializer.deserialize(dict)
-        fulfill(WebserviceResponse(data: result))
+        fulfill(WebserviceResponse(data: result, headerFields: headers ?? [:]))
     }
 }
 
@@ -228,7 +237,7 @@ fileprivate class ItemPromise<ItemType>: WebservicePromise<ItemType, ItemType> {
 
 fileprivate class CollectionPromise<ItemType>: WebservicePromise<ItemType, [ItemType]> {
 
-    override func fulfillWithJSONObject(_ obj: Any) throws {
+    override func fulfillWithJSONObject(_ obj: Any, headers: [String: String]?) throws {
         guard let arr = obj as? [[String: Any]] else {
             throw ParseError.invalidRootType
         }
@@ -239,7 +248,7 @@ fileprivate class CollectionPromise<ItemType>: WebservicePromise<ItemType, [Item
             result.append(item)
         }
         
-        fulfill(WebserviceResponse(data: result))
+        fulfill(WebserviceResponse(data: result, headerFields: headers ?? [:]))
     }
 }
 
