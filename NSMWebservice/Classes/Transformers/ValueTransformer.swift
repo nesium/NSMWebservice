@@ -16,7 +16,6 @@ public protocol ValueTransformer {
     func reverseTransformedValue(_ value: OutType) -> InType
 }
 
-
 public class DateTimeTransformer : ValueTransformer {
     public typealias InType = String
     public typealias OutType = Date
@@ -35,6 +34,7 @@ public class DateTimeTransformer : ValueTransformer {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
         formatter.timeZone = TimeZone(secondsFromGMT: 0)
+        formatter.locale = Locale(identifier: "en_US_POSIX")
         return formatter
     }
 }
