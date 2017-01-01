@@ -23,9 +23,9 @@ public class Session {
     private var registeredClasses: [String: JSONConvertible.Type] = [:]
     
     public enum HTTPMethod : String {
-        case get = "GET"
-        case post = "POST"
-        case put = "PUT"
+        case get    = "GET"
+        case post   = "POST"
+        case put    = "PUT"
         case delete = "DELETE"
     }
     
