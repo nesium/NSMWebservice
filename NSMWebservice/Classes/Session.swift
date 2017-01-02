@@ -180,8 +180,21 @@ fileprivate class WebservicePromise<ItemType, ResultType>: Promise<WebserviceRes
         
         
         var headers: [String: String]? = nil
-        if response is HTTPURLResponse {
-            headers = (response as! HTTPURLResponse).allHeaderFields as? [String: String]
+        var statusCode: HTTPStatus = .Ok
+        
+        if let httpResponse = response as? HTTPURLResponse {
+            headers = httpResponse.allHeaderFields as? [String: String]
+            statusCode = HTTPStatus(rawValue: httpResponse.statusCode) ?? .UnknownError
+        }
+        
+        guard statusCode.isSuccess() else {
+            let httpError = NSError(
+            	domain: "ServerDomain",
+                code: statusCode.rawValue,
+                userInfo: [NSLocalizedDescriptionKey: "The request failed. " +
+                    "The server responded with status code \(statusCode.description)."])
+            fail(httpError)
+            return
         }
         
         // Debug
