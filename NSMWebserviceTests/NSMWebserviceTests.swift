@@ -31,13 +31,18 @@ class MyClass: JSONConvertible {
         self.a = try decoder.decode("a")
         self.b = try decoder.decode("b")
         self.c = try decoder.decode("c")
+        
+        XCTAssert(decoder.deserializationContext is MyContext)
     }
     
     func encode(encoder: JSONEncoder) throws {
-        encoder.encode("a", a)
-        encoder.encode("b", b)
-        encoder.encode("c", c)
+        try encoder.encode("a", a)
+        try encoder.encode("b", b)
+        try encoder.encode("c", c)
     }
+}
+
+class MyContext {
 }
 
 class NSMWebserviceTests: XCTestCase {
@@ -113,7 +118,8 @@ class NSMWebserviceTests: XCTestCase {
     func testSuccessfulDeserialization() {
         let fetchExpectation = expectation(description: "Fetch Item")
         
-        session.request(MyClass.self, path: "/testSuccessfulDeserialization")
+        session.request(MyClass.self, path: "/testSuccessfulDeserialization",
+            deserializationContext: MyContext())
         .then { resp -> Void in
             XCTAssertEqual(resp.data.a, "A")
             XCTAssertEqual(resp.data.b, 123)
@@ -160,7 +166,8 @@ class NSMWebserviceTests: XCTestCase {
     func testWrongAttributeType() {
         let fetchExpectation = expectation(description: "Fetch Item")
         
-        session.request(MyClass.self, path: "/testWrongAttributeType")
+        session.request(MyClass.self, path: "/testWrongAttributeType",
+            deserializationContext: MyContext())
         .then { resp -> Void in
             XCTFail("Deserialization should fail")
             fetchExpectation.fulfill()
@@ -192,7 +199,8 @@ class NSMWebserviceTests: XCTestCase {
     func testSuccessfulCollectionDeserialization() {
         let fetchExpectation = expectation(description: "Fetch Item")
         
-        session.requestCollection(MyClass.self, path: "/testArrayOfObjects")
+        session.requestCollection(MyClass.self, path: "/testArrayOfObjects",
+            deserializationContext: MyContext())
         .then { resp -> Void in
             XCTAssertEqual(resp.data.count, 2)
             
@@ -216,7 +224,8 @@ class NSMWebserviceTests: XCTestCase {
         
         let obj = MyClass(a: "AB", b: 9999)
         
-        session.request(Void.self, item: obj, path: "/testPostObject", method: .post)
+        session.request(Void.self, item: obj, path: "/testPostObject", method: .post,
+            deserializationContext: MyContext())
         .then { resp -> Void in
             XCTAssertTrue(self.methodCalled.testPostObject)
             postExpectation.fulfill()

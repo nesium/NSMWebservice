@@ -35,15 +35,19 @@ private let decimalNumberTransformer: DecimalNumberTransformer = {
 
 public class JSONDecoder {
     
+    public let deserializationContext: Any?
+    
     private let deserializer: JSONDeserializer
     
     private let dict: [String: Any]
     private let className: String
     
-    internal init(_ dict: [String: Any], className: String, deserializer: JSONDeserializer) {
+    internal init(_ dict: [String: Any], className: String, deserializer: JSONDeserializer,
+        deserializationContext: Any?) {
         self.dict = dict
         self.className = className
         self.deserializer = deserializer
+        self.deserializationContext = deserializationContext
     }
     
     public func decode<T: JSONValue>(_ key: String) throws -> T {
