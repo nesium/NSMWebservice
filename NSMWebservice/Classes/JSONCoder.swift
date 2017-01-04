@@ -190,14 +190,6 @@ public class JSONDecoder {
     public func decode(_ key: String) throws -> URL? {
         return try decode(key, transformer: urlTransformer)
     }
-    
-    public func decode(_ key: String) throws -> NSDecimalNumber {
-        return try decode(key, transformer: decimalNumberTransformer)
-    }
-    
-    public func decode(_ key: String) throws -> NSDecimalNumber? {
-        return try decode(key, transformer: decimalNumberTransformer)
-    }
 }
 
 
@@ -260,9 +252,5 @@ public class JSONEncoder {
     
     public func encode(_ key: String, _ value: URL?) throws {
         try encode(key, value, transformer: urlTransformer)
-    }
-    
-    public func encode(_ key: String, _ value: NSDecimalNumber?) throws {
-        try encode(key, value, transformer: decimalNumberTransformer)
     }
 }
