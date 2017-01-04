@@ -89,7 +89,7 @@ class NSMWebserviceTests: XCTestCase {
             do {
                 let obj = try JSONSerialization.jsonObject(
                 	with: Data(bytes: req.body), options: []) as! [String: Any]
-                XCTAssertEqual(obj["__classname"] as! String, "myclass")
+                XCTAssertEqual(obj["__cls__"] as! String, "myclass")
                 XCTAssertEqual(obj["a"] as! String, "AB")
                 XCTAssertEqual(obj["b"] as! Int, 9999)
             } catch {

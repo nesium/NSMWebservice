@@ -9,7 +9,7 @@
 import Foundation
 import PromiseKit
 
-internal let classNameKey = "__classname"
+internal let classNameKey = "__cls__"
 
 public struct WebserviceResponse<T> {
     public let data: T
