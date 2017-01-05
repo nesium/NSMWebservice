@@ -20,7 +20,8 @@ public class Session {
     
     private let baseURL: URL
     private let session: URLSession
-    private var registeredClasses: [String: JSONConvertible.Type] = [:]
+    
+    public var headerFields: [String: String] = [:]
     
     public enum HTTPMethod : String {
         case get    = "GET"
@@ -34,50 +35,55 @@ public class Session {
         self.session = URLSession(
             configuration: URLSessionConfiguration.default)
     }
-    
-    public func registerClass(_ clazz: JSONConvertible.Type) {
-        registeredClasses[clazz.JSONClassName] = clazz
+
+    public func request(item: JSONConvertible? = nil, path: String,
+        method: HTTPMethod = .get,
+        deserializationContext: Any? = nil) -> Promise<WebserviceResponse<Void>> {
+        let deserializer = JSONDeserializer(deserializationContext: deserializationContext)
+        let promise: ItemPromise<Void> = ItemPromise(deserializer: deserializer)
+        performRequest(with: promise, item: item, path: path, method: method)
+        return promise
     }
-       
-    @discardableResult public func request<T>(_ cls: T.Type, item: JSONConvertible? = nil,
-        path: String, method: HTTPMethod = .get,
+    
+    public func request(items: [JSONConvertible], path: String, method: HTTPMethod = .get,
+        deserializationContext: Any? = nil) -> Promise<WebserviceResponse<Void>> {
+        let deserializer = JSONDeserializer(deserializationContext: deserializationContext)
+        let promise: ItemPromise<Void> = ItemPromise(deserializer: deserializer)
+        performRequest(with: promise, items: items, path: path, method: method)
+        return promise
+    }
+    
+    public func request<T: JSONCompatible>(_ cls: T.Type,
+        item: JSONConvertible? = nil, path: String, method: HTTPMethod = .get,
         deserializationContext: Any? = nil) -> Promise<WebserviceResponse<T>> {
-        let deserializer = JSONDeserializer(
-            registeredClasses: registeredClasses,
-            deserializationContext: deserializationContext)
+        let deserializer = JSONDeserializer(deserializationContext: deserializationContext)
         let promise: ItemPromise<T> = ItemPromise(deserializer: deserializer)
         performRequest(with: promise, item: item, path: path, method: method)
         return promise
     }
     
-    @discardableResult public func requestCollection<T>(_ cls: T.Type, item: JSONConvertible? = nil,
-        path: String, method: HTTPMethod = .get,
+    public func requestCollection<T: JSONCompatible>(_ cls: T.Type,
+        item: JSONConvertible? = nil, path: String, method: HTTPMethod = .get,
         deserializationContext: Any? = nil) -> Promise<WebserviceResponse<[T]>> {
-        let deserializer = JSONDeserializer(
-            registeredClasses: registeredClasses,
-            deserializationContext: deserializationContext)
+        let deserializer = JSONDeserializer(deserializationContext: deserializationContext)
         let promise: CollectionPromise<T> = CollectionPromise(deserializer: deserializer)
         performRequest(with: promise, item: item, path: path, method: method)
         return promise
     }
     
-    @discardableResult public func request<T>(_ cls: T.Type, items: [JSONConvertible],
-        path: String, method: HTTPMethod = .get,
+    public func request<T: JSONCompatible>(_ cls: T.Type,
+        items: [JSONConvertible], path: String, method: HTTPMethod = .get,
         deserializationContext: Any? = nil) -> Promise<WebserviceResponse<T>> {
-        let deserializer = JSONDeserializer(
-            registeredClasses: registeredClasses,
-            deserializationContext: deserializationContext)
+        let deserializer = JSONDeserializer(deserializationContext: deserializationContext)
         let promise: ItemPromise<T> = ItemPromise(deserializer: deserializer)
         performRequest(with: promise, items: items, path: path, method: method)
         return promise
     }
     
-    @discardableResult public func requestCollection<T>(_ cls: T.Type, items: [JSONConvertible],
+    public func requestCollection<T: JSONCompatible>(_ cls: T.Type, items: [JSONConvertible],
         path: String, method: HTTPMethod = .get,
         deserializationContext: Any? = nil) -> Promise<WebserviceResponse<[T]>> {
-        let deserializer = JSONDeserializer(
-            registeredClasses: registeredClasses,
-            deserializationContext: deserializationContext)
+        let deserializer = JSONDeserializer(deserializationContext: deserializationContext)
         let promise: CollectionPromise<T> = CollectionPromise(deserializer: deserializer)
         performRequest(with: promise, items: items, path: path, method: method)
         return promise
@@ -91,7 +97,7 @@ public class Session {
         if item != nil {
             do {
                 urlRequest.httpBody = try JSONSerialization.data(
-                    withJSONObject: try item!.JSONObjectIncludingClassName(), options: [])
+                    withJSONObject: try item!.JSONObject(), options: [])
             } catch {
                 promise.fail(error)
                 return
@@ -108,7 +114,7 @@ public class Session {
         
         do {
             let jsonItems = try items.map { item in
-                return try item.JSONObjectIncludingClassName()
+                return try item.JSONObject()
             }
             urlRequest.httpBody = try JSONSerialization.data(withJSONObject: jsonItems, options: [])
         } catch {
@@ -122,6 +128,10 @@ public class Session {
     private func requestWithPath(path: String, method: HTTPMethod) -> URLRequest {
         let url = baseURL.appendingPathComponent(path)
         var urlRequest = URLRequest(url: url)
+        
+        headerFields.forEach { key, value in
+            urlRequest.setValue(value, forHTTPHeaderField: key)
+        }
         
         urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
         urlRequest.setValue("application/json", forHTTPHeaderField: "Accept")
@@ -209,11 +219,6 @@ fileprivate class WebservicePromise<ItemType, ResultType>: Promise<WebserviceRes
             return
         }
         
-        // Debug
-        if let respStr = NSString(data: data!, encoding: String.Encoding.utf8.rawValue) {
-            print(respStr)
-        }
-        
         if ResultType.self is Void.Type {
             fulfill(WebserviceResponse(
                 data: () as! ResultType,
@@ -260,7 +265,8 @@ fileprivate class ItemPromise<ItemType>: WebservicePromise<ItemType, ItemType> {
 
 
 
-fileprivate class CollectionPromise<ItemType>: WebservicePromise<ItemType, [ItemType]> {
+fileprivate class CollectionPromise<ItemType>:
+    WebservicePromise<ItemType, [ItemType]> {
 
     override func fulfillWithJSONObject(_ obj: Any, headers: [String: String]?) throws {
         guard let arr = obj as? [[String: Any]] else {
@@ -281,21 +287,16 @@ fileprivate class CollectionPromise<ItemType>: WebservicePromise<ItemType, [Item
 
 struct JSONDeserializer {
 
-    private let registeredClasses: [String: JSONConvertible.Type]
     private let deserializationContext: Any?
     
-    init(registeredClasses: [String: JSONConvertible.Type], deserializationContext: Any?) {
-        self.registeredClasses = registeredClasses
+    init(deserializationContext: Any?) {
         self.deserializationContext = deserializationContext
     }
     
     func deserialize<T>(_ dict: [String: Any]) throws -> T {
-        guard let className = dict[classNameKey] as? String else {
-            throw ParseError.missingClassName
-        }
-        
-        guard let clazz = self.registeredClasses[className] else {
-            throw ParseError.unknownClassName(givenClassName: className)
+        guard let clazz = T.self as? JSONConvertible.Type else {
+            throw ParseError.missingJSONConvertibleConformance(
+                givenClassName: String(describing: T.self))
         }
         
         let decoder = JSONDecoder(dict, className: String(describing: clazz),

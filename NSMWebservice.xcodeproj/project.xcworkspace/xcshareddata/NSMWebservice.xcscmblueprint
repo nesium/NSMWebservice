@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "4FD876D4AF778C93F6E3A265649300B6906D156C",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "4FD876D4AF778C93F6E3A265649300B6906D156C" : 9223372036854775807,
+    "CC83A5AC4CCA44B37B164B4BB5AB69710CE8EC87" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "91BA8641-12AA-4CFF-99E2-ACBF39124312",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "4FD876D4AF778C93F6E3A265649300B6906D156C" : "NSMWebservice\/",
+    "CC83A5AC4CCA44B37B164B4BB5AB69710CE8EC87" : "..\/.."
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "NSMWebservice",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "NSMWebservice.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/nesium\/NSMWebservice.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "4FD876D4AF778C93F6E3A265649300B6906D156C"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/nesium\/ExpenseTracker.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "CC83A5AC4CCA44B37B164B4BB5AB69710CE8EC87"
+    }
+  ]
+}

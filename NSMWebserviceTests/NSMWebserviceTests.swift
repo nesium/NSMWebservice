@@ -17,10 +17,6 @@ class MyClass: JSONConvertible {
     public let b: Int
     public let c: String?
     
-    static var JSONClassName: String {
-        return "myclass"
-    }
-    
     init(a: String, b: Int) {
         self.a = a
         self.b = b
@@ -58,7 +54,6 @@ class NSMWebserviceTests: XCTestCase {
     
     override func setUp() {
         session = Session(baseURL: URL(string: "http://localhost:8889")!)
-        session.registerClass(MyClass.self)
         
         server = HttpServer()
         server["/testSuccessfulDeserialization"] = { req in
@@ -89,7 +84,6 @@ class NSMWebserviceTests: XCTestCase {
             do {
                 let obj = try JSONSerialization.jsonObject(
                 	with: Data(bytes: req.body), options: []) as! [String: Any]
-                XCTAssertEqual(obj["__cls__"] as! String, "myclass")
                 XCTAssertEqual(obj["a"] as! String, "AB")
                 XCTAssertEqual(obj["b"] as! Int, 9999)
             } catch {
@@ -224,7 +218,7 @@ class NSMWebserviceTests: XCTestCase {
         
         let obj = MyClass(a: "AB", b: 9999)
         
-        session.request(Void.self, item: obj, path: "/testPostObject", method: .post,
+        session.request(item: obj, path: "/testPostObject", method: .post,
             deserializationContext: MyContext())
         .then { resp -> Void in
             XCTAssertTrue(self.methodCalled.testPostObject)

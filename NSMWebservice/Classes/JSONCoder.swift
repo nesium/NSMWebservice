@@ -9,7 +9,7 @@
 import Foundation
 
 
-public protocol JSONValue {}
+public protocol JSONValue: JSONCompatible {}
 
 extension String: JSONValue {}
 extension Int: JSONValue {}
@@ -216,7 +216,7 @@ public class JSONEncoder {
             return
         }
         
-        jsonDictionary[key] = try value?.JSONObjectIncludingClassName()
+        jsonDictionary[key] = try value?.JSONObject()
     }
     
     public func encode<T: JSONValue>(_ key: String, _ value: [T]?) throws {
@@ -233,7 +233,7 @@ public class JSONEncoder {
         }
         
         jsonDictionary[key] = try value!.map { item in
-            return try item.JSONObjectIncludingClassName()
+            return try item.JSONObject()
         }
     }
     

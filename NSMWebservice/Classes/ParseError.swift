@@ -9,9 +9,8 @@
 public enum ParseError : Error {
     case invalidRootType
     case invalidLeafType
-    case missingClassName
     case unexpectedResponse
-    case unknownClassName(givenClassName: String)
+    case missingJSONConvertibleConformance(givenClassName: String)
     case missingField(String, cls: String)
     case incorrectFieldType(String, expected: String, found: String, cls: String)
     case formattingFailed(msg: String)
@@ -22,12 +21,10 @@ public enum ParseError : Error {
                 return "Invalid Root Type"
             case .invalidLeafType:
                 return "Invalid Leaf Type"
-            case .missingClassName:
-                return "Missing Class Name"
             case .unexpectedResponse:
                 return "Unexpected Response"
-            case .unknownClassName(_):
-                return "Invalid Class Name"
+            case .missingJSONConvertibleConformance(let className):
+                return "Class \(className) does not conform to protocol JSONConvertible."
             case .missingField(let missingField, let className):
                 return "Missing field '\(missingField)' in class \(className)"
             case .incorrectFieldType(let missingField, let expectedType, let foundType, let className):
