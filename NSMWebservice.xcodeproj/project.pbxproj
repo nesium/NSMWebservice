@@ -22,6 +22,7 @@
 		2CE38EB01E16614700EDFC3D /* NSFormatterExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE38EA71E16614700EDFC3D /* NSFormatterExtensions.swift */; };
 		2CE38EB11E16614700EDFC3D /* ValueTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE38EA81E16614700EDFC3D /* ValueTransformer.swift */; };
 		2CE38EF81E16690900EDFC3D /* Swifter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CE38EED1E1668E800EDFC3D /* Swifter.framework */; };
+		2CE6B8091E1F934800330B77 /* Gzip.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CE6B8081E1F934800330B77 /* Gzip.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -108,6 +109,7 @@
 		2CE38EA71E16614700EDFC3D /* NSFormatterExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSFormatterExtensions.swift; sourceTree = "<group>"; };
 		2CE38EA81E16614700EDFC3D /* ValueTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValueTransformer.swift; sourceTree = "<group>"; };
 		2CE38EDB1E1668E800EDFC3D /* Swifter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Swifter.xcodeproj; path = Carthage/Checkouts/swifter/XCode/Swifter.xcodeproj; sourceTree = SOURCE_ROOT; };
+		2CE6B8081E1F934800330B77 /* Gzip.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Gzip.framework; path = ../../Build/iOS/Gzip.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +117,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2CE6B8091E1F934800330B77 /* Gzip.framework in Frameworks */,
 				2C059F511E1798F500F18CD3 /* PromiseKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -135,6 +138,7 @@
 		2C059F4F1E1798F500F18CD3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2CE6B8081E1F934800330B77 /* Gzip.framework */,
 				2C059F501E1798F500F18CD3 /* PromiseKit.framework */,
 			);
 			name = Frameworks;
@@ -394,6 +398,7 @@
 			);
 			inputPaths = (
 				"$(SRCROOT)/Carthage/Build/iOS/PromiseKit.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/Gzip.framework",
 			);
 			name = Carthage;
 			outputPaths = (

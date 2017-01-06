@@ -8,6 +8,7 @@
 
 import Foundation
 import PromiseKit
+import Gzip
 
 internal let classNameKey = "__cls__"
 
@@ -22,6 +23,7 @@ public class Session {
     private let session: URLSession
     
     public var headerFields: [String: String] = [:]
+    public var gzipRequests: Bool = true
     
     public enum HTTPMethod : String {
         case get    = "GET"
@@ -116,7 +118,14 @@ public class Session {
             let jsonItems = try items.map { item in
                 return try item.JSONObject()
             }
-            urlRequest.httpBody = try JSONSerialization.data(withJSONObject: jsonItems, options: [])
+            
+            let data = try JSONSerialization.data(withJSONObject: jsonItems, options: [])
+            
+            if gzipRequests {
+                urlRequest.httpBody = try data.gzipped()
+            } else {
+                urlRequest.httpBody = data
+            }
         } catch {
             promise.fail(error)
             return
