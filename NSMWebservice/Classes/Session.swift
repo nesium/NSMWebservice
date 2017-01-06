@@ -98,8 +98,9 @@ public class Session {
         
         if item != nil {
             do {
-                urlRequest.httpBody = try JSONSerialization.data(
-                    withJSONObject: try item!.JSONObject(), options: [])
+                let data = try JSONSerialization.data(
+                	withJSONObject: try item!.JSONObject(), options: [])
+                try append(data: data, to: &urlRequest)
             } catch {
                 promise.fail(error)
                 return
@@ -120,12 +121,7 @@ public class Session {
             }
             
             let data = try JSONSerialization.data(withJSONObject: jsonItems, options: [])
-            
-            if gzipRequests {
-                urlRequest.httpBody = try data.gzipped()
-            } else {
-                urlRequest.httpBody = data
-            }
+            try append(data: data, to: &urlRequest)
         } catch {
             promise.fail(error)
             return
@@ -154,6 +150,15 @@ public class Session {
         session.dataTask(with: request) { (data, response, error) -> Void in
             promise.fulfill(data: data, response: response, error: error)
         }.resume()
+    }
+    
+    private func append(data: Data, to urlRequest: inout URLRequest) throws {
+        if gzipRequests {
+            urlRequest.setValue("gzip", forHTTPHeaderField: "Content-Encoding")
+            urlRequest.httpBody = try data.gzipped()
+        } else {
+            urlRequest.httpBody = data
+        }
     }
 }
 

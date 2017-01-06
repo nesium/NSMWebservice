@@ -54,6 +54,7 @@ class NSMWebserviceTests: XCTestCase {
     
     override func setUp() {
         session = Session(baseURL: URL(string: "http://localhost:8889")!)
+        session.gzipRequests = false
         
         server = HttpServer()
         server["/testSuccessfulDeserialization"] = { req in
