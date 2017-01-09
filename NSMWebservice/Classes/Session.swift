@@ -17,20 +17,13 @@ public struct WebserviceResponse<T> {
     public let headerFields: [String: String]
 }
 
-public class Session {
+final public class Session: WebserviceSession {
     
     private let baseURL: URL
     private let session: URLSession
     
     public var headerFields: [String: String] = [:]
     public var gzipRequests: Bool = true
-    
-    public enum HTTPMethod : String {
-        case get    = "GET"
-        case post   = "POST"
-        case put    = "PUT"
-        case delete = "DELETE"
-    }
     
     public init(baseURL: URL) {
         self.baseURL = baseURL
