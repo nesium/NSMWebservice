@@ -15,6 +15,21 @@ internal let classNameKey = "__cls__"
 public struct WebserviceResponse<T> {
     public let data: T
     public let headerFields: [String: String]
+    public let statusCode: HTTPStatus
+}
+
+public struct HTTPError: Error, CustomStringConvertible {
+    public let headerFields: [String: String]
+    public let statusCode: HTTPStatus
+    
+    public var description: String {
+        return "The request failed. " +
+            "The server responded with status code \(statusCode.description)."
+    }
+    
+    public var localizedDescription: String {
+        return self.description
+    }
 }
 
 final public class Session: WebserviceSession {
@@ -222,20 +237,16 @@ fileprivate class WebservicePromise<ItemType, ResultType>: Promise<WebserviceRes
             statusCode = HTTPStatus(rawValue: httpResponse.statusCode) ?? .UnknownError
         }
         
-        guard statusCode.isSuccess() else {
-            let httpError = NSError(
-            	domain: "ServerDomain",
-                code: statusCode.rawValue,
-                userInfo: [NSLocalizedDescriptionKey: "The request failed. " +
-                    "The server responded with status code \(statusCode.description)."])
-            fail(httpError)
+        guard statusCode.isSuccess else {
+            fail(HTTPError(headerFields: headers ?? [:], statusCode: statusCode))
             return
         }
         
         if ResultType.self is Void.Type {
             fulfill(WebserviceResponse(
                 data: () as! ResultType,
-                headerFields: headers ?? [:]))
+                headerFields: headers ?? [:],
+                statusCode: statusCode))
             return
         }
         
@@ -248,7 +259,7 @@ fileprivate class WebservicePromise<ItemType, ResultType>: Promise<WebserviceRes
         }
         
         do {
-            try fulfillWithJSONObject(obj, headers: headers)
+            try fulfillWithJSONObject(obj, headers: headers, statusCode: statusCode)
         } catch let err {
             fail(err)
         }
@@ -258,7 +269,8 @@ fileprivate class WebservicePromise<ItemType, ResultType>: Promise<WebserviceRes
         reject(error)
     }
     
-    func fulfillWithJSONObject(_ obj: Any, headers: [String: String]?) throws {
+    func fulfillWithJSONObject(_ obj: Any, headers: [String: String]?,
+        statusCode: HTTPStatus) throws {
         fatalError("fulfillWithJSONObject must be implemented in a subclass")
     }
 }
@@ -267,12 +279,14 @@ fileprivate class WebservicePromise<ItemType, ResultType>: Promise<WebserviceRes
 
 fileprivate class ItemPromise<ItemType>: WebservicePromise<ItemType, ItemType> {
     
-    override func fulfillWithJSONObject(_ obj: Any, headers: [String: String]?) throws {
+    override func fulfillWithJSONObject(_ obj: Any, headers: [String: String]?,
+        statusCode: HTTPStatus) throws {
         guard let dict = obj as? [String: Any] else {
             throw ParseError.invalidLeafType
         }
         let result: ItemType = try deserializer.deserialize(dict)
-        fulfill(WebserviceResponse(data: result, headerFields: headers ?? [:]))
+        fulfill(WebserviceResponse(data: result, headerFields: headers ?? [:],
+            statusCode: statusCode))
     }
 }
 
@@ -281,7 +295,8 @@ fileprivate class ItemPromise<ItemType>: WebservicePromise<ItemType, ItemType> {
 fileprivate class CollectionPromise<ItemType>:
     WebservicePromise<ItemType, [ItemType]> {
 
-    override func fulfillWithJSONObject(_ obj: Any, headers: [String: String]?) throws {
+    override func fulfillWithJSONObject(_ obj: Any, headers: [String: String]?,
+        statusCode: HTTPStatus) throws {
         guard let arr = obj as? [[String: Any]] else {
             throw ParseError.invalidRootType
         }
@@ -292,7 +307,8 @@ fileprivate class CollectionPromise<ItemType>:
             result.append(item)
         }
         
-        fulfill(WebserviceResponse(data: result, headerFields: headers ?? [:]))
+        fulfill(WebserviceResponse(data: result, headerFields: headers ?? [:],
+            statusCode: statusCode))
     }
 }
 
