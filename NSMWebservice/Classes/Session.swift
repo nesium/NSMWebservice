@@ -89,14 +89,16 @@ final public class Session: WebserviceSession {
         path: String, method: HTTPMethod) {
         var urlRequest = requestWithPath(path: path, method: method)
         
-        if item != nil {
-            do {
-                let data = try JSONSerialization.data(
-                	withJSONObject: try item!.JSONObject(), options: [])
-                try append(data: data, to: &urlRequest)
-            } catch {
-                promise.fail(error)
-                return
+        if method.hasBody {
+            if item != nil {
+                do {
+                    let data = try JSONSerialization.data(
+                        withJSONObject: try item!.JSONObject(), options: [])
+                    try append(data: data, to: &urlRequest)
+                } catch {
+                    promise.fail(error)
+                    return
+                }
             }
         }
         
@@ -108,16 +110,18 @@ final public class Session: WebserviceSession {
         path: String, method: HTTPMethod) {
         var urlRequest = requestWithPath(path: path, method: method)
         
-        do {
-            let jsonItems = try items.map { item in
-                return try item.JSONObject()
+        if method.hasBody {
+            do {
+                let jsonItems = try items.map { item in
+                    return try item.JSONObject()
+                }
+                
+                let data = try JSONSerialization.data(withJSONObject: jsonItems, options: [])
+                try append(data: data, to: &urlRequest)
+            } catch {
+                promise.fail(error)
+                return
             }
-            
-            let data = try JSONSerialization.data(withJSONObject: jsonItems, options: [])
-            try append(data: data, to: &urlRequest)
-        } catch {
-            promise.fail(error)
-            return
         }
         
         perform(request: urlRequest, promise: promise)
@@ -131,7 +135,9 @@ final public class Session: WebserviceSession {
             urlRequest.setValue(value, forHTTPHeaderField: key)
         }
         
-        urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        if method.hasBody {
+            urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        }
         urlRequest.setValue("application/json", forHTTPHeaderField: "Accept")
         urlRequest.httpMethod = method.rawValue
         

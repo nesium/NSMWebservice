@@ -14,6 +14,15 @@ public enum HTTPMethod : String {
     case post   = "POST"
     case put    = "PUT"
     case delete = "DELETE"
+    
+    var hasBody: Bool {
+        switch self {
+            case .get, .delete:
+                return false
+            case .post, .put:
+                return true
+        }
+    }
 }
 
 public protocol WebserviceSession {
