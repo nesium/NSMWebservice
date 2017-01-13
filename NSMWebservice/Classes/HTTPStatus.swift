@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum HTTPStatus: Int, CustomStringConvertible {
+public enum HTTPStatus: Int, CustomStringConvertible {
     
     case Continue = 100
     case SwitchingProtocols = 101
@@ -73,15 +73,15 @@ enum HTTPStatus: Int, CustomStringConvertible {
     case NetworkAuthenticationRequired = 511
     case UnknownError = 10000
     
-    func isSuccess() -> Bool {
+    var isSuccess: Bool {
         return self.rawValue < 300
     }
     
-    func isError() -> Bool {
+    var isError: Bool {
         return self.rawValue >= 300
     }
     
-    var description: String {
+    public var description: String {
         var msg: String
         
         switch self {
