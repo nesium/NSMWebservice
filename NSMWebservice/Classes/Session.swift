@@ -47,62 +47,73 @@ final public class Session: WebserviceSession {
     }
 
     public func request(item: JSONConvertible? = nil, path: String,
-        method: HTTPMethod = .get,
+        method: HTTPMethod = .get, timeoutInterval: TimeInterval = 30,
         deserializationContext: Any? = nil) -> Promise<WebserviceResponse<Void>> {
         let deserializer = JSONDeserializer(deserializationContext: deserializationContext)
         let promise: ItemPromise<Void> = ItemPromise(deserializer: deserializer)
-        performRequest(with: promise, item: item, path: path, method: method)
+        performRequest(with: promise, item: item, path: path, method: method,
+            timeoutInterval: timeoutInterval)
         return promise
     }
     
-    public func request(items: [JSONConvertible], path: String, method: HTTPMethod = .get,
+    public func request(items: [JSONConvertible], path: String,
+        method: HTTPMethod = .get, timeoutInterval: TimeInterval = 30,
         deserializationContext: Any? = nil) -> Promise<WebserviceResponse<Void>> {
         let deserializer = JSONDeserializer(deserializationContext: deserializationContext)
         let promise: ItemPromise<Void> = ItemPromise(deserializer: deserializer)
-        performRequest(with: promise, items: items, path: path, method: method)
+        performRequest(with: promise, items: items, path: path, method: method,
+            timeoutInterval: timeoutInterval)
         return promise
     }
     
     public func request<T: JSONCompatible>(_ cls: T.Type,
-        item: JSONConvertible? = nil, path: String, method: HTTPMethod = .get,
+        item: JSONConvertible? = nil, path: String,
+        method: HTTPMethod = .get, timeoutInterval: TimeInterval = 30,
         deserializationContext: Any? = nil) -> Promise<WebserviceResponse<T>> {
         let deserializer = JSONDeserializer(deserializationContext: deserializationContext)
         let promise: ItemPromise<T> = ItemPromise(deserializer: deserializer)
-        performRequest(with: promise, item: item, path: path, method: method)
+        performRequest(with: promise, item: item, path: path, method: method,
+            timeoutInterval: timeoutInterval)
         return promise
     }
     
     public func requestCollection<T: JSONCompatible>(_ cls: T.Type,
-        item: JSONConvertible? = nil, path: String, method: HTTPMethod = .get,
+        item: JSONConvertible? = nil, path: String,
+        method: HTTPMethod = .get, timeoutInterval: TimeInterval = 30,
         deserializationContext: Any? = nil) -> Promise<WebserviceResponse<[T]>> {
         let deserializer = JSONDeserializer(deserializationContext: deserializationContext)
         let promise: CollectionPromise<T> = CollectionPromise(deserializer: deserializer)
-        performRequest(with: promise, item: item, path: path, method: method)
+        performRequest(with: promise, item: item, path: path, method: method,
+            timeoutInterval: timeoutInterval)
         return promise
     }
     
     public func request<T: JSONCompatible>(_ cls: T.Type,
-        items: [JSONConvertible], path: String, method: HTTPMethod = .get,
+        items: [JSONConvertible], path: String,
+        method: HTTPMethod = .get, timeoutInterval: TimeInterval = 30,
         deserializationContext: Any? = nil) -> Promise<WebserviceResponse<T>> {
         let deserializer = JSONDeserializer(deserializationContext: deserializationContext)
         let promise: ItemPromise<T> = ItemPromise(deserializer: deserializer)
-        performRequest(with: promise, items: items, path: path, method: method)
+        performRequest(with: promise, items: items, path: path, method: method,
+            timeoutInterval: timeoutInterval)
         return promise
     }
     
     public func requestCollection<T: JSONCompatible>(_ cls: T.Type, items: [JSONConvertible],
-        path: String, method: HTTPMethod = .get,
+        path: String, method: HTTPMethod = .get, timeoutInterval: TimeInterval = 30,
         deserializationContext: Any? = nil) -> Promise<WebserviceResponse<[T]>> {
         let deserializer = JSONDeserializer(deserializationContext: deserializationContext)
         let promise: CollectionPromise<T> = CollectionPromise(deserializer: deserializer)
-        performRequest(with: promise, items: items, path: path, method: method)
+        performRequest(with: promise, items: items, path: path, method: method,
+            timeoutInterval: timeoutInterval)
         return promise
     }
     
     private func performRequest<ItemType, ResultType>(
         with promise: WebservicePromise<ItemType, ResultType>, item: JSONConvertible? = nil,
-        path: String, method: HTTPMethod) {
-        var urlRequest = requestWithPath(path: path, method: method)
+        path: String, method: HTTPMethod, timeoutInterval: TimeInterval) {
+        var urlRequest = requestWithPath(path: path, method: method,
+            timeoutInterval: timeoutInterval)
         
         if method.hasBody {
             if item != nil {
@@ -122,8 +133,9 @@ final public class Session: WebserviceSession {
     
     private func performRequest<ItemType, ResultType>(
         with promise: WebservicePromise<ItemType, ResultType>, items: [JSONConvertible],
-        path: String, method: HTTPMethod) {
-        var urlRequest = requestWithPath(path: path, method: method)
+        path: String, method: HTTPMethod, timeoutInterval: TimeInterval) {
+        var urlRequest = requestWithPath(path: path, method: method,
+            timeoutInterval: timeoutInterval)
         
         if method.hasBody {
             do {
@@ -142,9 +154,12 @@ final public class Session: WebserviceSession {
         perform(request: urlRequest, promise: promise)
     }
     
-    private func requestWithPath(path: String, method: HTTPMethod) -> URLRequest {
+    private func requestWithPath(path: String, method: HTTPMethod,
+        timeoutInterval: TimeInterval) -> URLRequest {
         let url = baseURL.appendingPathComponent(path)
         var urlRequest = URLRequest(url: url)
+        
+        urlRequest.timeoutInterval = timeoutInterval
         
         headerFields.forEach { key, value in
             urlRequest.setValue(value, forHTTPHeaderField: key)

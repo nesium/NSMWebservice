@@ -31,23 +31,27 @@ public protocol WebserviceSession {
     
     init(baseURL: URL)
     
-    func request(item: JSONConvertible?, path: String, method: HTTPMethod,
+    func request(item: JSONConvertible?, path: String,
+        method: HTTPMethod, timeoutInterval: TimeInterval,
         deserializationContext: Any?) -> Promise<WebserviceResponse<Void>>
     
-    func request(items: [JSONConvertible], path: String, method: HTTPMethod,
+    func request(items: [JSONConvertible], path: String,
+        method: HTTPMethod, timeoutInterval: TimeInterval,
         deserializationContext: Any?) -> Promise<WebserviceResponse<Void>>
     
     func request<T: JSONCompatible>(_ cls: T.Type, item: JSONConvertible?, path: String,
-        method: HTTPMethod, deserializationContext: Any?) -> Promise<WebserviceResponse<T>>
+        method: HTTPMethod, timeoutInterval: TimeInterval,
+        deserializationContext: Any?) -> Promise<WebserviceResponse<T>>
     
     func requestCollection<T: JSONCompatible>(_ cls: T.Type, item: JSONConvertible?,
-        path: String, method: HTTPMethod,
+        path: String, method: HTTPMethod, timeoutInterval: TimeInterval,
         deserializationContext: Any?) -> Promise<WebserviceResponse<[T]>>
     
     func request<T: JSONCompatible>(_ cls: T.Type, items: [JSONConvertible], path: String,
-        method: HTTPMethod, deserializationContext: Any?) -> Promise<WebserviceResponse<T>>
+        method: HTTPMethod, timeoutInterval: TimeInterval,
+        deserializationContext: Any?) -> Promise<WebserviceResponse<T>>
     
     func requestCollection<T: JSONCompatible>(_ cls: T.Type, items: [JSONConvertible],
-        path: String, method: HTTPMethod,
+        path: String, method: HTTPMethod, timeoutInterval: TimeInterval,
         deserializationContext: Any?) -> Promise<WebserviceResponse<[T]>>
 }
