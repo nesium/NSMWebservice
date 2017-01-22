@@ -99,7 +99,7 @@ public class JSONDecoder {
             	found: String(describing: type(of: value)), cls: className)
         }
         
-        return try deserializer.deserialize(dict)
+        return try deserializer.deserialize(dict) as T
     }
     
     public func decode<T: JSONValue>(_ key: String) throws -> [T] {
