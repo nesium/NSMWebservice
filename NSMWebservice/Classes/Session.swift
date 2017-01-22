@@ -46,73 +46,77 @@ final public class Session: WebserviceSession {
             configuration: URLSessionConfiguration.default)
     }
 
-    public func request(item: JSONConvertible? = nil, path: String,
+    public func request(item: JSONConvertible? = nil,
+        path: String, parameters: [URLQueryItem]? = nil,
         method: HTTPMethod = .get, timeoutInterval: TimeInterval = 30,
         deserializationContext: Any? = nil) -> Promise<WebserviceResponse<Void>> {
         let deserializer = JSONDeserializer(deserializationContext: deserializationContext)
         let promise: ItemPromise<Void> = ItemPromise(deserializer: deserializer)
-        performRequest(with: promise, item: item, path: path, method: method,
-            timeoutInterval: timeoutInterval)
+        performRequest(with: promise, item: item, path: path, parameters: parameters,
+            method: method, timeoutInterval: timeoutInterval)
         return promise
     }
     
-    public func request(items: [JSONConvertible], path: String,
+    public func request(items: [JSONConvertible],
+        path: String, parameters: [URLQueryItem]? = nil,
         method: HTTPMethod = .get, timeoutInterval: TimeInterval = 30,
         deserializationContext: Any? = nil) -> Promise<WebserviceResponse<Void>> {
         let deserializer = JSONDeserializer(deserializationContext: deserializationContext)
         let promise: ItemPromise<Void> = ItemPromise(deserializer: deserializer)
-        performRequest(with: promise, items: items, path: path, method: method,
-            timeoutInterval: timeoutInterval)
+        performRequest(with: promise, items: items, path: path, parameters: parameters,
+            method: method, timeoutInterval: timeoutInterval)
         return promise
     }
     
-    public func request<T: JSONCompatible>(_ cls: T.Type,
-        item: JSONConvertible? = nil, path: String,
+    public func request<T: JSONCompatible>(_ cls: T.Type, item: JSONConvertible? = nil,
+        path: String, parameters: [URLQueryItem]? = nil,
         method: HTTPMethod = .get, timeoutInterval: TimeInterval = 30,
         deserializationContext: Any? = nil) -> Promise<WebserviceResponse<T>> {
         let deserializer = JSONDeserializer(deserializationContext: deserializationContext)
         let promise: ItemPromise<T> = ItemPromise(deserializer: deserializer)
-        performRequest(with: promise, item: item, path: path, method: method,
-            timeoutInterval: timeoutInterval)
+        performRequest(with: promise, item: item, path: path, parameters: parameters,
+            method: method, timeoutInterval: timeoutInterval)
         return promise
     }
     
-    public func requestCollection<T: JSONCompatible>(_ cls: T.Type,
-        item: JSONConvertible? = nil, path: String,
+    public func requestCollection<T: JSONCompatible>(_ cls: T.Type, item: JSONConvertible? = nil,
+        path: String, parameters: [URLQueryItem]? = nil,
         method: HTTPMethod = .get, timeoutInterval: TimeInterval = 30,
         deserializationContext: Any? = nil) -> Promise<WebserviceResponse<[T]>> {
         let deserializer = JSONDeserializer(deserializationContext: deserializationContext)
         let promise: CollectionPromise<T> = CollectionPromise(deserializer: deserializer)
-        performRequest(with: promise, item: item, path: path, method: method,
-            timeoutInterval: timeoutInterval)
+        performRequest(with: promise, item: item, path: path, parameters: parameters,
+            method: method, timeoutInterval: timeoutInterval)
         return promise
     }
     
-    public func request<T: JSONCompatible>(_ cls: T.Type,
-        items: [JSONConvertible], path: String,
+    public func request<T: JSONCompatible>(_ cls: T.Type, items: [JSONConvertible],
+        path: String, parameters: [URLQueryItem]? = nil,
         method: HTTPMethod = .get, timeoutInterval: TimeInterval = 30,
         deserializationContext: Any? = nil) -> Promise<WebserviceResponse<T>> {
         let deserializer = JSONDeserializer(deserializationContext: deserializationContext)
         let promise: ItemPromise<T> = ItemPromise(deserializer: deserializer)
-        performRequest(with: promise, items: items, path: path, method: method,
-            timeoutInterval: timeoutInterval)
+        performRequest(with: promise, items: items, path: path, parameters: parameters,
+            method: method, timeoutInterval: timeoutInterval)
         return promise
     }
     
     public func requestCollection<T: JSONCompatible>(_ cls: T.Type, items: [JSONConvertible],
-        path: String, method: HTTPMethod = .get, timeoutInterval: TimeInterval = 30,
+        path: String, parameters: [URLQueryItem]? = nil,
+        method: HTTPMethod = .get, timeoutInterval: TimeInterval = 30,
         deserializationContext: Any? = nil) -> Promise<WebserviceResponse<[T]>> {
         let deserializer = JSONDeserializer(deserializationContext: deserializationContext)
         let promise: CollectionPromise<T> = CollectionPromise(deserializer: deserializer)
-        performRequest(with: promise, items: items, path: path, method: method,
-            timeoutInterval: timeoutInterval)
+        performRequest(with: promise, items: items, path: path, parameters: parameters,
+            method: method, timeoutInterval: timeoutInterval)
         return promise
     }
     
     private func performRequest<ItemType, ResultType>(
         with promise: WebservicePromise<ItemType, ResultType>, item: JSONConvertible? = nil,
-        path: String, method: HTTPMethod, timeoutInterval: TimeInterval) {
-        var urlRequest = requestWithPath(path: path, method: method,
+        path: String, parameters: [URLQueryItem]?,
+        method: HTTPMethod, timeoutInterval: TimeInterval) {
+        var urlRequest = requestWithPath(path: path, parameters: parameters, method: method,
             timeoutInterval: timeoutInterval)
         
         if method.hasBody {
@@ -133,8 +137,9 @@ final public class Session: WebserviceSession {
     
     private func performRequest<ItemType, ResultType>(
         with promise: WebservicePromise<ItemType, ResultType>, items: [JSONConvertible],
-        path: String, method: HTTPMethod, timeoutInterval: TimeInterval) {
-        var urlRequest = requestWithPath(path: path, method: method,
+        path: String, parameters: [URLQueryItem]?,
+        method: HTTPMethod, timeoutInterval: TimeInterval) {
+        var urlRequest = requestWithPath(path: path, parameters: parameters, method: method,
             timeoutInterval: timeoutInterval)
         
         if method.hasBody {
@@ -154,9 +159,16 @@ final public class Session: WebserviceSession {
         perform(request: urlRequest, promise: promise)
     }
     
-    private func requestWithPath(path: String, method: HTTPMethod,
-        timeoutInterval: TimeInterval) -> URLRequest {
-        let url = baseURL.appendingPathComponent(path)
+    private func requestWithPath(path: String, parameters: [URLQueryItem]?,
+        method: HTTPMethod, timeoutInterval: TimeInterval) -> URLRequest {
+        var url = baseURL.appendingPathComponent(path)
+        
+        if parameters != nil, parameters!.count > 0 {
+            var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false)!
+            urlComponents.queryItems = parameters
+            url = urlComponents.url!
+        }
+        
         var urlRequest = URLRequest(url: url)
         
         urlRequest.timeoutInterval = timeoutInterval
