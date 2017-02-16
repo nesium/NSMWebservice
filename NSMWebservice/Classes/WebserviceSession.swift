@@ -25,6 +25,18 @@ public enum HTTPMethod : String {
     }
 }
 
+
+
+public class ResponsePromise<T>: Promise<T> {
+    private(set) var cancelled: Bool = false
+    
+    public func cancel() {
+        self.cancelled = true
+    }
+}
+
+
+
 public protocol WebserviceSession {
     var headerFields: [String: String] { get set }
     var gzipRequests: Bool { get set }
@@ -34,30 +46,30 @@ public protocol WebserviceSession {
     func request(item: JSONConvertible?,
         path: String, parameters: [URLQueryItem]?,
         method: HTTPMethod, timeoutInterval: TimeInterval,
-        deserializationContext: Any?) -> Promise<WebserviceResponse<Void>>
+        deserializationContext: Any?) -> ResponsePromise<WebserviceResponse<Void>>
     
     func request(items: [JSONConvertible],
         path: String, parameters: [URLQueryItem]?,
         method: HTTPMethod, timeoutInterval: TimeInterval,
-        deserializationContext: Any?) -> Promise<WebserviceResponse<Void>>
+        deserializationContext: Any?) -> ResponsePromise<WebserviceResponse<Void>>
     
     func request<T: JSONCompatible>(_ cls: T.Type, item: JSONConvertible?,
         path: String, parameters: [URLQueryItem]?,
         method: HTTPMethod, timeoutInterval: TimeInterval,
-        deserializationContext: Any?) -> Promise<WebserviceResponse<T>>
+        deserializationContext: Any?) -> ResponsePromise<WebserviceResponse<T>>
     
     func requestCollection<T: JSONCompatible>(_ cls: T.Type, item: JSONConvertible?,
         path: String, parameters: [URLQueryItem]?,
         method: HTTPMethod, timeoutInterval: TimeInterval,
-        deserializationContext: Any?) -> Promise<WebserviceResponse<[T]>>
+        deserializationContext: Any?) -> ResponsePromise<WebserviceResponse<[T]>>
     
     func request<T: JSONCompatible>(_ cls: T.Type, items: [JSONConvertible],
         path: String, parameters: [URLQueryItem]?,
         method: HTTPMethod, timeoutInterval: TimeInterval,
-        deserializationContext: Any?) -> Promise<WebserviceResponse<T>>
+        deserializationContext: Any?) -> ResponsePromise<WebserviceResponse<T>>
     
     func requestCollection<T: JSONCompatible>(_ cls: T.Type, items: [JSONConvertible],
         path: String, parameters: [URLQueryItem]?,
         method: HTTPMethod, timeoutInterval: TimeInterval,
-        deserializationContext: Any?) -> Promise<WebserviceResponse<[T]>>
+        deserializationContext: Any?) -> ResponsePromise<WebserviceResponse<[T]>>
 }

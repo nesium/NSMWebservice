@@ -49,7 +49,7 @@ final public class Session: WebserviceSession {
     public func request(item: JSONConvertible? = nil,
         path: String, parameters: [URLQueryItem]? = nil,
         method: HTTPMethod = .get, timeoutInterval: TimeInterval = 30,
-        deserializationContext: Any? = nil) -> Promise<WebserviceResponse<Void>> {
+        deserializationContext: Any? = nil) -> ResponsePromise<WebserviceResponse<Void>> {
         let deserializer = JSONDeserializer(deserializationContext: deserializationContext)
         let promise: ItemPromise<Void> = ItemPromise(deserializer: deserializer)
         performRequest(with: promise, item: item, path: path, parameters: parameters,
@@ -60,7 +60,7 @@ final public class Session: WebserviceSession {
     public func request(items: [JSONConvertible],
         path: String, parameters: [URLQueryItem]? = nil,
         method: HTTPMethod = .get, timeoutInterval: TimeInterval = 30,
-        deserializationContext: Any? = nil) -> Promise<WebserviceResponse<Void>> {
+        deserializationContext: Any? = nil) -> ResponsePromise<WebserviceResponse<Void>> {
         let deserializer = JSONDeserializer(deserializationContext: deserializationContext)
         let promise: ItemPromise<Void> = ItemPromise(deserializer: deserializer)
         performRequest(with: promise, items: items, path: path, parameters: parameters,
@@ -71,7 +71,7 @@ final public class Session: WebserviceSession {
     public func request<T: JSONCompatible>(_ cls: T.Type, item: JSONConvertible? = nil,
         path: String, parameters: [URLQueryItem]? = nil,
         method: HTTPMethod = .get, timeoutInterval: TimeInterval = 30,
-        deserializationContext: Any? = nil) -> Promise<WebserviceResponse<T>> {
+        deserializationContext: Any? = nil) -> ResponsePromise<WebserviceResponse<T>> {
         let deserializer = JSONDeserializer(deserializationContext: deserializationContext)
         let promise: ItemPromise<T> = ItemPromise(deserializer: deserializer)
         performRequest(with: promise, item: item, path: path, parameters: parameters,
@@ -82,7 +82,7 @@ final public class Session: WebserviceSession {
     public func requestCollection<T: JSONCompatible>(_ cls: T.Type, item: JSONConvertible? = nil,
         path: String, parameters: [URLQueryItem]? = nil,
         method: HTTPMethod = .get, timeoutInterval: TimeInterval = 30,
-        deserializationContext: Any? = nil) -> Promise<WebserviceResponse<[T]>> {
+        deserializationContext: Any? = nil) -> ResponsePromise<WebserviceResponse<[T]>> {
         let deserializer = JSONDeserializer(deserializationContext: deserializationContext)
         let promise: CollectionPromise<T> = CollectionPromise(deserializer: deserializer)
         performRequest(with: promise, item: item, path: path, parameters: parameters,
@@ -93,7 +93,7 @@ final public class Session: WebserviceSession {
     public func request<T: JSONCompatible>(_ cls: T.Type, items: [JSONConvertible],
         path: String, parameters: [URLQueryItem]? = nil,
         method: HTTPMethod = .get, timeoutInterval: TimeInterval = 30,
-        deserializationContext: Any? = nil) -> Promise<WebserviceResponse<T>> {
+        deserializationContext: Any? = nil) -> ResponsePromise<WebserviceResponse<T>> {
         let deserializer = JSONDeserializer(deserializationContext: deserializationContext)
         let promise: ItemPromise<T> = ItemPromise(deserializer: deserializer)
         performRequest(with: promise, items: items, path: path, parameters: parameters,
@@ -104,7 +104,7 @@ final public class Session: WebserviceSession {
     public func requestCollection<T: JSONCompatible>(_ cls: T.Type, items: [JSONConvertible],
         path: String, parameters: [URLQueryItem]? = nil,
         method: HTTPMethod = .get, timeoutInterval: TimeInterval = 30,
-        deserializationContext: Any? = nil) -> Promise<WebserviceResponse<[T]>> {
+        deserializationContext: Any? = nil) -> ResponsePromise<WebserviceResponse<[T]>> {
         let deserializer = JSONDeserializer(deserializationContext: deserializationContext)
         let promise: CollectionPromise<T> = CollectionPromise(deserializer: deserializer)
         performRequest(with: promise, items: items, path: path, parameters: parameters,
@@ -188,9 +188,11 @@ final public class Session: WebserviceSession {
     
     private func perform<ItemType, ResultType>(request: URLRequest,
         promise: WebservicePromise<ItemType, ResultType>) {
-        session.dataTask(with: request) { (data, response, error) -> Void in
+        let dataTask = session.dataTask(with: request) { (data, response, error) -> Void in
             promise.fulfill(data: data, response: response, error: error)
-        }.resume()
+        }
+        promise.dataTask = dataTask
+        dataTask.resume()
     }
     
     private func append(data: Data, to urlRequest: inout URLRequest) throws {
@@ -205,13 +207,16 @@ final public class Session: WebserviceSession {
 
 
 
-fileprivate class WebservicePromise<ItemType, ResultType>: Promise<WebserviceResponse<ResultType>> {
-    let deserializer: JSONDeserializer
+fileprivate class WebservicePromise<ItemType, ResultType>:
+	ResponsePromise<WebserviceResponse<ResultType>> {
+    fileprivate let deserializer: JSONDeserializer
     
-    var fulfill: ((WebserviceResponse<ResultType>) -> Void)!
-    var reject: ((Error) -> Void)!
+    private(set) var fulfill: ((WebserviceResponse<ResultType>) -> Void)!
+    private(set) var reject: ((Error) -> Void)!
     
-    init(deserializer: JSONDeserializer) {
+    fileprivate weak var dataTask: URLSessionDataTask!
+    
+    fileprivate init(deserializer: JSONDeserializer) {
         self.deserializer = deserializer
         
         var fulfill: ((WebserviceResponse<ResultType>) -> Void)?
@@ -239,7 +244,7 @@ fileprivate class WebservicePromise<ItemType, ResultType>: Promise<WebserviceRes
         fatalError("init(error:) has not been implemented")
     }
     
-    func fulfill(data: Data?, response: URLResponse?, error: Error?) {
+    fileprivate func fulfill(data: Data?, response: URLResponse?, error: Error?) {
         guard error == nil else {
             fail(error!)
             return
@@ -292,13 +297,20 @@ fileprivate class WebservicePromise<ItemType, ResultType>: Promise<WebserviceRes
         }
     }
     
-    func fail(_ error: Error) {
+    fileprivate func fail(_ error: Error) {
         reject(error)
     }
     
-    func fulfillWithJSONObject(_ obj: Any, headers: [String: String]?,
+    fileprivate func fulfillWithJSONObject(_ obj: Any, headers: [String: String]?,
         statusCode: HTTPStatus) throws {
         fatalError("fulfillWithJSONObject must be implemented in a subclass")
+    }
+    
+    override public func cancel() {
+        guard !self.cancelled else {
+            return
+        }
+        self.dataTask?.cancel()
     }
 }
 
