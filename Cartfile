@@ -1,2 +1,2 @@
-github "mxcl/PromiseKit"
+github "ReactiveX/RxSwift" ~> 3.0
 github "1024jp/GzipSwift"

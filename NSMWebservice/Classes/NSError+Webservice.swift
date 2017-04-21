@@ -9,29 +9,29 @@
 import Foundation
 
 public extension NSError {
-    
-    var isNetworkError: Bool {
-        return self.domain == NSURLErrorDomain as String
+
+  var isNetworkError: Bool {
+    return self.domain == NSURLErrorDomain as String
+  }
+
+  var shouldRetryUsingReachability: Bool {
+    guard self.isNetworkError else {
+      return false
     }
-    
-    var shouldRetryUsingReachability: Bool {
-        guard self.isNetworkError else {
-            return false
-        }
-        
-        switch self.code {
-            case
-                NSURLErrorCancelled,
-                NSURLErrorCannotFindHost,
-                NSURLErrorCannotConnectToHost,
-                NSURLErrorNetworkConnectionLost,
-                NSURLErrorDNSLookupFailed,
-                NSURLErrorNotConnectedToInternet,
-                NSURLErrorTimedOut:
-                return true
-            
-            default:
-                return false
-        }
+
+    switch self.code {
+      case
+        NSURLErrorCancelled,
+        NSURLErrorCannotFindHost,
+        NSURLErrorCannotConnectToHost,
+        NSURLErrorNetworkConnectionLost,
+        NSURLErrorDNSLookupFailed,
+        NSURLErrorNotConnectedToInternet,
+        NSURLErrorTimedOut:
+        return true
+
+      default:
+        return false
     }
+  }
 }
