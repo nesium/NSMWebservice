@@ -8,7 +8,7 @@
 
 import XCTest
 import Swifter
-@testable import NSMWebservice
+import NSMWebservice
 import RxSwift
 
 class MyClass: JSONConvertible {
@@ -45,7 +45,7 @@ class NSMWebserviceTests: XCTestCase {
   private var server: HttpServer!
   
   struct MethodCalled {
-      var testPostObject: Bool = false
+    var testPostObject: Bool = false
   }
   
   private var methodCalled = MethodCalled()
@@ -108,18 +108,52 @@ class NSMWebserviceTests: XCTestCase {
     server.stop()
   }
 
-  func testSuccessfulDeserialization() {
+  func testSuccessfulDeserializationWithCallbackOnBackgroundThread() {
     let fetchExpectation = expectation(description: "Fetch Item")
+    var responseReceived: Bool = false
 
     _ = session.request(MyClass.self, path: "/testSuccessfulDeserialization",
       deserializationContext: MyContext()).subscribe(
         onNext: { resp in
+          XCTAssertFalse(Thread.isMainThread)
           XCTAssertEqual(resp.data.a, "A")
           XCTAssertEqual(resp.data.b, 123)
-          fetchExpectation.fulfill()
+          responseReceived = true
         },
         onError: { error in
           XCTFail(error.localizedDescription)
+          fetchExpectation.fulfill()
+        },
+        onCompleted: {
+          XCTAssertFalse(Thread.isMainThread)
+          XCTAssertTrue(responseReceived)
+          fetchExpectation.fulfill()
+        })
+
+    waitForExpectations(timeout: 1)
+  }
+
+  func testSuccessfulDeserializationWithCallbackOnMainThread() {
+    let fetchExpectation = expectation(description: "Fetch Item")
+    var responseReceived: Bool = false
+
+    _ = session.request(MyClass.self, path: "/testSuccessfulDeserialization",
+      deserializationContext: MyContext())
+      .observeOn(MainScheduler.instance)
+      .subscribe(
+        onNext: { resp in
+          XCTAssertTrue(Thread.isMainThread)
+          XCTAssertEqual(resp.data.a, "A")
+          XCTAssertEqual(resp.data.b, 123)
+          responseReceived = true
+        },
+        onError: { error in
+          XCTFail(error.localizedDescription)
+          fetchExpectation.fulfill()
+        },
+        onCompleted: {
+          XCTAssertTrue(Thread.isMainThread)
+          XCTAssertTrue(responseReceived)
           fetchExpectation.fulfill()
         })
 
@@ -149,9 +183,8 @@ class NSMWebserviceTests: XCTestCase {
           default:
             XCTFail("Error should be of type .missingField")
         }
-
-      fetchExpectation.fulfill()
-    })
+        fetchExpectation.fulfill()
+      })
 
     waitForExpectations(timeout: 1)
   }
@@ -191,6 +224,7 @@ class NSMWebserviceTests: XCTestCase {
   
   func testSuccessfulCollectionDeserialization() {
     let fetchExpectation = expectation(description: "Fetch Item")
+    var responseReceived: Bool = false
     
     _ = session.requestCollection(MyClass.self, path: "/testArrayOfObjects",
       deserializationContext: MyContext()).subscribe(
@@ -202,10 +236,14 @@ class NSMWebserviceTests: XCTestCase {
       XCTAssertEqual(resp.data[1].a, "B")
       XCTAssertEqual(resp.data[1].b, 456)
 
-      fetchExpectation.fulfill()
+      responseReceived = true
     },
     onError: { error in
       XCTFail(error.localizedDescription)
+      fetchExpectation.fulfill()
+    },
+    onCompleted: {
+      XCTAssertTrue(responseReceived)
       fetchExpectation.fulfill()
     })
 
@@ -216,17 +254,22 @@ class NSMWebserviceTests: XCTestCase {
     let postExpectation = expectation(description: "Post Item")
 
     let obj = MyClass(a: "AB", b: 9999)
+    var responseReceived: Bool = false
 
     _ = session.request(item: obj, path: "/testPostObject", method: .post,
-        deserializationContext: MyContext()).subscribe(
-    onNext: { resp -> Void in
-        XCTAssertTrue(self.methodCalled.testPostObject)
-        postExpectation.fulfill()
-    },
-    onError: { error in
-        XCTFail(error.localizedDescription)
-        postExpectation.fulfill()
-    })
+      deserializationContext: MyContext()).subscribe(
+        onNext: { resp -> Void in
+          XCTAssertTrue(self.methodCalled.testPostObject)
+          responseReceived = true
+        },
+        onError: { error in
+          XCTFail(error.localizedDescription)
+          postExpectation.fulfill()
+        },
+        onCompleted: {
+          XCTAssertTrue(responseReceived)
+          postExpectation.fulfill()
+        })
 
     waitForExpectations(timeout: 1)
   }

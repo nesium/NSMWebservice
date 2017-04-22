@@ -1,0 +1,17 @@
+{
+  "name": "Apple",
+  "employees": [
+    {
+      "name": "Tim Cook",
+      "salary": 1300000
+    },
+    {
+      "name": "Johny Ive",
+      "salary": 1200000
+    },
+    {
+      "name": "Phil Schiller",
+      "salary": 1100000
+    }
+  ]
+}

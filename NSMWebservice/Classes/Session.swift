@@ -1,6 +1,6 @@
 //
 //  Session.swift
-//  Bookshelf
+//  NSMWebservice
 //
 //  Created by Marc Bauer on 29.08.15.
 //  Copyright © 2015 nesiumdotcom. All rights reserved.
@@ -95,6 +95,7 @@ final public class Session: WebserviceSession {
       timeoutInterval: timeoutInterval)
 
     if method.hasBody {
+      // TODO: Perform serialization on background thread
       if let item = item {
         do {
           let data = try JSONSerialization.data(withJSONObject: try item.JSONObject(), options: [])
@@ -115,6 +116,7 @@ final public class Session: WebserviceSession {
       timeoutInterval: timeoutInterval)
 
     if method.hasBody {
+      // TODO: Perform serialization on background thread
       do {
         let jsonItems = try items.map { item in
           return try item.JSONObject()
@@ -178,9 +180,7 @@ final public class Session: WebserviceSession {
     return Observable.create { observer in
       promise.observer = observer
       promise.dataTask.resume()
-      return Disposables.create {
-        promise.cancel()
-      }
+      return Disposables.create(with: promise.cancel)
     }
   }
 }
@@ -236,6 +236,7 @@ fileprivate class WebservicePromise<ItemType, ResultType> {
 
     let obj: Any
     do {
+      assert(!Thread.isMainThread)
       try obj = JSONSerialization.jsonObject(with: data!, options: [])
     } catch let parseError as NSError {
       fail(parseError)
@@ -314,7 +315,7 @@ internal struct JSONDeserializer {
 
   private let deserializationContext: Any?
 
-  fileprivate init(deserializationContext: Any?) {
+  internal init(deserializationContext: Any?) {
     self.deserializationContext = deserializationContext
   }
 

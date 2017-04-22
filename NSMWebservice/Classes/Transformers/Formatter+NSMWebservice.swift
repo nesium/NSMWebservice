@@ -1,6 +1,6 @@
 //
-//  NSFormatterExtensions.swift
-//  Bookshelf
+//  Formatter+NSMWebservice.swift
+//  NSMWebservice
 //
 //  Created by Marc Bauer on 18.09.15.
 //  Copyright © 2015 nesiumdotcom. All rights reserved.

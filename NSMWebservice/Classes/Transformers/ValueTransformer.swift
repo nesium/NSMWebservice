@@ -1,6 +1,6 @@
 //
 //  ValueTransformer.swift
-//  Bookshelf
+//  NSMWebservice
 //
 //  Created by Marc Bauer on 18.09.15.
 //  Copyright © 2015 nesiumdotcom. All rights reserved.
@@ -18,7 +18,7 @@ public protocol ValueTransformer {
 
 
 
-class DateTimeTransformer : ValueTransformer {
+internal struct DateTimeTransformer : ValueTransformer {
   typealias InType = String
   typealias OutType = Date
 
@@ -29,7 +29,7 @@ class DateTimeTransformer : ValueTransformer {
   func reverseTransformedValue(_ value: OutType) -> InType {
     return DateTimeTransformer.formatter.string(from: value)
   }
-  
+
   fileprivate static var formatter: DateFormatter {
     let formatter = DateFormatter()
     formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
@@ -41,36 +41,18 @@ class DateTimeTransformer : ValueTransformer {
 
 
 
-class URLTransformer : ValueTransformer {
+internal struct URLTransformer : ValueTransformer {
   typealias InType = String
   typealias OutType = URL
-    
-  func transformedValue(_ value: InType) throws -> OutType {
-    let url = URL(string: value)
 
-    guard url != nil else {
+  func transformedValue(_ value: InType) throws -> OutType {
+    guard let url = URL(string: value) else {
       throw ParseError.formattingFailed(msg: "'\(value)' is not a valid URL")
     }
-
-    return url!
+    return url
   }
 
   func reverseTransformedValue(_ value: OutType) -> InType {
     return value.absoluteString
-  }
-}
-
-
-
-class DecimalNumberTransformer: ValueTransformer {
-  typealias InType = String
-  typealias OutType = NSDecimalNumber
-
-  func transformedValue(_ value: String) throws -> NSDecimalNumber {
-    return NSDecimalNumber(string: value, locale: Locale(identifier: "en_US_POSIX"))
-  }
-
-  func reverseTransformedValue(_ value: NSDecimalNumber) -> String {
-    return value.stringValue
   }
 }
