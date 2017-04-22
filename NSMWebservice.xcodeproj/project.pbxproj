@@ -37,6 +37,10 @@
 		2CECF4791EAABE6D00FE8BF0 /* url.json in Resources */ = {isa = PBXBuildFile; fileRef = 2CECF4781EAABE6D00FE8BF0 /* url.json */; };
 		2CECF47B1EAAC11C00FE8BF0 /* date.json in Resources */ = {isa = PBXBuildFile; fileRef = 2CECF47A1EAAC11C00FE8BF0 /* date.json */; };
 		2CECF47D1EAACCDA00FE8BF0 /* value_transformer.json in Resources */ = {isa = PBXBuildFile; fileRef = 2CECF47C1EAACCDA00FE8BF0 /* value_transformer.json */; };
+		2CECF4831EAAEE5F00FE8BF0 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CECF4821EAAEE5F00FE8BF0 /* ActivityIndicator.swift */; };
+		2CECF48C1EAAEEC200FE8BF0 /* ActivityIndicator+NSMWebservice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CECF48B1EAAEEC200FE8BF0 /* ActivityIndicator+NSMWebservice.swift */; };
+		2CECF48E1EAAF74000FE8BF0 /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CECF48D1EAAF74000FE8BF0 /* RxCocoa.framework */; };
+		2CECF48F1EAAF77100FE8BF0 /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CECF48D1EAAF74000FE8BF0 /* RxCocoa.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -139,6 +143,9 @@
 		2CECF4781EAABE6D00FE8BF0 /* url.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = url.json; sourceTree = "<group>"; };
 		2CECF47A1EAAC11C00FE8BF0 /* date.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = date.json; sourceTree = "<group>"; };
 		2CECF47C1EAACCDA00FE8BF0 /* value_transformer.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = value_transformer.json; sourceTree = "<group>"; };
+		2CECF4821EAAEE5F00FE8BF0 /* ActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
+		2CECF48B1EAAEEC200FE8BF0 /* ActivityIndicator+NSMWebservice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ActivityIndicator+NSMWebservice.swift"; sourceTree = "<group>"; };
+		2CECF48D1EAAF74000FE8BF0 /* RxCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxCocoa.framework; path = ../../Build/iOS/RxCocoa.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -148,6 +155,7 @@
 			files = (
 				2CE6B8091E1F934800330B77 /* Gzip.framework in Frameworks */,
 				2C8F328B1EA9A3A6000150B1 /* RxSwift.framework in Frameworks */,
+				2CECF48E1EAAF74000FE8BF0 /* RxCocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -158,6 +166,7 @@
 				2CE38EF81E16690900EDFC3D /* Swifter.framework in Frameworks */,
 				2CE38E8E1E16613800EDFC3D /* NSMWebservice.framework in Frameworks */,
 				2C8F328E1EA9CBB5000150B1 /* RxSwift.framework in Frameworks */,
+				2CECF48F1EAAF77100FE8BF0 /* RxCocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -167,6 +176,7 @@
 		2C059F4F1E1798F500F18CD3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2CECF48D1EAAF74000FE8BF0 /* RxCocoa.framework */,
 				2C8F328A1EA9A3A6000150B1 /* RxSwift.framework */,
 				2C7FFACE1E276A0800CD967B /* CFNetwork.framework */,
 				2CE6B8081E1F934800330B77 /* Gzip.framework */,
@@ -227,6 +237,7 @@
 				2CE38EA31E16614700EDFC3D /* ParseError.swift */,
 				2CE38EA51E16614700EDFC3D /* Session.swift */,
 				2C36FFFB1E23689000D37BF0 /* WebserviceSession.swift */,
+				2CECF48A1EAAEE9E00FE8BF0 /* Rx */,
 				2CE38EA61E16614700EDFC3D /* Transformers */,
 			);
 			path = Classes;
@@ -271,6 +282,15 @@
 				2CECF47C1EAACCDA00FE8BF0 /* value_transformer.json */,
 			);
 			path = "Test Data";
+			sourceTree = "<group>";
+		};
+		2CECF48A1EAAEE9E00FE8BF0 /* Rx */ = {
+			isa = PBXGroup;
+			children = (
+				2CECF4821EAAEE5F00FE8BF0 /* ActivityIndicator.swift */,
+				2CECF48B1EAAEEC200FE8BF0 /* ActivityIndicator+NSMWebservice.swift */,
+			);
+			name = Rx;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -462,6 +482,7 @@
 			inputPaths = (
 				"$(SRCROOT)/Carthage/Build/iOS/RxSwift.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/Gzip.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/RxCocoa.framework",
 			);
 			name = Carthage;
 			outputPaths = (
@@ -477,6 +498,7 @@
 			);
 			inputPaths = (
 				"$(SRCROOT)/Carthage/Build/iOS/RxSwift.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/RxCocoa.framework",
 			);
 			name = Carthage;
 			outputPaths = (
@@ -496,10 +518,12 @@
 				2C8F328D1EA9A5BB000150B1 /* HTTPError.swift in Sources */,
 				2CB2396D1E1A2B9600059072 /* HTTPStatus.swift in Sources */,
 				2CE38EB01E16614700EDFC3D /* Formatter+NSMWebservice.swift in Sources */,
+				2CECF4831EAAEE5F00FE8BF0 /* ActivityIndicator.swift in Sources */,
 				2CE38EAA1E16614700EDFC3D /* JSONConvertible.swift in Sources */,
 				2C36FFFC1E23689000D37BF0 /* WebserviceSession.swift in Sources */,
 				2C4027951E18DC480030E7C8 /* JSONCoder.swift in Sources */,
 				2CE38EAB1E16614700EDFC3D /* Keychain.swift in Sources */,
+				2CECF48C1EAAEEC200FE8BF0 /* ActivityIndicator+NSMWebservice.swift in Sources */,
 				2CE38EB11E16614700EDFC3D /* ValueTransformer.swift in Sources */,
 				2C7FFAC71E27667B00CD967B /* NSError+Webservice.swift in Sources */,
 				2CE38EAD1E16614700EDFC3D /* ParseError.swift in Sources */,

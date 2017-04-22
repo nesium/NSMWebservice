@@ -160,6 +160,50 @@ class NSMWebserviceTests: XCTestCase {
     waitForExpectations(timeout: 1)
   }
 
+  func testActivityIndicator() {
+    let fetchExpectation = expectation(description: "Fetch Items")
+
+    let req1 = session.request(MyClass.self, path: "/testSuccessfulDeserialization",
+        deserializationContext: MyContext())
+    	.delay(0.2, scheduler: MainScheduler.instance)
+      .map { _ in 0 }
+    let req2 = session.request(MyClass.self, path: "/testSuccessfulDeserialization",
+        deserializationContext: MyContext())
+      .delay(0.5, scheduler: MainScheduler.instance)
+      .map { _ in 1 }
+    var onNextCalled: Int = 0
+    var onCompletedCalled: Bool = false
+
+    _ = Observable.zip(Observable.merge(req1, req2),
+    	ActivityIndicator.shared.asSharedSequence().asObservable().take(2))
+      .subscribe(
+        onNext: { value in
+          switch value {
+            case (0, let isLoading):
+              XCTAssertTrue(isLoading)
+            case (1, let isLoading):
+              XCTAssertFalse(isLoading)
+            default:
+              XCTFail("Unknown state")
+          }
+          onNextCalled += 1
+        },
+        onError: { error in
+          XCTFail(error.localizedDescription)
+          fetchExpectation.fulfill()
+        },
+        onCompleted: {
+          onCompletedCalled = true
+        },
+        onDisposed: {
+          XCTAssertEqual(onNextCalled, 2)
+          XCTAssertTrue(onCompletedCalled)
+          fetchExpectation.fulfill()
+        })
+
+    waitForExpectations(timeout: 1)
+  }
+
   func testMissingAttribute() {
     let fetchExpectation = expectation(description: "Fetch Item")
 

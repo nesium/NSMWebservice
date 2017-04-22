@@ -181,7 +181,7 @@ final public class Session: WebserviceSession {
       promise.observer = observer
       promise.dataTask.resume()
       return Disposables.create(with: promise.cancel)
-    }
+    }.trackActivity(ActivityIndicator.shared)
   }
 }
 

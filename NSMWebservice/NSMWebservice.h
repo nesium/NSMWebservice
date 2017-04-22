@@ -6,7 +6,7 @@
 //  Copyright © 2016 nesiumdotcom. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
 //! Project version number for NSMWebservice.
 FOUNDATION_EXPORT double NSMWebserviceVersionNumber;
