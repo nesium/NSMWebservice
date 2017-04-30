@@ -15,10 +15,20 @@ public protocol JSONConvertible: JSONCompatible {
   func encode(encoder: JSONEncoder) throws
 }
 
-extension JSONConvertible {
-  func JSONObject() throws -> [String: Any] {
+public extension JSONConvertible {
+  public func JSONObject() throws -> [String: Any] {
     let encoder = JSONEncoder(className: String(describing: type(of: self)))
     try self.encode(encoder: encoder)
     return encoder.jsonDictionary
+  }
+
+  public static func fromJSONObject(_ dict: [String: Any]) throws -> Self {
+    let deserializer = JSONDeserializer(deserializationContext: nil)
+    return try deserializer.deserialize(dict)
+  }
+
+  public static func fromJSONObject(_ arr: [[String: Any]]) throws -> [Self] {
+    let deserializer = JSONDeserializer(deserializationContext: nil)
+    return try arr.map { try deserializer.deserialize($0) }
   }
 }
