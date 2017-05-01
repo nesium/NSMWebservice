@@ -315,7 +315,7 @@
 				2CE38E801E16613800EDFC3D /* Frameworks */,
 				2CE38E811E16613800EDFC3D /* Headers */,
 				2CE38E821E16613800EDFC3D /* Resources */,
-				2C059F481E1798A000F18CD3 /* Carthage */,
+				2C059F481E1798A000F18CD3 /* Punic / Carthage */,
 			);
 			buildRules = (
 			);
@@ -474,7 +474,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		2C059F481E1798A000F18CD3 /* Carthage */ = {
+		2C059F481E1798A000F18CD3 /* Punic / Carthage */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -484,12 +484,12 @@
 				"$(SRCROOT)/Carthage/Build/iOS/Gzip.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/RxCocoa.framework",
 			);
-			name = Carthage;
+			name = "Punic / Carthage";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks";
+			shellScript = "[ \"${CARTHAGE}\" == \"YES\" ] && exit 0\n/usr/local/bin/punic copy-frameworks";
 		};
 		2C059F5B1E17CC5800F18CD3 /* Carthage */ = {
 			isa = PBXShellScriptBuildPhase;
