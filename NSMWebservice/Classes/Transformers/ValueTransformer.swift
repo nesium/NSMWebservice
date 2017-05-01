@@ -18,15 +18,15 @@ public protocol ValueTransformer {
 
 
 
-internal struct DateTimeTransformer : ValueTransformer {
-  typealias InType = String
-  typealias OutType = Date
+public struct DateTimeTransformer : ValueTransformer {
+  public typealias InType = String
+  public typealias OutType = Date
 
-  func transformedValue(_ value: InType) throws -> OutType {
+  public func transformedValue(_ value: InType) throws -> OutType {
     return try DateTimeTransformer.formatter.objectValueForString(value)
   }
 
-  func reverseTransformedValue(_ value: OutType) -> InType {
+  public func reverseTransformedValue(_ value: OutType) -> InType {
     return DateTimeTransformer.formatter.string(from: value)
   }
 
@@ -41,18 +41,18 @@ internal struct DateTimeTransformer : ValueTransformer {
 
 
 
-internal struct URLTransformer : ValueTransformer {
-  typealias InType = String
-  typealias OutType = URL
+public struct URLTransformer : ValueTransformer {
+  public typealias InType = String
+  public typealias OutType = URL
 
-  func transformedValue(_ value: InType) throws -> OutType {
+  public func transformedValue(_ value: InType) throws -> OutType {
     guard let url = URL(string: value) else {
       throw ParseError.formattingFailed(msg: "'\(value)' is not a valid URL")
     }
     return url
   }
 
-  func reverseTransformedValue(_ value: OutType) -> InType {
+  public func reverseTransformedValue(_ value: OutType) -> InType {
     return value.absoluteString
   }
 }
