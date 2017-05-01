@@ -22,6 +22,8 @@ public struct ISO8601DateTimeTransformer : ValueTransformer {
   public typealias InType = String
   public typealias OutType = Date
 
+  public init() {}
+
   public func transformedValue(_ value: InType) throws -> OutType {
     return try ISO8601DateTimeTransformer.formatter.objectValueForString(value)
   }
@@ -44,6 +46,8 @@ public struct ISO8601DateTimeTransformer : ValueTransformer {
 public struct URLTransformer : ValueTransformer {
   public typealias InType = String
   public typealias OutType = URL
+
+  public init() {}
 
   public func transformedValue(_ value: InType) throws -> OutType {
     guard let url = URL(string: value) else {
