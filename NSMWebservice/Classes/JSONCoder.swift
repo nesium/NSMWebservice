@@ -21,8 +21,8 @@ extension Double: JSONValue {}
 extension Float: JSONValue {}
 extension Bool: JSONValue {}
 
-private let dateTransformer: DateTimeTransformer = {
-  return DateTimeTransformer()
+private let dateTransformer: ISO8601DateTimeTransformer = {
+  return ISO8601DateTimeTransformer()
 }()
 
 private let urlTransformer: URLTransformer = {

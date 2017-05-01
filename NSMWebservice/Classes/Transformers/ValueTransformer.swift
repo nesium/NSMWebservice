@@ -18,16 +18,16 @@ public protocol ValueTransformer {
 
 
 
-public struct DateTimeTransformer : ValueTransformer {
+public struct ISO8601DateTimeTransformer : ValueTransformer {
   public typealias InType = String
   public typealias OutType = Date
 
   public func transformedValue(_ value: InType) throws -> OutType {
-    return try DateTimeTransformer.formatter.objectValueForString(value)
+    return try ISO8601DateTimeTransformer.formatter.objectValueForString(value)
   }
 
   public func reverseTransformedValue(_ value: OutType) -> InType {
-    return DateTimeTransformer.formatter.string(from: value)
+    return ISO8601DateTimeTransformer.formatter.string(from: value)
   }
 
   fileprivate static var formatter: DateFormatter {
