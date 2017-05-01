@@ -1,0 +1,6 @@
+defaults:
+  platform: iOS
+  configuration: Release
+skips:
+- [ iOS, RxSwift, Rx.xcworkspace, RxBlocking-iOS ]
+- [ iOS, RxSwift, Rx.xcworkspace, RxTests-iOS ]

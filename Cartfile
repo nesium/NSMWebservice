@@ -1,2 +1,2 @@
-github "ReactiveX/RxSwift" ~> 3.0
+github "ReactiveX/RxSwift" ~> 3.4
 github "1024jp/GzipSwift"
