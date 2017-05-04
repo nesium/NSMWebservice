@@ -5,4 +5,7 @@ dependencies:
   pre:
     - brew tap schwa/punic
     - brew install punic
-    - punic build
+  override:
+    - bin/bootstrap-if-needed
+  cache_directories:
+    - "Carthage"

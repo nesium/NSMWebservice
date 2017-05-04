@@ -1,0 +1,4 @@
+#!/bin/sh
+
+punic build
+cp Cartfile.resolved Carthage
