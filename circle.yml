@@ -6,3 +6,5 @@ dependencies:
     - brew tap schwa/punic
     - brew install punic
     - punic build
+  cache_directories:
+    - "~/Library/Application Support/io.schwa.punic/"
