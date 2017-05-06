@@ -489,7 +489,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "[ \"${CARTHAGE}\" == \"YES\" ] && exit 0\n/usr/local/bin/punic copy-frameworks";
+			shellScript = "[ \"${CARTHAGE}\" == \"YES\" ] && exit 0\n\nif [ -n \"${CIRCLECI}\" ]; then\n    /usr/local/bin/carthage copy-frameworks\nelse\n    /usr/local/bin/punic copy-frameworks\nfi";
 		};
 		2C059F5B1E17CC5800F18CD3 /* Carthage */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -505,7 +505,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/punic copy-frameworks";
+			shellScript = "[ \"${CARTHAGE}\" == \"YES\" ] && exit 0\n\nif [ -n \"${CIRCLECI}\" ]; then\n    /usr/local/bin/carthage copy-frameworks\nelse\n    /usr/local/bin/punic copy-frameworks\nfi";
 		};
 /* End PBXShellScriptBuildPhase section */
 
