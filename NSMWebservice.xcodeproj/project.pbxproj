@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		2C36FFFC1E23689000D37BF0 /* WebserviceSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C36FFFB1E23689000D37BF0 /* WebserviceSession.swift */; };
 		2C4027951E18DC480030E7C8 /* JSONCoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4027941E18DC480030E7C8 /* JSONCoder.swift */; };
+		2C5C55EA1EF31D7900941012 /* Data+Gzip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5C55E91EF2F7A100941012 /* Data+Gzip.swift */; };
+		2C5C55F21EF31DE200941012 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C5C55F11EF31DB300941012 /* libz.tbd */; };
 		2C7FFAC71E27667B00CD967B /* NSError+Webservice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7FFAC61E27667B00CD967B /* NSError+Webservice.swift */; };
 		2C8F328B1EA9A3A6000150B1 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C8F328A1EA9A3A6000150B1 /* RxSwift.framework */; };
 		2C8F328D1EA9A5BB000150B1 /* HTTPError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8F328C1EA9A5BB000150B1 /* HTTPError.swift */; };
@@ -24,7 +26,6 @@
 		2CE38EB01E16614700EDFC3D /* Formatter+NSMWebservice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE38EA71E16614700EDFC3D /* Formatter+NSMWebservice.swift */; };
 		2CE38EB11E16614700EDFC3D /* ValueTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE38EA81E16614700EDFC3D /* ValueTransformer.swift */; };
 		2CE38EF81E16690900EDFC3D /* Swifter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CE38EED1E1668E800EDFC3D /* Swifter.framework */; };
-		2CE6B8091E1F934800330B77 /* Gzip.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CE6B8081E1F934800330B77 /* Gzip.framework */; };
 		2CECF4651EAA989700FE8BF0 /* JSONCodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CECF4641EAA989700FE8BF0 /* JSONCodingTests.swift */; };
 		2CECF4691EAA9B8200FE8BF0 /* string.json in Resources */ = {isa = PBXBuildFile; fileRef = 2CECF4681EAA9B8200FE8BF0 /* string.json */; };
 		2CECF46B1EAAA83800FE8BF0 /* int.json in Resources */ = {isa = PBXBuildFile; fileRef = 2CECF46A1EAAA83800FE8BF0 /* int.json */; };
@@ -112,6 +113,8 @@
 /* Begin PBXFileReference section */
 		2C36FFFB1E23689000D37BF0 /* WebserviceSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebserviceSession.swift; sourceTree = "<group>"; };
 		2C4027941E18DC480030E7C8 /* JSONCoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONCoder.swift; sourceTree = "<group>"; };
+		2C5C55E91EF2F7A100941012 /* Data+Gzip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Gzip.swift"; sourceTree = "<group>"; };
+		2C5C55F11EF31DB300941012 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		2C7FFAC61E27667B00CD967B /* NSError+Webservice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSError+Webservice.swift"; sourceTree = "<group>"; };
 		2C7FFACE1E276A0800CD967B /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		2C8F328A1EA9A3A6000150B1 /* RxSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxSwift.framework; path = ../../Build/iOS/RxSwift.framework; sourceTree = "<group>"; };
@@ -130,7 +133,6 @@
 		2CE38EA71E16614700EDFC3D /* Formatter+NSMWebservice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Formatter+NSMWebservice.swift"; sourceTree = "<group>"; };
 		2CE38EA81E16614700EDFC3D /* ValueTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValueTransformer.swift; sourceTree = "<group>"; };
 		2CE38EDB1E1668E800EDFC3D /* Swifter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Swifter.xcodeproj; path = Carthage/Checkouts/swifter/XCode/Swifter.xcodeproj; sourceTree = SOURCE_ROOT; };
-		2CE6B8081E1F934800330B77 /* Gzip.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Gzip.framework; path = ../../Build/iOS/Gzip.framework; sourceTree = "<group>"; };
 		2CECF4641EAA989700FE8BF0 /* JSONCodingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONCodingTests.swift; sourceTree = "<group>"; };
 		2CECF4681EAA9B8200FE8BF0 /* string.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = string.json; sourceTree = "<group>"; };
 		2CECF46A1EAAA83800FE8BF0 /* int.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = int.json; sourceTree = "<group>"; };
@@ -153,9 +155,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2CE6B8091E1F934800330B77 /* Gzip.framework in Frameworks */,
 				2C8F328B1EA9A3A6000150B1 /* RxSwift.framework in Frameworks */,
 				2CECF48E1EAAF74000FE8BF0 /* RxCocoa.framework in Frameworks */,
+				2C5C55F21EF31DE200941012 /* libz.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -176,12 +178,28 @@
 		2C059F4F1E1798F500F18CD3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2C5C55F11EF31DB300941012 /* libz.tbd */,
 				2CECF48D1EAAF74000FE8BF0 /* RxCocoa.framework */,
 				2C8F328A1EA9A3A6000150B1 /* RxSwift.framework */,
 				2C7FFACE1E276A0800CD967B /* CFNetwork.framework */,
-				2CE6B8081E1F934800330B77 /* Gzip.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		2C5C55E01EF2F76800941012 /* Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				2C5C55E11EF2F76800941012 /* GzipSwift */,
+			);
+			path = Libraries;
+			sourceTree = "<group>";
+		};
+		2C5C55E11EF2F76800941012 /* GzipSwift */ = {
+			isa = PBXGroup;
+			children = (
+				2C5C55E91EF2F7A100941012 /* Data+Gzip.swift */,
+			);
+			path = GzipSwift;
 			sourceTree = "<group>";
 		};
 		2CE38E7A1E16613800EDFC3D = {
@@ -209,6 +227,7 @@
 				2CE38E871E16613800EDFC3D /* NSMWebservice.h */,
 				2CE38E881E16613800EDFC3D /* Info.plist */,
 				2CE38E9E1E16614700EDFC3D /* Classes */,
+				2C5C55E01EF2F76800941012 /* Libraries */,
 			);
 			path = NSMWebservice;
 			sourceTree = "<group>";
@@ -481,7 +500,6 @@
 			);
 			inputPaths = (
 				"$(SRCROOT)/Carthage/Build/iOS/RxSwift.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/Gzip.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/RxCocoa.framework",
 			);
 			name = "Punic / Carthage";
@@ -489,7 +507,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "[ \"${CARTHAGE}\" == \"YES\" ] && exit 0\n\nif [ -n \"${CIRCLECI}\" ]; then\n    /usr/local/bin/carthage copy-frameworks\nelse\n    /usr/local/bin/punic copy-frameworks\nfi";
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
 		};
 		2C059F5B1E17CC5800F18CD3 /* Carthage */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -521,6 +539,7 @@
 				2CECF4831EAAEE5F00FE8BF0 /* ActivityIndicator.swift in Sources */,
 				2CE38EAA1E16614700EDFC3D /* JSONConvertible.swift in Sources */,
 				2C36FFFC1E23689000D37BF0 /* WebserviceSession.swift in Sources */,
+				2C5C55EA1EF31D7900941012 /* Data+Gzip.swift in Sources */,
 				2C4027951E18DC480030E7C8 /* JSONCoder.swift in Sources */,
 				2CE38EAB1E16614700EDFC3D /* Keychain.swift in Sources */,
 				2CECF48C1EAAEEC200FE8BF0 /* ActivityIndicator+NSMWebservice.swift in Sources */,

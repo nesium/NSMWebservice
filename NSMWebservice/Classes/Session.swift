@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Gzip
 import RxSwift
 
 final public class Session: WebserviceSession {

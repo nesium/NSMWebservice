@@ -1,3 +1,2 @@
-github "1024jp/GzipSwift" "3.1.4"
-github "ReactiveX/RxSwift" "3.4.1"
-github "httpswift/swifter" "stable"
+github "ReactiveX/RxSwift" "3.5.0"
+github "httpswift/swifter" "5ebb020e49ac55dfc33a2cf42b0dba4e4a46a925"
