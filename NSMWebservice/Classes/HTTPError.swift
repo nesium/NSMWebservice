@@ -8,16 +8,15 @@
 
 import Foundation
 
-public struct HTTPError: Error, CustomStringConvertible {
+public struct HTTPError: LocalizedError, CustomStringConvertible {
   public let headerFields: [String: String]
   public let statusCode: HTTPStatus
 
   public var description: String {
-    return "The request failed. " +
-        "The server responded with status code \(statusCode.description)."
+    return "The request failed. The server responded with status code \(statusCode.description)."
   }
 
-  public var localizedDescription: String {
+  public var errorDescription: String? {
     return self.description
   }
 }

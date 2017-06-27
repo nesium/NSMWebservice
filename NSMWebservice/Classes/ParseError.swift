@@ -6,7 +6,7 @@
 //  Copyright © 2015 nesiumdotcom. All rights reserved.
 //
 
-public enum ParseError : Error {
+public enum ParseError: LocalizedError {
   case invalidRootType
   case invalidLeafType
   case unexpectedResponse
@@ -15,7 +15,7 @@ public enum ParseError : Error {
   case incorrectFieldType(String, expected: String, found: String, cls: String)
   case formattingFailed(msg: String)
 
-  var localizedDescription: String {
+  public var errorDescription: String? {
     switch self {
       case .invalidRootType:
         return "Invalid Root Type"
