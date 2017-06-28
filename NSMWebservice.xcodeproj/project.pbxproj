@@ -7,15 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2C2BFD8C1F0323AD00D8387E /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C2BFD8A1F03238400D8387E /* RxCocoa.framework */; };
+		2C2BFD8D1F0323AD00D8387E /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C2BFD8B1F03238400D8387E /* RxSwift.framework */; };
 		2C36FFFC1E23689000D37BF0 /* WebserviceSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C36FFFB1E23689000D37BF0 /* WebserviceSession.swift */; };
 		2C4027951E18DC480030E7C8 /* JSONCoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4027941E18DC480030E7C8 /* JSONCoder.swift */; };
 		2C5C55EA1EF31D7900941012 /* Data+Gzip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5C55E91EF2F7A100941012 /* Data+Gzip.swift */; };
 		2C5C55F21EF31DE200941012 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C5C55F11EF31DB300941012 /* libz.tbd */; };
 		2C7FFAC71E27667B00CD967B /* NSError+Webservice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7FFAC61E27667B00CD967B /* NSError+Webservice.swift */; };
-		2C8F328B1EA9A3A6000150B1 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C8F328A1EA9A3A6000150B1 /* RxSwift.framework */; };
 		2C8F328D1EA9A5BB000150B1 /* HTTPError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8F328C1EA9A5BB000150B1 /* HTTPError.swift */; };
-		2C8F328E1EA9CBB5000150B1 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C8F328A1EA9A3A6000150B1 /* RxSwift.framework */; };
 		2CB2396D1E1A2B9600059072 /* HTTPStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB2396C1E1A2B9600059072 /* HTTPStatus.swift */; };
+		2CB635291F036D7200591B71 /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C2BFD8A1F03238400D8387E /* RxCocoa.framework */; };
+		2CB635301F036D7600591B71 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C2BFD8B1F03238400D8387E /* RxSwift.framework */; };
 		2CE38E8E1E16613800EDFC3D /* NSMWebservice.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CE38E841E16613800EDFC3D /* NSMWebservice.framework */; };
 		2CE38E931E16613800EDFC3D /* NSMWebserviceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE38E921E16613800EDFC3D /* NSMWebserviceTests.swift */; };
 		2CE38E951E16613800EDFC3D /* NSMWebservice.h in Headers */ = {isa = PBXBuildFile; fileRef = 2CE38E871E16613800EDFC3D /* NSMWebservice.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -40,8 +42,6 @@
 		2CECF47D1EAACCDA00FE8BF0 /* value_transformer.json in Resources */ = {isa = PBXBuildFile; fileRef = 2CECF47C1EAACCDA00FE8BF0 /* value_transformer.json */; };
 		2CECF4831EAAEE5F00FE8BF0 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CECF4821EAAEE5F00FE8BF0 /* ActivityIndicator.swift */; };
 		2CECF48C1EAAEEC200FE8BF0 /* ActivityIndicator+NSMWebservice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CECF48B1EAAEEC200FE8BF0 /* ActivityIndicator+NSMWebservice.swift */; };
-		2CECF48E1EAAF74000FE8BF0 /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CECF48D1EAAF74000FE8BF0 /* RxCocoa.framework */; };
-		2CECF48F1EAAF77100FE8BF0 /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CECF48D1EAAF74000FE8BF0 /* RxCocoa.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -111,13 +111,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2C2BFD8A1F03238400D8387E /* RxCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxCocoa.framework; path = Carthage/Build/iOS/RxCocoa.framework; sourceTree = "<group>"; };
+		2C2BFD8B1F03238400D8387E /* RxSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxSwift.framework; path = Carthage/Build/iOS/RxSwift.framework; sourceTree = "<group>"; };
 		2C36FFFB1E23689000D37BF0 /* WebserviceSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebserviceSession.swift; sourceTree = "<group>"; };
 		2C4027941E18DC480030E7C8 /* JSONCoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONCoder.swift; sourceTree = "<group>"; };
 		2C5C55E91EF2F7A100941012 /* Data+Gzip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Gzip.swift"; sourceTree = "<group>"; };
 		2C5C55F11EF31DB300941012 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		2C7FFAC61E27667B00CD967B /* NSError+Webservice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSError+Webservice.swift"; sourceTree = "<group>"; };
 		2C7FFACE1E276A0800CD967B /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
-		2C8F328A1EA9A3A6000150B1 /* RxSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxSwift.framework; path = ../../Build/iOS/RxSwift.framework; sourceTree = "<group>"; };
 		2C8F328C1EA9A5BB000150B1 /* HTTPError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPError.swift; sourceTree = "<group>"; };
 		2CB2396C1E1A2B9600059072 /* HTTPStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPStatus.swift; sourceTree = "<group>"; };
 		2CE38E841E16613800EDFC3D /* NSMWebservice.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NSMWebservice.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -147,7 +148,6 @@
 		2CECF47C1EAACCDA00FE8BF0 /* value_transformer.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = value_transformer.json; sourceTree = "<group>"; };
 		2CECF4821EAAEE5F00FE8BF0 /* ActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		2CECF48B1EAAEEC200FE8BF0 /* ActivityIndicator+NSMWebservice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ActivityIndicator+NSMWebservice.swift"; sourceTree = "<group>"; };
-		2CECF48D1EAAF74000FE8BF0 /* RxCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxCocoa.framework; path = ../../Build/iOS/RxCocoa.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -155,9 +155,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2C8F328B1EA9A3A6000150B1 /* RxSwift.framework in Frameworks */,
-				2CECF48E1EAAF74000FE8BF0 /* RxCocoa.framework in Frameworks */,
 				2C5C55F21EF31DE200941012 /* libz.tbd in Frameworks */,
+				2C2BFD8C1F0323AD00D8387E /* RxCocoa.framework in Frameworks */,
+				2C2BFD8D1F0323AD00D8387E /* RxSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -167,8 +167,8 @@
 			files = (
 				2CE38EF81E16690900EDFC3D /* Swifter.framework in Frameworks */,
 				2CE38E8E1E16613800EDFC3D /* NSMWebservice.framework in Frameworks */,
-				2C8F328E1EA9CBB5000150B1 /* RxSwift.framework in Frameworks */,
-				2CECF48F1EAAF77100FE8BF0 /* RxCocoa.framework in Frameworks */,
+				2CB635291F036D7200591B71 /* RxCocoa.framework in Frameworks */,
+				2CB635301F036D7600591B71 /* RxSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -178,9 +178,9 @@
 		2C059F4F1E1798F500F18CD3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2C2BFD8A1F03238400D8387E /* RxCocoa.framework */,
+				2C2BFD8B1F03238400D8387E /* RxSwift.framework */,
 				2C5C55F11EF31DB300941012 /* libz.tbd */,
-				2CECF48D1EAAF74000FE8BF0 /* RxCocoa.framework */,
-				2C8F328A1EA9A3A6000150B1 /* RxSwift.framework */,
 				2C7FFACE1E276A0800CD967B /* CFNetwork.framework */,
 			);
 			name = Frameworks;
@@ -372,18 +372,19 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0820;
-				LastUpgradeCheck = 0820;
+				LastUpgradeCheck = 0900;
 				ORGANIZATIONNAME = nesiumdotcom;
 				TargetAttributes = {
 					2CE38E831E16613800EDFC3D = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = EMF866L2YQ;
+						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 					};
 					2CE38E8C1E16613800EDFC3D = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = EMF866L2YQ;
-						LastSwiftMigration = 0820;
+						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -583,7 +584,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -591,7 +594,11 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -636,7 +643,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -644,7 +653,11 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -693,7 +706,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.nesium.NSMWebservice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -717,7 +730,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.nesium.NSMWebservice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};
@@ -734,7 +747,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.nesium.NSMWebserviceTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -751,7 +764,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.nesium.NSMWebserviceTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};

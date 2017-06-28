@@ -143,7 +143,8 @@ final public class Session: WebserviceSession {
     var urlRequest = URLRequest(url: url)
     urlRequest.timeoutInterval = timeoutInterval
 
-    headerFields.forEach { key, value in
+    headerFields.forEach { (arg) in
+      let (key, value) = arg
       urlRequest.setValue(value, forHTTPHeaderField: key)
     }
 
