@@ -237,7 +237,7 @@ fileprivate class WebservicePromise<ItemType, ResultType> {
     let obj: Any
     do {
       assert(!Thread.isMainThread)
-      try obj = JSONSerialization.jsonObject(with: data!, options: [])
+      try obj = JSONSerialization.jsonObject(with: data!, options: [.allowFragments])
     } catch let parseError as NSError {
       fail(parseError)
       return
@@ -272,15 +272,20 @@ fileprivate class WebservicePromise<ItemType, ResultType> {
 
 
 fileprivate class ItemPromise<ItemType>: WebservicePromise<ItemType, ItemType> {
-
   override func fulfillWithJSONObject(_ obj: Any, headers: [String: String]?,
     statusCode: HTTPStatus) throws {
-    guard let dict = obj as? [String: Any] else {
-      throw ParseError.invalidLeafType
+    let result: ItemType
+    switch obj {
+      case let dict as [String: Any]:
+        result = try deserializer.deserialize(dict)
+      case let item as ItemType:
+        result = item
+      default:
+        throw ParseError.invalidRootType
     }
-    let result: ItemType = try deserializer.deserialize(dict)
+
     self.fulfill(WebserviceResponse(
-    	data: result,
+      data: result,
       headerFields: headers ?? [:],
       statusCode: statusCode))
   }
@@ -289,7 +294,6 @@ fileprivate class ItemPromise<ItemType>: WebservicePromise<ItemType, ItemType> {
 
 
 fileprivate class CollectionPromise<ItemType>: WebservicePromise<ItemType, [ItemType]> {
-
   override func fulfillWithJSONObject(_ obj: Any, headers: [String: String]?,
     statusCode: HTTPStatus) throws {
     guard let arr = obj as? [[String: Any]] else {
@@ -303,7 +307,7 @@ fileprivate class CollectionPromise<ItemType>: WebservicePromise<ItemType, [Item
     }
 
     self.fulfill(WebserviceResponse(
-    	data: result,
+      data: result,
       headerFields: headers ?? [:],
       statusCode: statusCode))
   }
@@ -312,7 +316,6 @@ fileprivate class CollectionPromise<ItemType>: WebservicePromise<ItemType, [Item
 
 
 internal struct JSONDeserializer {
-
   private let deserializationContext: Any?
 
   internal init(deserializationContext: Any?) {

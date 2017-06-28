@@ -22,7 +22,7 @@ class MyClass: JSONConvertible {
     self.c = nil
   }
 
-  required init(decoder: JSONDecoder) throws {
+  required init(decoder: NSMWebservice.JSONDecoder) throws {
     self.a = try decoder.decode("a")
     self.b = try decoder.decode("b")
     self.c = try decoder.decode("c")
@@ -30,7 +30,7 @@ class MyClass: JSONConvertible {
     XCTAssert(decoder.deserializationContext is MyContext)
   }
 
-  func encode(encoder: JSONEncoder) throws {
+  func encode(encoder: NSMWebservice.JSONEncoder) throws {
     try encoder.encode("a", a)
     try encoder.encode("b", b)
     try encoder.encode("c", c)
@@ -55,6 +55,11 @@ class NSMWebserviceTests: XCTestCase {
     session.gzipRequests = false
 
     server = HttpServer()
+    server["/testReturnString"] = { req in
+      HttpResponse.raw(200, "OK", ["Content-Type": "application/json"]) {
+        try $0.write([UInt8]("\"Hello World\"".utf8))
+      }
+    }
     server["/testSuccessfulDeserialization"] = { req in
       HttpResponse.raw(200, "OK", ["Content-Type": "application/json"]) {
         try $0.write([UInt8]("{\"a\": \"A\", \"b\": 123}".utf8))
@@ -106,6 +111,28 @@ class NSMWebserviceTests: XCTestCase {
 
   override func tearDown() {
     server.stop()
+  }
+
+  func testStringAsRootObject() {
+    let fetchExpectation = expectation(description: "Fetch Item")
+    var responseReceived: Bool = false
+
+    _ = session.request(String.self, path: "/testReturnString",
+      deserializationContext: MyContext()).subscribe(
+        onNext: { resp in
+          XCTAssertEqual(resp.data, "Hello World")
+          responseReceived = true
+        },
+        onError: { error in
+          XCTFail(error.localizedDescription)
+          fetchExpectation.fulfill()
+        },
+        onCompleted: {
+          XCTAssertTrue(responseReceived)
+          fetchExpectation.fulfill()
+        })
+
+    waitForExpectations(timeout: 1)
   }
 
   func testSuccessfulDeserializationWithCallbackOnBackgroundThread() {

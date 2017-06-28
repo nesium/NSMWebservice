@@ -35,18 +35,18 @@ class JSONCodingTests: XCTestCase {
   }
 
   func testJSONValueArrayCoding() {
-    let (dec, dict): (JSONDecoder, [String: [String]]) = try! decoder(for: "string_array")
+    let (dec, dict): (NSMWebservice.JSONDecoder, [String: [String]]) = try! decoder(for: "string_array")
     let obj: JSONValueConvertibleArray<String> = try! JSONValueConvertibleArray(decoder: dec)
     XCTAssertEqual(obj.value, ["Hello", "World"])
     XCTAssertEqual(obj.optionalValue!, ["Hello", "World"])
 
-    let enc: JSONEncoder = JSONEncoder(className: "string_array")
+    let enc: NSMWebservice.JSONEncoder = JSONEncoder(className: "string_array")
     try! obj.encode(encoder: enc)
     XCTAssertEqual(dict["items"]!, (enc.jsonDictionary as! [String: [String]])["items"]!)
   }
 
   func testJSONConvertibleCoding() {
-    let (dec, _): (JSONDecoder, [String: Any]) = try! decoder(for: "json_convertible")
+    let (dec, _): (NSMWebservice.JSONDecoder, [String: Any]) = try! decoder(for: "json_convertible")
     let obj: Company = try! Company(decoder: dec)
     XCTAssertEqual(obj, Company(name: "Apple", employees: [
       Employee(name: "Tim Cook", salary: 1300000),
@@ -54,7 +54,7 @@ class JSONCodingTests: XCTestCase {
       Employee(name: "Phil Schiller", salary: 1100000)
     ]))
 
-    let enc: JSONEncoder = JSONEncoder(className: "string_array")
+    let enc: NSMWebservice.JSONEncoder = JSONEncoder(className: "string_array")
     try! obj.encode(encoder: enc)
     let result: [String: Any] = enc.jsonDictionary
 
@@ -73,29 +73,33 @@ class JSONCodingTests: XCTestCase {
   }
 
   func testValueTransformerCoding() {
-    let (dec, dict): (JSONDecoder, [String: String]) = try! decoder(for: "value_transformer")
-    let obj: OrdinalJSONConvertible = try! OrdinalJSONConvertible(decoder: dec)
-    XCTAssertEqual(obj.value, 101)
-    XCTAssertEqual(obj.optionalValue, 101)
+    let (dec, dict): (NSMWebservice.JSONDecoder, [String: String]) = try! decoder(for: "value_transformer")
+    do {
+      let obj: OrdinalJSONConvertible = try OrdinalJSONConvertible(decoder: dec)
+      XCTAssertEqual(obj.value, 101)
+      XCTAssertEqual(obj.optionalValue, 101)
 
-    let enc: JSONEncoder = JSONEncoder(className: "value_transformer")
-    try! obj.encode(encoder: enc)
-    XCTAssertEqual(dict, (enc.jsonDictionary as! [String: String]))
+      let enc: NSMWebservice.JSONEncoder = JSONEncoder(className: "value_transformer")
+      try obj.encode(encoder: enc)
+      XCTAssertEqual(dict, (enc.jsonDictionary as! [String: String]))
+    } catch {
+      XCTFail(error.localizedDescription)
+    }
   }
 
   func testURLCoding() {
-    let (dec, dict): (JSONDecoder, [String: String]) = try! decoder(for: "url")
+    let (dec, dict): (NSMWebservice.JSONDecoder, [String: String]) = try! decoder(for: "url")
     let obj: URLJSONConvertible = try! URLJSONConvertible(decoder: dec)
     XCTAssertEqual(obj.value,
     	URL(string: "https://www.example.com/path?arg1=0&arg2=hello%20world")!)
 
-    let enc: JSONEncoder = JSONEncoder(className: "url")
+    let enc: NSMWebservice.JSONEncoder = JSONEncoder(className: "url")
     try! obj.encode(encoder: enc)
     XCTAssertEqual(dict, (enc.jsonDictionary as! [String: String]))
   }
 
   func testDateCoding() {
-    let (dec, dict): (JSONDecoder, [String: String]) = try! decoder(for: "date")
+    let (dec, dict): (NSMWebservice.JSONDecoder, [String: String]) = try! decoder(for: "date")
     let obj: DateJSONConvertible = try! DateJSONConvertible(decoder: dec)
 
     let components: DateComponents = DateComponents(
@@ -111,7 +115,7 @@ class JSONCodingTests: XCTestCase {
 
     XCTAssertEqual(obj.value.timeIntervalSince1970, date.timeIntervalSince1970)
 
-    let enc: JSONEncoder = JSONEncoder(className: "date")
+    let enc: NSMWebservice.JSONEncoder = JSONEncoder(className: "date")
     try! obj.encode(encoder: enc)
     XCTAssertEqual(dict, (enc.jsonDictionary as! [String: String]))
   }
@@ -123,7 +127,7 @@ fileprivate struct JSONValueConvertible<T: JSONValue>: JSONConvertible {
   let value: T
   let optionalValue: T?
 
-  init(decoder: JSONDecoder) throws {
+  init(decoder: NSMWebservice.JSONDecoder) throws {
     self.value = try decoder.decode("item")
     self.optionalValue = try decoder.decode("item")
 
@@ -143,7 +147,7 @@ fileprivate struct JSONValueConvertible<T: JSONValue>: JSONConvertible {
     }
   }
 
-  func encode(encoder: JSONEncoder) throws {
+  func encode(encoder: NSMWebservice.JSONEncoder) throws {
     try encoder.encode("item", self.value)
   }
 }
@@ -153,7 +157,7 @@ fileprivate struct JSONValueConvertibleArray<T: JSONValue>: JSONConvertible {
   let value: [T]
   let optionalValue: [T]?
 
-  init(decoder: JSONDecoder) throws {
+  init(decoder: NSMWebservice.JSONDecoder) throws {
     self.value = try decoder.decode("items")
     self.optionalValue = try decoder.decode("items")
 
@@ -173,7 +177,7 @@ fileprivate struct JSONValueConvertibleArray<T: JSONValue>: JSONConvertible {
     }
   }
 
-  func encode(encoder: JSONEncoder) throws {
+  func encode(encoder: NSMWebservice.JSONEncoder) throws {
     try encoder.encode("items", self.value)
   }
 }
@@ -188,12 +192,12 @@ fileprivate struct Company: JSONConvertible, Equatable {
     self.employees = employees
   }
 
-  init(decoder: JSONDecoder) throws {
+  init(decoder: NSMWebservice.JSONDecoder) throws {
     self.name = try decoder.decode("name")
     self.employees = try decoder.decode("employees")
   }
 
-  func encode(encoder: JSONEncoder) throws {
+  func encode(encoder: NSMWebservice.JSONEncoder) throws {
     try encoder.encode("name", self.name)
     try encoder.encode("employees", self.employees)
   }
@@ -213,12 +217,12 @@ fileprivate struct Employee: JSONConvertible, Equatable {
     self.salary = salary
   }
 
-  init(decoder: JSONDecoder) throws {
+  init(decoder: NSMWebservice.JSONDecoder) throws {
     self.name = try decoder.decode("name")
     self.salary = try decoder.decode("salary")
   }
 
-  func encode(encoder: JSONEncoder) throws {
+  func encode(encoder: NSMWebservice.JSONEncoder) throws {
     try encoder.encode("name", self.name)
     try encoder.encode("salary", self.salary)
   }
@@ -232,11 +236,11 @@ fileprivate struct Employee: JSONConvertible, Equatable {
 fileprivate struct URLJSONConvertible: JSONConvertible {
   let value: URL
 
-  init(decoder: JSONDecoder) throws {
+  init(decoder: NSMWebservice.JSONDecoder) throws {
     self.value = try decoder.decode("item")
   }
 
-  func encode(encoder: JSONEncoder) throws {
+  func encode(encoder: NSMWebservice.JSONEncoder) throws {
     try encoder.encode("item", self.value)
   }
 }
@@ -245,11 +249,11 @@ fileprivate struct URLJSONConvertible: JSONConvertible {
 fileprivate struct DateJSONConvertible: JSONConvertible {
   let value: Date
 
-  init(decoder: JSONDecoder) throws {
+  init(decoder: NSMWebservice.JSONDecoder) throws {
     self.value = try decoder.decode("item")
   }
 
-  func encode(encoder: JSONEncoder) throws {
+  func encode(encoder: NSMWebservice.JSONEncoder) throws {
     try encoder.encode("item", self.value)
   }
 }
@@ -258,12 +262,12 @@ fileprivate struct OrdinalJSONConvertible: JSONConvertible {
   let value: Int
   let optionalValue: Int?
 
-  init(decoder: JSONDecoder) throws {
+  init(decoder: NSMWebservice.JSONDecoder) throws {
     self.value = try decoder.decode("item", transformer: OrdinalNumberTransformer())
     self.optionalValue = try decoder.decode("item", transformer: OrdinalNumberTransformer())
   }
 
-  func encode(encoder: JSONEncoder) throws {
+  func encode(encoder: NSMWebservice.JSONEncoder) throws {
     try encoder.encode("item", self.value, transformer: OrdinalNumberTransformer())
   }
 }
@@ -282,6 +286,7 @@ fileprivate struct OrdinalNumberTransformer: NSMWebservice.ValueTransformer {
   typealias OutType = Int
 
   func transformedValue(_ value: String) throws -> Int {
+    print(Locale.current)
     let formatter: NumberFormatter = NumberFormatter()
     formatter.numberStyle = .ordinal
     return try formatter.objectValueForString(value)
@@ -297,12 +302,12 @@ fileprivate struct OrdinalNumberTransformer: NSMWebservice.ValueTransformer {
 
 fileprivate func testJSONValueCoding<T>(name: String, expectedValue: T) throws -> Bool
 	where T: JSONValue & Equatable {
-  let (dec, dict): (JSONDecoder, [String: T]) = try decoder(for: name)
+  let (dec, dict): (NSMWebservice.JSONDecoder, [String: T]) = try decoder(for: name)
   let obj: JSONValueConvertible<T> = try JSONValueConvertible(decoder: dec)
   XCTAssertEqual(obj.value, expectedValue)
   XCTAssertEqual(obj.optionalValue, expectedValue)
 
-  let enc: JSONEncoder = JSONEncoder(className: name)
+  let enc: NSMWebservice.JSONEncoder = JSONEncoder(className: name)
   try obj.encode(encoder: enc)
   XCTAssertEqual(dict, enc.jsonDictionary as! [String: T])
 
@@ -310,7 +315,7 @@ fileprivate func testJSONValueCoding<T>(name: String, expectedValue: T) throws -
 }
 
 
-fileprivate func decoder<T>(for name: String) throws -> (JSONDecoder, [String: T]) {
+fileprivate func decoder<T>(for name: String) throws -> (NSMWebservice.JSONDecoder, [String: T]) {
   guard let path: String =
   	Bundle(for: JSONCodingTests.self).path(forResource: name, ofType: "json") else {
     throw TestError("Could not find JSON file with name \(name)")
@@ -327,7 +332,7 @@ fileprivate func decoder<T>(for name: String) throws -> (JSONDecoder, [String: T
   }
 
   let deserializer: JSONDeserializer = JSONDeserializer(deserializationContext: nil)
-  let decoder: JSONDecoder = JSONDecoder(dict, className: name, deserializer: deserializer,
+  let decoder: NSMWebservice.JSONDecoder = JSONDecoder(dict, className: name, deserializer: deserializer,
   	deserializationContext: nil)
 
   return (decoder, dict)

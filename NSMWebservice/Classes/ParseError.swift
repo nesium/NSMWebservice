@@ -8,7 +8,6 @@
 
 public enum ParseError: LocalizedError {
   case invalidRootType
-  case invalidLeafType
   case unexpectedResponse
   case missingJSONConvertibleConformance(givenClassName: String)
   case missingField(String, cls: String)
@@ -19,8 +18,6 @@ public enum ParseError: LocalizedError {
     switch self {
       case .invalidRootType:
         return "Invalid Root Type"
-      case .invalidLeafType:
-        return "Invalid Leaf Type"
       case .unexpectedResponse:
         return "Unexpected Response"
       case .missingJSONConvertibleConformance(let className):
