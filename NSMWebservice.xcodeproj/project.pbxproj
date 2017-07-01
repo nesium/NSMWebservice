@@ -15,6 +15,7 @@
 		2C5C55F21EF31DE200941012 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C5C55F11EF31DB300941012 /* libz.tbd */; };
 		2C7FFAC71E27667B00CD967B /* NSError+Webservice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7FFAC61E27667B00CD967B /* NSError+Webservice.swift */; };
 		2C8F328D1EA9A5BB000150B1 /* HTTPError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8F328C1EA9A5BB000150B1 /* HTTPError.swift */; };
+		2CA6C7ED1F083BD200F6591E /* KeychainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA6C7EC1F083BD200F6591E /* KeychainTests.swift */; };
 		2CB2396D1E1A2B9600059072 /* HTTPStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB2396C1E1A2B9600059072 /* HTTPStatus.swift */; };
 		2CB635291F036D7200591B71 /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C2BFD8A1F03238400D8387E /* RxCocoa.framework */; };
 		2CB635301F036D7600591B71 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C2BFD8B1F03238400D8387E /* RxSwift.framework */; };
@@ -235,9 +236,10 @@
 		2CE38E911E16613800EDFC3D /* NSMWebserviceTests */ = {
 			isa = PBXGroup;
 			children = (
-				2CE38E921E16613800EDFC3D /* NSMWebserviceTests.swift */,
-				2CECF4641EAA989700FE8BF0 /* JSONCodingTests.swift */,
 				2CE38E941E16613800EDFC3D /* Info.plist */,
+				2CECF4641EAA989700FE8BF0 /* JSONCodingTests.swift */,
+				2CA6C7EC1F083BD200F6591E /* KeychainTests.swift */,
+				2CE38E921E16613800EDFC3D /* NSMWebserviceTests.swift */,
 				2CE38EDB1E1668E800EDFC3D /* Swifter.xcodeproj */,
 				2CECF4671EAA9B6B00FE8BF0 /* Test Data */,
 			);
@@ -556,6 +558,7 @@
 			files = (
 				2CE38E931E16613800EDFC3D /* NSMWebserviceTests.swift in Sources */,
 				2CECF4651EAA989700FE8BF0 /* JSONCodingTests.swift in Sources */,
+				2CA6C7ED1F083BD200F6591E /* KeychainTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

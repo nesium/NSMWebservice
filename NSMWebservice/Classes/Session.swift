@@ -332,4 +332,12 @@ internal struct JSONDeserializer {
       deserializer: self, deserializationContext: deserializationContext)
     return try clazz.init(decoder: decoder) as! T
   }
+
+  internal func deserialize<T>(_ data: Data) throws -> T {
+    guard let dict =
+      try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] else {
+      throw ParseError.invalidRootType
+    }
+    return try self.deserialize(dict)
+  }
 }

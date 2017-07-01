@@ -22,9 +22,18 @@ public extension JSONConvertible {
     return encoder.jsonDictionary
   }
 
+  public func JSONData(options: JSONSerialization.WritingOptions = []) throws -> Data {
+    return try JSONSerialization.data(withJSONObject: self.JSONObject(), options: options)
+  }
+
   public static func fromJSONObject(_ dict: [String: Any]) throws -> Self {
     let deserializer = JSONDeserializer(deserializationContext: nil)
     return try deserializer.deserialize(dict)
+  }
+
+  public static func fromJSONData(_ data: Data) throws -> Self {
+    let deserializer = JSONDeserializer(deserializationContext: nil)
+    return try deserializer.deserialize(data)
   }
 
   public static func fromJSONObject(_ arr: [[String: Any]]) throws -> [Self] {
