@@ -11,6 +11,11 @@
 		2C2BFD8D1F0323AD00D8387E /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C2BFD8B1F03238400D8387E /* RxSwift.framework */; };
 		2C36FFFC1E23689000D37BF0 /* WebserviceSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C36FFFB1E23689000D37BF0 /* WebserviceSession.swift */; };
 		2C4027951E18DC480030E7C8 /* JSONCoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4027941E18DC480030E7C8 /* JSONCoder.swift */; };
+		2C5A09C71F0849DB00660E6A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5A09C61F0849DB00660E6A /* AppDelegate.swift */; };
+		2C5A09C91F0849DB00660E6A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5A09C81F0849DB00660E6A /* ViewController.swift */; };
+		2C5A09CC1F0849DB00660E6A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2C5A09CA1F0849DB00660E6A /* Main.storyboard */; };
+		2C5A09CE1F0849DB00660E6A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2C5A09CD1F0849DB00660E6A /* Assets.xcassets */; };
+		2C5A09D11F0849DB00660E6A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2C5A09CF1F0849DB00660E6A /* LaunchScreen.storyboard */; };
 		2C5C55EA1EF31D7900941012 /* Data+Gzip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C5C55E91EF2F7A100941012 /* Data+Gzip.swift */; };
 		2C5C55F21EF31DE200941012 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C5C55F11EF31DB300941012 /* libz.tbd */; };
 		2C7FFAC71E27667B00CD967B /* NSError+Webservice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7FFAC61E27667B00CD967B /* NSError+Webservice.swift */; };
@@ -46,6 +51,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		2C5A09D61F084A0100660E6A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2CE38E7B1E16613800EDFC3D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2C5A09C31F0849DB00660E6A;
+			remoteInfo = TestHost;
+		};
 		2CE38E8F1E16613800EDFC3D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2CE38E7B1E16613800EDFC3D /* Project object */;
@@ -116,11 +128,20 @@
 		2C2BFD8B1F03238400D8387E /* RxSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxSwift.framework; path = Carthage/Build/iOS/RxSwift.framework; sourceTree = "<group>"; };
 		2C36FFFB1E23689000D37BF0 /* WebserviceSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebserviceSession.swift; sourceTree = "<group>"; };
 		2C4027941E18DC480030E7C8 /* JSONCoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONCoder.swift; sourceTree = "<group>"; };
+		2C5A09C41F0849DB00660E6A /* TestHost.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestHost.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2C5A09C61F0849DB00660E6A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		2C5A09C81F0849DB00660E6A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		2C5A09CB1F0849DB00660E6A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		2C5A09CD1F0849DB00660E6A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		2C5A09D01F0849DB00660E6A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		2C5A09D21F0849DB00660E6A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2C5A09D81F084A7B00660E6A /* TestHost.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TestHost.entitlements; sourceTree = "<group>"; };
 		2C5C55E91EF2F7A100941012 /* Data+Gzip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Gzip.swift"; sourceTree = "<group>"; };
 		2C5C55F11EF31DB300941012 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		2C7FFAC61E27667B00CD967B /* NSError+Webservice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSError+Webservice.swift"; sourceTree = "<group>"; };
 		2C7FFACE1E276A0800CD967B /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		2C8F328C1EA9A5BB000150B1 /* HTTPError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPError.swift; sourceTree = "<group>"; };
+		2CA6C7EC1F083BD200F6591E /* KeychainTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainTests.swift; sourceTree = "<group>"; };
 		2CB2396C1E1A2B9600059072 /* HTTPStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPStatus.swift; sourceTree = "<group>"; };
 		2CE38E841E16613800EDFC3D /* NSMWebservice.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NSMWebservice.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2CE38E871E16613800EDFC3D /* NSMWebservice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NSMWebservice.h; sourceTree = "<group>"; };
@@ -152,6 +173,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		2C5A09C11F0849DB00660E6A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		2CE38E801E16613800EDFC3D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -187,6 +215,20 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		2C5A09C51F0849DB00660E6A /* TestHost */ = {
+			isa = PBXGroup;
+			children = (
+				2C5A09D81F084A7B00660E6A /* TestHost.entitlements */,
+				2C5A09C61F0849DB00660E6A /* AppDelegate.swift */,
+				2C5A09C81F0849DB00660E6A /* ViewController.swift */,
+				2C5A09CA1F0849DB00660E6A /* Main.storyboard */,
+				2C5A09CD1F0849DB00660E6A /* Assets.xcassets */,
+				2C5A09CF1F0849DB00660E6A /* LaunchScreen.storyboard */,
+				2C5A09D21F0849DB00660E6A /* Info.plist */,
+			);
+			path = TestHost;
+			sourceTree = "<group>";
+		};
 		2C5C55E01EF2F76800941012 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
@@ -208,6 +250,7 @@
 			children = (
 				2CE38E861E16613800EDFC3D /* NSMWebservice */,
 				2CE38E911E16613800EDFC3D /* NSMWebserviceTests */,
+				2C5A09C51F0849DB00660E6A /* TestHost */,
 				2CE38E851E16613800EDFC3D /* Products */,
 				2C059F4F1E1798F500F18CD3 /* Frameworks */,
 			);
@@ -218,6 +261,7 @@
 			children = (
 				2CE38E841E16613800EDFC3D /* NSMWebservice.framework */,
 				2CE38E8D1E16613800EDFC3D /* NSMWebserviceTests.xctest */,
+				2C5A09C41F0849DB00660E6A /* TestHost.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -328,6 +372,24 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		2C5A09C31F0849DB00660E6A /* TestHost */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2C5A09D31F0849DB00660E6A /* Build configuration list for PBXNativeTarget "TestHost" */;
+			buildPhases = (
+				2C5A09C01F0849DB00660E6A /* Sources */,
+				2C5A09C11F0849DB00660E6A /* Frameworks */,
+				2C5A09C21F0849DB00660E6A /* Resources */,
+				2CA51D681F084BA2005D5AB5 /* Carthage */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TestHost;
+			productName = TestHost;
+			productReference = 2C5A09C41F0849DB00660E6A /* TestHost.app */;
+			productType = "com.apple.product-type.application";
+		};
 		2CE38E831E16613800EDFC3D /* NSMWebservice */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2CE38E981E16613800EDFC3D /* Build configuration list for PBXNativeTarget "NSMWebservice" */;
@@ -336,7 +398,6 @@
 				2CE38E801E16613800EDFC3D /* Frameworks */,
 				2CE38E811E16613800EDFC3D /* Headers */,
 				2CE38E821E16613800EDFC3D /* Resources */,
-				2C059F481E1798A000F18CD3 /* Punic / Carthage */,
 			);
 			buildRules = (
 			);
@@ -354,11 +415,11 @@
 				2CE38E891E16613800EDFC3D /* Sources */,
 				2CE38E8A1E16613800EDFC3D /* Frameworks */,
 				2CE38E8B1E16613800EDFC3D /* Resources */,
-				2C059F5B1E17CC5800F18CD3 /* Carthage */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				2C5A09D71F084A0100660E6A /* PBXTargetDependency */,
 				2CE38EF71E1668FC00EDFC3D /* PBXTargetDependency */,
 				2CE38E901E16613800EDFC3D /* PBXTargetDependency */,
 			);
@@ -373,10 +434,19 @@
 		2CE38E7B1E16613800EDFC3D /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0820;
+				LastSwiftUpdateCheck = 0900;
 				LastUpgradeCheck = 0900;
 				ORGANIZATIONNAME = nesiumdotcom;
 				TargetAttributes = {
+					2C5A09C31F0849DB00660E6A = {
+						CreatedOnToolsVersion = 9.0;
+						DevelopmentTeam = EMF866L2YQ;
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 1;
+							};
+						};
+					};
 					2CE38E831E16613800EDFC3D = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = EMF866L2YQ;
@@ -388,6 +458,7 @@
 						DevelopmentTeam = EMF866L2YQ;
 						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
+						TestTargetID = 2C5A09C31F0849DB00660E6A;
 					};
 				};
 			};
@@ -397,6 +468,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 2CE38E7A1E16613800EDFC3D;
 			productRefGroup = 2CE38E851E16613800EDFC3D /* Products */;
@@ -411,6 +483,7 @@
 			targets = (
 				2CE38E831E16613800EDFC3D /* NSMWebservice */,
 				2CE38E8C1E16613800EDFC3D /* NSMWebserviceTests */,
+				2C5A09C31F0849DB00660E6A /* TestHost */,
 			);
 		};
 /* End PBXProject section */
@@ -468,6 +541,16 @@
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
+		2C5A09C21F0849DB00660E6A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2C5A09D11F0849DB00660E6A /* LaunchScreen.storyboard in Resources */,
+				2C5A09CE1F0849DB00660E6A /* Assets.xcassets in Resources */,
+				2C5A09CC1F0849DB00660E6A /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		2CE38E821E16613800EDFC3D /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -496,23 +579,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		2C059F481E1798A000F18CD3 /* Punic / Carthage */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/RxSwift.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/RxCocoa.framework",
-			);
-			name = "Punic / Carthage";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks";
-		};
-		2C059F5B1E17CC5800F18CD3 /* Carthage */ = {
+		2CA51D681F084BA2005D5AB5 /* Carthage */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -526,11 +593,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "[ \"${CARTHAGE}\" == \"YES\" ] && exit 0\n\nif [ -n \"${CIRCLECI}\" ]; then\n    /usr/local/bin/carthage copy-frameworks\nelse\n    /usr/local/bin/punic copy-frameworks\nfi";
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
 		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		2C5A09C01F0849DB00660E6A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2C5A09C91F0849DB00660E6A /* ViewController.swift in Sources */,
+				2C5A09C71F0849DB00660E6A /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		2CE38E7F1E16613800EDFC3D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -565,6 +641,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		2C5A09D71F084A0100660E6A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2C5A09C31F0849DB00660E6A /* TestHost */;
+			targetProxy = 2C5A09D61F084A0100660E6A /* PBXContainerItemProxy */;
+		};
 		2CE38E901E16613800EDFC3D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 2CE38E831E16613800EDFC3D /* NSMWebservice */;
@@ -577,7 +658,68 @@
 		};
 /* End PBXTargetDependency section */
 
+/* Begin PBXVariantGroup section */
+		2C5A09CA1F0849DB00660E6A /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2C5A09CB1F0849DB00660E6A /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		2C5A09CF1F0849DB00660E6A /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2C5A09D01F0849DB00660E6A /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
+		2C5A09D41F0849DB00660E6A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = TestHost/TestHost.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = EMF866L2YQ;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = TestHost/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.nesium.TestHost;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		2C5A09D51F0849DB00660E6A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = TestHost/TestHost.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = EMF866L2YQ;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = TestHost/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.nesium.TestHost;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		2CE38E961E16613800EDFC3D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -631,6 +773,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -682,6 +825,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -709,7 +853,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.nesium.NSMWebservice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -733,7 +876,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.nesium.NSMWebservice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};
@@ -750,7 +892,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.nesium.NSMWebserviceTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TestHost.app/TestHost";
 			};
 			name = Debug;
 		};
@@ -767,13 +909,22 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.nesium.NSMWebserviceTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TestHost.app/TestHost";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		2C5A09D31F0849DB00660E6A /* Build configuration list for PBXNativeTarget "TestHost" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2C5A09D41F0849DB00660E6A /* Debug */,
+				2C5A09D51F0849DB00660E6A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		2CE38E7E1E16613800EDFC3D /* Build configuration list for PBXProject "NSMWebservice" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

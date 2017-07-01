@@ -286,7 +286,6 @@ fileprivate struct OrdinalNumberTransformer: NSMWebservice.ValueTransformer {
   typealias OutType = Int
 
   func transformedValue(_ value: String) throws -> Int {
-    print(Locale.current)
     let formatter: NumberFormatter = NumberFormatter()
     formatter.numberStyle = .ordinal
     return try formatter.objectValueForString(value)
