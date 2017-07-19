@@ -72,11 +72,11 @@ public enum HTTPStatus: Int, CustomStringConvertible {
   case NetworkAuthenticationRequired = 511
   case UnknownError = 10000
 
-  var isSuccess: Bool {
+  public var isSuccess: Bool {
     return self.rawValue < 300
   }
 
-  var isError: Bool {
+  public var isError: Bool {
     return self.rawValue >= 300
   }
 
