@@ -12,6 +12,11 @@ public struct HTTPError: LocalizedError, CustomStringConvertible {
   public let headerFields: [String: String]
   public let statusCode: HTTPStatus
 
+  public init(headerFields: [String: String], statusCode: HTTPStatus) {
+    self.headerFields = headerFields
+    self.statusCode = statusCode
+  }
+
   public var description: String {
     return "The request failed. The server responded with status code \(statusCode.description)."
   }
