@@ -58,6 +58,7 @@ public enum HTTPStatus: Int, CustomStringConvertible {
   case PreconditionRequired = 428
   case TooManyRequests = 429
   case RequestHeaderFieldsTooLarge = 431
+  case LoginTimeOut = 440
   case UnavailableForLegalReasons = 451
   case InternalServerError = 500
   case NotImplemented = 501
@@ -182,6 +183,8 @@ public enum HTTPStatus: Int, CustomStringConvertible {
         msg = "Too Many Requests"
       case .RequestHeaderFieldsTooLarge:
         msg = "Request Header Fields Too Large"
+      case .LoginTimeOut:
+        msg = "Login Time-out"
       case .UnavailableForLegalReasons:
         msg = "Unavailable For Legal Reasons"
       case .InternalServerError:
