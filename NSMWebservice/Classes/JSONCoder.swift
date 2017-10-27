@@ -21,12 +21,20 @@ extension Double: JSONValue {}
 extension Float: JSONValue {}
 extension Bool: JSONValue {}
 
+extension NSDictionary: JSONValue {}
+extension NSString: JSONValue {}
+extension NSNumber: JSONValue {}
+
 private let dateTransformer: ISO8601DateTimeTransformer = {
   return ISO8601DateTimeTransformer()
 }()
 
 private let urlTransformer: URLTransformer = {
   return URLTransformer()
+}()
+
+private let dictionaryTransformer: JSONDictionaryTransformer = {
+  return JSONDictionaryTransformer()
 }()
 
 public class JSONDecoder {
@@ -197,6 +205,14 @@ public class JSONDecoder {
   public func decode(_ key: String) throws -> URL? {
     return try decode(key, transformer: urlTransformer)
   }
+
+  public func decode(_ key: String) throws -> JSONDictionary {
+    return try decode(key, transformer: dictionaryTransformer)
+  }
+
+  public func decode(_ key: String) throws -> JSONDictionary? {
+    return try decode(key, transformer: dictionaryTransformer)
+  }
 }
 
 
@@ -260,5 +276,9 @@ public class JSONEncoder {
 
   public func encode(_ key: String, _ value: URL?) throws {
     try encode(key, value, transformer: urlTransformer)
+  }
+
+  public func encode(_ key: String, _ value: JSONDictionary?) throws {
+    try encode(key, value, transformer: dictionaryTransformer)
   }
 }

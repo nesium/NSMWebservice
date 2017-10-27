@@ -22,12 +22,19 @@ public struct Keychain {
     public let password: String?
     public let token: String?
     public let refreshToken: String?
+    public let userInfo: JSONDictionary?
 
-    public init(account: String, password: String?, token: String?, refreshToken: String?) {
+    public init(
+      account: String,
+      password: String?,
+      token: String?,
+      refreshToken: String?,
+      userInfo: JSONDictionary?) {
       self.account = account
       self.password = password
       self.token = token
       self.refreshToken = refreshToken
+      self.userInfo = userInfo
     }
   }
 
@@ -131,6 +138,7 @@ extension Keychain.Item: JSONConvertible {
     self.password = try decoder.decode("pw")
     self.token = try decoder.decode("tok")
     self.refreshToken = try decoder.decode("rtok")
+    self.userInfo = try decoder.decode("ui")
   }
 
   public func encode(encoder: JSONEncoder) throws {
@@ -138,6 +146,7 @@ extension Keychain.Item: JSONConvertible {
     try encoder.encode("pw", self.password)
     try encoder.encode("tok", self.token)
     try encoder.encode("rtok", self.refreshToken)
+    try encoder.encode("ui", self.userInfo)
   }
 }
 

@@ -10,6 +10,54 @@ import Foundation
 
 public protocol JSONCompatible {}
 
+
+public struct JSONDictionary: Collection {
+  private var store: [String: JSONValue]
+
+  public typealias DictionaryType = Dictionary<String, JSONValue>
+  public typealias IndexDistance = DictionaryType.IndexDistance
+  public typealias Indices = DictionaryType.Indices
+  public typealias Iterator = DictionaryType.Iterator
+  public typealias SubSequence = DictionaryType.SubSequence
+
+  public var startIndex: Index { return self.store.startIndex }
+  public var endIndex: DictionaryType.Index { return self.store.endIndex }
+  public subscript(position: Index) -> Iterator.Element { return self.store[position] }
+  public subscript(bounds: Range<Index>) -> SubSequence { return self.store[bounds] }
+  public var indices: Indices { return self.store.indices }
+
+  public var dictionary: [String: JSONValue] {
+    return self.store
+  }
+
+  public init(dictionary: [String: JSONValue]) {
+    self.store = dictionary
+  }
+
+  public subscript(key: String) -> JSONValue? {
+    get { return self.store[key] }
+    set { self.store[key] = newValue }
+  }
+
+  public func index(after i: Index) -> Index {
+    return self.store.index(after: i)
+  }
+
+  public func makeIterator() -> DictionaryIterator<String, JSONValue> {
+    return self.store.makeIterator()
+  }
+
+  public typealias Index = DictionaryType.Index
+}
+
+
+extension JSONDictionary: ExpressibleByDictionaryLiteral {
+  public init(dictionaryLiteral elements: (String, JSONValue)...) {
+    self.init(dictionary: Dictionary.init(elements, uniquingKeysWith: { (key, _) in key }))
+  }
+}
+
+
 public protocol JSONConvertible: JSONCompatible {
   init(decoder: JSONDecoder) throws
   func encode(encoder: JSONEncoder) throws

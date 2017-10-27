@@ -60,3 +60,28 @@ public struct URLTransformer : ValueTransformer {
     return value.absoluteString
   }
 }
+
+
+
+internal struct JSONDictionaryTransformer: ValueTransformer {
+  public typealias InType = NSDictionary
+  public typealias OutType = JSONDictionary
+
+  public init() {}
+
+  public func transformedValue(_ value: InType) throws -> OutType {
+    var dict: [String: JSONValue] = [:]
+
+    try value.forEach { k, v in
+      guard let k = k as? String, let v = v as? JSONValue else {
+        throw ParseError.formattingFailed(msg: "'\(value)' is not a valid JSONDictionary")
+      }
+      dict[k] = v
+    }
+    return JSONDictionary(dictionary: dict)
+  }
+
+  public func reverseTransformedValue(_ value: OutType) -> InType {
+    return NSDictionary(dictionary: value.dictionary)
+  }
+}
