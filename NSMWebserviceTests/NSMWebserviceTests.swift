@@ -228,7 +228,7 @@ class NSMWebserviceTests: XCTestCase {
           fetchExpectation.fulfill()
         })
 
-    waitForExpectations(timeout: 1)
+    waitForExpectations(timeout: 3)
   }
 
   func testMissingAttribute() {
