@@ -21,6 +21,7 @@
 		2C7FFAC71E27667B00CD967B /* NSError+Webservice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7FFAC61E27667B00CD967B /* NSError+Webservice.swift */; };
 		2C8F328D1EA9A5BB000150B1 /* HTTPError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8F328C1EA9A5BB000150B1 /* HTTPError.swift */; };
 		2CA6C7ED1F083BD200F6591E /* KeychainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA6C7EC1F083BD200F6591E /* KeychainTests.swift */; };
+		2CAA073F203262F200999270 /* Swifter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CAA073E203262F200999270 /* Swifter.framework */; };
 		2CB2396D1E1A2B9600059072 /* HTTPStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB2396C1E1A2B9600059072 /* HTTPStatus.swift */; };
 		2CB635291F036D7200591B71 /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C2BFD8A1F03238400D8387E /* RxCocoa.framework */; };
 		2CB635301F036D7600591B71 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C2BFD8B1F03238400D8387E /* RxSwift.framework */; };
@@ -33,7 +34,6 @@
 		2CE38EAF1E16614700EDFC3D /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE38EA51E16614700EDFC3D /* Session.swift */; };
 		2CE38EB01E16614700EDFC3D /* Formatter+NSMWebservice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE38EA71E16614700EDFC3D /* Formatter+NSMWebservice.swift */; };
 		2CE38EB11E16614700EDFC3D /* ValueTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE38EA81E16614700EDFC3D /* ValueTransformer.swift */; };
-		2CE38EF81E16690900EDFC3D /* Swifter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CE38EED1E1668E800EDFC3D /* Swifter.framework */; };
 		2CECF4651EAA989700FE8BF0 /* JSONCodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CECF4641EAA989700FE8BF0 /* JSONCodingTests.swift */; };
 		2CECF4691EAA9B8200FE8BF0 /* string.json in Resources */ = {isa = PBXBuildFile; fileRef = 2CECF4681EAA9B8200FE8BF0 /* string.json */; };
 		2CECF46B1EAAA83800FE8BF0 /* int.json in Resources */ = {isa = PBXBuildFile; fileRef = 2CECF46A1EAAA83800FE8BF0 /* int.json */; };
@@ -65,62 +65,6 @@
 			remoteGlobalIDString = 2CE38E831E16613800EDFC3D;
 			remoteInfo = NSMWebservice;
 		};
-		2CE38EE61E1668E800EDFC3D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2CE38EDB1E1668E800EDFC3D /* Swifter.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 7C839B6E19422CFF003A6950;
-			remoteInfo = SwifterSampleiOS;
-		};
-		2CE38EEA1E1668E800EDFC3D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2CE38EDB1E1668E800EDFC3D /* Swifter.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 7CA4813B19A2EA8D0030B30D;
-			remoteInfo = SwifterSampleOSX;
-		};
-		2CE38EEC1E1668E800EDFC3D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2CE38EDB1E1668E800EDFC3D /* Swifter.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 7AE893E71C05127900A29F63;
-			remoteInfo = SwifteriOS;
-		};
-		2CE38EEE1E1668E800EDFC3D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2CE38EDB1E1668E800EDFC3D /* Swifter.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 7AE893FB1C0512C400A29F63;
-			remoteInfo = SwifterMac;
-		};
-		2CE38EF01E1668E800EDFC3D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2CE38EDB1E1668E800EDFC3D /* Swifter.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 7CCD1BC41C8F84E60016D664;
-			remoteInfo = SwiftertvOS;
-		};
-		2CE38EF21E1668E800EDFC3D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2CE38EDB1E1668E800EDFC3D /* Swifter.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 7CCD875C1C66099B0068099B;
-			remoteInfo = SwifteriOSTests;
-		};
-		2CE38EF41E1668E800EDFC3D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2CE38EDB1E1668E800EDFC3D /* Swifter.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 7CCD87791C660EA30068099B;
-			remoteInfo = SwifterOSXTests;
-		};
-		2CE38EF61E1668FC00EDFC3D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2CE38EDB1E1668E800EDFC3D /* Swifter.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 7AE893E61C05127900A29F63;
-			remoteInfo = SwifteriOS;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -142,6 +86,7 @@
 		2C7FFACE1E276A0800CD967B /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		2C8F328C1EA9A5BB000150B1 /* HTTPError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPError.swift; sourceTree = "<group>"; };
 		2CA6C7EC1F083BD200F6591E /* KeychainTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainTests.swift; sourceTree = "<group>"; };
+		2CAA073E203262F200999270 /* Swifter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Swifter.framework; path = Carthage/Build/iOS/Swifter.framework; sourceTree = "<group>"; };
 		2CB2396C1E1A2B9600059072 /* HTTPStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPStatus.swift; sourceTree = "<group>"; };
 		2CE38E841E16613800EDFC3D /* NSMWebservice.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NSMWebservice.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2CE38E871E16613800EDFC3D /* NSMWebservice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NSMWebservice.h; sourceTree = "<group>"; };
@@ -155,7 +100,6 @@
 		2CE38EA51E16614700EDFC3D /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		2CE38EA71E16614700EDFC3D /* Formatter+NSMWebservice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Formatter+NSMWebservice.swift"; sourceTree = "<group>"; };
 		2CE38EA81E16614700EDFC3D /* ValueTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValueTransformer.swift; sourceTree = "<group>"; };
-		2CE38EDB1E1668E800EDFC3D /* Swifter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Swifter.xcodeproj; path = Carthage/Checkouts/swifter/XCode/Swifter.xcodeproj; sourceTree = SOURCE_ROOT; };
 		2CECF4641EAA989700FE8BF0 /* JSONCodingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONCodingTests.swift; sourceTree = "<group>"; };
 		2CECF4681EAA9B8200FE8BF0 /* string.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = string.json; sourceTree = "<group>"; };
 		2CECF46A1EAAA83800FE8BF0 /* int.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = int.json; sourceTree = "<group>"; };
@@ -194,7 +138,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2CE38EF81E16690900EDFC3D /* Swifter.framework in Frameworks */,
+				2CAA073F203262F200999270 /* Swifter.framework in Frameworks */,
 				2CE38E8E1E16613800EDFC3D /* NSMWebservice.framework in Frameworks */,
 				2CB635291F036D7200591B71 /* RxCocoa.framework in Frameworks */,
 				2CB635301F036D7600591B71 /* RxSwift.framework in Frameworks */,
@@ -207,6 +151,7 @@
 		2C059F4F1E1798F500F18CD3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2CAA073E203262F200999270 /* Swifter.framework */,
 				2C2BFD8A1F03238400D8387E /* RxCocoa.framework */,
 				2C2BFD8B1F03238400D8387E /* RxSwift.framework */,
 				2C5C55F11EF31DB300941012 /* libz.tbd */,
@@ -284,7 +229,6 @@
 				2CECF4641EAA989700FE8BF0 /* JSONCodingTests.swift */,
 				2CA6C7EC1F083BD200F6591E /* KeychainTests.swift */,
 				2CE38E921E16613800EDFC3D /* NSMWebserviceTests.swift */,
-				2CE38EDB1E1668E800EDFC3D /* Swifter.xcodeproj */,
 				2CECF4671EAA9B6B00FE8BF0 /* Test Data */,
 			);
 			path = NSMWebserviceTests;
@@ -315,20 +259,6 @@
 				2CE38EA81E16614700EDFC3D /* ValueTransformer.swift */,
 			);
 			path = Transformers;
-			sourceTree = "<group>";
-		};
-		2CE38EDC1E1668E800EDFC3D /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				2CE38EE71E1668E800EDFC3D /* SwifterSampleiOS.app */,
-				2CE38EEB1E1668E800EDFC3D /* SwifterSampleOSX */,
-				2CE38EED1E1668E800EDFC3D /* Swifter.framework */,
-				2CE38EEF1E1668E800EDFC3D /* Swifter.framework */,
-				2CE38EF11E1668E800EDFC3D /* Swifter.framework */,
-				2CE38EF31E1668E800EDFC3D /* SwifteriOSTests.xctest */,
-				2CE38EF51E1668E800EDFC3D /* SwifterOSXTests.xctest */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		2CECF4671EAA9B6B00FE8BF0 /* Test Data */ = {
@@ -420,7 +350,6 @@
 			);
 			dependencies = (
 				2C5A09D71F084A0100660E6A /* PBXTargetDependency */,
-				2CE38EF71E1668FC00EDFC3D /* PBXTargetDependency */,
 				2CE38E901E16613800EDFC3D /* PBXTargetDependency */,
 			);
 			name = NSMWebserviceTests;
@@ -473,12 +402,6 @@
 			mainGroup = 2CE38E7A1E16613800EDFC3D;
 			productRefGroup = 2CE38E851E16613800EDFC3D /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 2CE38EDC1E1668E800EDFC3D /* Products */;
-					ProjectRef = 2CE38EDB1E1668E800EDFC3D /* Swifter.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				2CE38E831E16613800EDFC3D /* NSMWebservice */,
@@ -487,58 +410,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		2CE38EE71E1668E800EDFC3D /* SwifterSampleiOS.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = SwifterSampleiOS.app;
-			remoteRef = 2CE38EE61E1668E800EDFC3D /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		2CE38EEB1E1668E800EDFC3D /* SwifterSampleOSX */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.executable";
-			path = SwifterSampleOSX;
-			remoteRef = 2CE38EEA1E1668E800EDFC3D /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		2CE38EED1E1668E800EDFC3D /* Swifter.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Swifter.framework;
-			remoteRef = 2CE38EEC1E1668E800EDFC3D /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		2CE38EEF1E1668E800EDFC3D /* Swifter.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Swifter.framework;
-			remoteRef = 2CE38EEE1E1668E800EDFC3D /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		2CE38EF11E1668E800EDFC3D /* Swifter.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Swifter.framework;
-			remoteRef = 2CE38EF01E1668E800EDFC3D /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		2CE38EF31E1668E800EDFC3D /* SwifteriOSTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = SwifteriOSTests.xctest;
-			remoteRef = 2CE38EF21E1668E800EDFC3D /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		2CE38EF51E1668E800EDFC3D /* SwifterOSXTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = SwifterOSXTests.xctest;
-			remoteRef = 2CE38EF41E1668E800EDFC3D /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		2C5A09C21F0849DB00660E6A /* Resources */ = {
@@ -587,6 +458,7 @@
 			inputPaths = (
 				"$(SRCROOT)/Carthage/Build/iOS/RxSwift.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/RxCocoa.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/Swifter.framework",
 			);
 			name = Carthage;
 			outputPaths = (
@@ -650,11 +522,6 @@
 			isa = PBXTargetDependency;
 			target = 2CE38E831E16613800EDFC3D /* NSMWebservice */;
 			targetProxy = 2CE38E8F1E16613800EDFC3D /* PBXContainerItemProxy */;
-		};
-		2CE38EF71E1668FC00EDFC3D /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = SwifteriOS;
-			targetProxy = 2CE38EF61E1668FC00EDFC3D /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
