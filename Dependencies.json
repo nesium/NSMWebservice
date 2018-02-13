@@ -1,0 +1,14 @@
+[
+  {
+    "name": "RxSwift",
+    "xcproj": "Rx.xcodeproj",
+    "schemes": ["RxSwift-iOS", "RxCocoa-iOS"], 
+    "type": "spm"
+  }, 
+  {
+    "name": "Swifter",
+    "xcproj": "XCode/Swifter.xcodeproj",
+    "schemes": ["SwifteriOS"], 
+    "type": "carthage"
+  }
+]
