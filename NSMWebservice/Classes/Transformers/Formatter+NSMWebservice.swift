@@ -14,12 +14,12 @@ extension Formatter {
     var errMsg: NSString?
 
     guard self.getObjectValue(&obj, for: str, errorDescription: &errMsg) else {
-      throw ParseError.formattingFailed(msg:
+      throw ValueTransformerError.invalidValue(
         (errMsg as String? ?? "Could not parse '\(str)' as \(T.self)") as String)
     }
 
     guard obj is T else {
-      throw ParseError.formattingFailed(msg: "Parsing \(str) did not produce a \(T.self)")
+      throw ValueTransformerError.invalidValue("Parsing \(str) did not produce a \(T.self)")
     }
 
     return obj as! T

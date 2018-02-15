@@ -14,35 +14,31 @@ public enum KeychainError: Error {
   case unexpectedPasswordData
 }
 
-
-
 public struct Keychain {
   public struct Item {
     public let account: String
     public let password: String?
     public let token: String?
     public let refreshToken: String?
-    public let userInfo: JSONDictionary?
 
     public init(
       account: String,
       password: String?,
       token: String?,
-      refreshToken: String?,
-      userInfo: JSONDictionary?) {
+      refreshToken: String?) {
       self.account = account
       self.password = password
       self.token = token
       self.refreshToken = refreshToken
-      self.userInfo = userInfo
     }
   }
 
   // MARK: - Public Methods -
 
   public static func fetchItem(
-    for serviceURL: URL, accessGroup: String? = nil) throws -> Keychain.Item? {
-    var query: [String: Any] = try self.query(for: serviceURL, accessGroup: accessGroup)
+    for serviceURL: URL,
+    accessGroup: String? = nil) throws -> Keychain.Item? {
+    var query = try self.query(for: serviceURL, accessGroup: accessGroup)
     query[(kSecMatchLimit as String)] = kSecMatchLimitOne
     query[(kSecReturnAttributes as String)] = true
     query[(kSecReturnData as String)] = true
@@ -66,29 +62,31 @@ public struct Keychain {
     }
 
     do {
-      return try Keychain.Item.fromJSONData(data)
+      return try JSONDecoder().decode(Keychain.Item.self, from: data)
     } catch {
       throw KeychainError.unexpectedPasswordData
     }
   }
 
-  public static func put(item: Keychain.Item,
-    for serviceURL: URL, accessGroup: String? = nil) throws {
-    var fetchQuery: [String: Any] = try self.query(for: serviceURL, accessGroup: accessGroup)
+  public static func put(
+    item: Keychain.Item,
+    for serviceURL: URL,
+    accessGroup: String? = nil) throws {
+    var fetchQuery = try self.query(for: serviceURL, accessGroup: accessGroup)
     fetchQuery[(kSecMatchLimit as String)] = kSecMatchLimitOne
 
-    let itemData: Data = try item.JSONData()
+    let itemData = try JSONEncoder().encode(item)
 
     if SecItemCopyMatching(fetchQuery as CFDictionary, nil) == errSecSuccess {
-      let query: [String: Any] = try self.query(for: serviceURL, accessGroup: accessGroup)
-      let attributesToUpdate: [String: Any] = [(kSecValueData as String): itemData]
+      let query = try self.query(for: serviceURL, accessGroup: accessGroup)
+      let attributesToUpdate = [(kSecValueData as String): itemData]
       let status = SecItemUpdate(query as CFDictionary, attributesToUpdate as CFDictionary)
 
       guard status == noErr else {
         throw KeychainError.unhandledError(status: status)
       }
     } else {
-      var query: [String: Any] = try self.query(for: serviceURL, accessGroup: accessGroup)
+      var query = try self.query(for: serviceURL, accessGroup: accessGroup)
       query[(kSecValueData as String)] = itemData
       let status = SecItemAdd(query as CFDictionary, nil)
 
@@ -106,8 +104,6 @@ public struct Keychain {
       throw KeychainError.unhandledError(status: status)
     }
   }
-
-
 
   // MARK: - Private Methods -
 
@@ -130,27 +126,30 @@ public struct Keychain {
   }
 }
 
-
-
-extension Keychain.Item: JSONConvertible {
-  public init(decoder: JSONDecoder) throws {
-    self.account = try decoder.decode("acc")
-    self.password = try decoder.decode("pw")
-    self.token = try decoder.decode("tok")
-    self.refreshToken = try decoder.decode("rtok")
-    self.userInfo = try decoder.decode("ui")
+extension Keychain.Item: Codable {
+  enum CodingKeys: String, CodingKey {
+    case account = "acc"
+    case password = "pw"
+    case token = "tok"
+    case refreshToken = "rtok"
   }
 
-  public func encode(encoder: JSONEncoder) throws {
-    try encoder.encode("acc", self.account)
-    try encoder.encode("pw", self.password)
-    try encoder.encode("tok", self.token)
-    try encoder.encode("rtok", self.refreshToken)
-    try encoder.encode("ui", self.userInfo)
+  public init(from decoder: Decoder) throws {
+    let container = try decoder.container(keyedBy: CodingKeys.self)
+    self.account = try container.decode(String.self, forKey: .account)
+    self.password = try container.decodeIfPresent(String.self, forKey: .password)
+    self.token = try container.decodeIfPresent(String.self, forKey: .token)
+    self.refreshToken = try container.decodeIfPresent(String.self, forKey: .refreshToken)
+  }
+
+  public func encode(to encoder: Encoder) throws {
+    var container = encoder.container(keyedBy: CodingKeys.self)
+    try container.encode(self.account, forKey: .account)
+    try container.encode(self.password, forKey: .password)
+    try container.encode(self.token, forKey: .token)
+    try container.encode(self.refreshToken, forKey: .refreshToken)
   }
 }
-
-
 
 extension Keychain.Item: Equatable {
   public static func ==(lhs: Keychain.Item, rhs: Keychain.Item) -> Bool {

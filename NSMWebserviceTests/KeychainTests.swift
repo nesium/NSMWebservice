@@ -18,11 +18,7 @@ class KeychainTests: XCTestCase {
       account: "hello@world.com",
       password: "secret",
       token: "token",
-      refreshToken: "refreshToken",
-      userInfo: [
-        "a": 1,
-        "b": "Hello World"
-      ]
+      refreshToken: "refreshToken"
     )
     let url: URL = URL(string: "http://www.example.com")!
     
@@ -40,20 +36,13 @@ class KeychainTests: XCTestCase {
       account: "hello@world.com",
       password: "secret",
       token: "token",
-      refreshToken: "refreshToken",
-      userInfo: [
-        "key1": "Hello",
-        "key2": "World"
-      ]
+      refreshToken: "refreshToken"
     )
     let updatedItem = Keychain.Item(
       account: "email@me.com",
       password: "supersecret",
       token: "new-token",
-      refreshToken: nil,
-      userInfo: [
-        "key": "Hello World"
-      ]
+      refreshToken: nil
     )
 
     let url: URL = URL(string: "http://www.example.com")!
@@ -73,8 +62,7 @@ class KeychainTests: XCTestCase {
       account: "hello@world.com",
       password: "secret",
       token: "token",
-      refreshToken: "refreshToken",
-      userInfo: nil
+      refreshToken: "refreshToken"
     )
     let url: URL = URL(string: "http://www.example.com")!
 
