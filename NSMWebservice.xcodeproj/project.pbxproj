@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2C2BFD8C1F0323AD00D8387E /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C2BFD8A1F03238400D8387E /* RxCocoa.framework */; };
 		2C2BFD8D1F0323AD00D8387E /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C2BFD8B1F03238400D8387E /* RxSwift.framework */; };
 		2C36FFFC1E23689000D37BF0 /* WebserviceSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C36FFFB1E23689000D37BF0 /* WebserviceSession.swift */; };
 		2C4027951E18DC480030E7C8 /* JSONCoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4027941E18DC480030E7C8 /* JSONCoder.swift */; };
@@ -21,12 +20,14 @@
 		2C6F0E7E203439F70058B6F4 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C6F0E7D203439F70058B6F4 /* Request.swift */; };
 		2C6F0E832034E8020058B6F4 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C6F0E822034E8020058B6F4 /* Result.swift */; };
 		2C6F0E852034E8440058B6F4 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C6F0E842034E8440058B6F4 /* Response.swift */; };
+		2C6F0E8E20370F4F0058B6F4 /* SnapshotTesting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C6F0E8D20370F4F0058B6F4 /* SnapshotTesting.framework */; };
+		2C6F0E9020370F970058B6F4 /* RequestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C6F0E8F20370F970058B6F4 /* RequestTests.swift */; };
+		2C6F0E92203720880058B6F4 /* JSONCoders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C6F0E91203720880058B6F4 /* JSONCoders.swift */; };
 		2C7FFAC71E27667B00CD967B /* NSError+Webservice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C7FFAC61E27667B00CD967B /* NSError+Webservice.swift */; };
 		2C8F328D1EA9A5BB000150B1 /* HTTPError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8F328C1EA9A5BB000150B1 /* HTTPError.swift */; };
 		2CA6C7ED1F083BD200F6591E /* KeychainTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CA6C7EC1F083BD200F6591E /* KeychainTests.swift */; };
 		2CAA073F203262F200999270 /* Swifter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CAA073E203262F200999270 /* Swifter.framework */; };
 		2CB2396D1E1A2B9600059072 /* HTTPStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB2396C1E1A2B9600059072 /* HTTPStatus.swift */; };
-		2CB635291F036D7200591B71 /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C2BFD8A1F03238400D8387E /* RxCocoa.framework */; };
 		2CB635301F036D7600591B71 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C2BFD8B1F03238400D8387E /* RxSwift.framework */; };
 		2CE38E8E1E16613800EDFC3D /* NSMWebservice.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CE38E841E16613800EDFC3D /* NSMWebservice.framework */; };
 		2CE38E931E16613800EDFC3D /* NSMWebserviceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE38E921E16613800EDFC3D /* NSMWebserviceTests.swift */; };
@@ -46,8 +47,6 @@
 		2CECF4791EAABE6D00FE8BF0 /* url.json in Resources */ = {isa = PBXBuildFile; fileRef = 2CECF4781EAABE6D00FE8BF0 /* url.json */; };
 		2CECF47B1EAAC11C00FE8BF0 /* date.json in Resources */ = {isa = PBXBuildFile; fileRef = 2CECF47A1EAAC11C00FE8BF0 /* date.json */; };
 		2CECF47D1EAACCDA00FE8BF0 /* value_transformer.json in Resources */ = {isa = PBXBuildFile; fileRef = 2CECF47C1EAACCDA00FE8BF0 /* value_transformer.json */; };
-		2CECF4831EAAEE5F00FE8BF0 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CECF4821EAAEE5F00FE8BF0 /* ActivityIndicator.swift */; };
-		2CECF48C1EAAEEC200FE8BF0 /* ActivityIndicator+NSMWebservice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CECF48B1EAAEEC200FE8BF0 /* ActivityIndicator+NSMWebservice.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,7 +67,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		2C2BFD8A1F03238400D8387E /* RxCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxCocoa.framework; path = Carthage/Build/iOS/RxCocoa.framework; sourceTree = "<group>"; };
 		2C2BFD8B1F03238400D8387E /* RxSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxSwift.framework; path = Carthage/Build/iOS/RxSwift.framework; sourceTree = "<group>"; };
 		2C36FFFB1E23689000D37BF0 /* WebserviceSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebserviceSession.swift; sourceTree = "<group>"; };
 		2C4027941E18DC480030E7C8 /* JSONCoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONCoder.swift; sourceTree = "<group>"; };
@@ -85,6 +83,9 @@
 		2C6F0E7D203439F70058B6F4 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		2C6F0E822034E8020058B6F4 /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 		2C6F0E842034E8440058B6F4 /* Response.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
+		2C6F0E8D20370F4F0058B6F4 /* SnapshotTesting.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SnapshotTesting.framework; path = Carthage/Build/iOS/SnapshotTesting.framework; sourceTree = "<group>"; };
+		2C6F0E8F20370F970058B6F4 /* RequestTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestTests.swift; sourceTree = "<group>"; };
+		2C6F0E91203720880058B6F4 /* JSONCoders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONCoders.swift; sourceTree = "<group>"; };
 		2C7FFAC61E27667B00CD967B /* NSError+Webservice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSError+Webservice.swift"; sourceTree = "<group>"; };
 		2C7FFACE1E276A0800CD967B /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		2C8F328C1EA9A5BB000150B1 /* HTTPError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPError.swift; sourceTree = "<group>"; };
@@ -101,7 +102,6 @@
 		2CE38EA51E16614700EDFC3D /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		2CE38EA71E16614700EDFC3D /* Formatter+NSMWebservice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Formatter+NSMWebservice.swift"; sourceTree = "<group>"; };
 		2CE38EA81E16614700EDFC3D /* ValueTransformer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValueTransformer.swift; sourceTree = "<group>"; };
-		2CECF4641EAA989700FE8BF0 /* JSONCodingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONCodingTests.swift; sourceTree = "<group>"; };
 		2CECF4681EAA9B8200FE8BF0 /* string.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = string.json; sourceTree = "<group>"; };
 		2CECF46A1EAAA83800FE8BF0 /* int.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = int.json; sourceTree = "<group>"; };
 		2CECF46C1EAAA87C00FE8BF0 /* float.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = float.json; sourceTree = "<group>"; };
@@ -113,8 +113,6 @@
 		2CECF4781EAABE6D00FE8BF0 /* url.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = url.json; sourceTree = "<group>"; };
 		2CECF47A1EAAC11C00FE8BF0 /* date.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = date.json; sourceTree = "<group>"; };
 		2CECF47C1EAACCDA00FE8BF0 /* value_transformer.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = value_transformer.json; sourceTree = "<group>"; };
-		2CECF4821EAAEE5F00FE8BF0 /* ActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
-		2CECF48B1EAAEEC200FE8BF0 /* ActivityIndicator+NSMWebservice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ActivityIndicator+NSMWebservice.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,7 +128,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				2C5C55F21EF31DE200941012 /* libz.tbd in Frameworks */,
-				2C2BFD8C1F0323AD00D8387E /* RxCocoa.framework in Frameworks */,
 				2C2BFD8D1F0323AD00D8387E /* RxSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -141,8 +138,8 @@
 			files = (
 				2CAA073F203262F200999270 /* Swifter.framework in Frameworks */,
 				2CE38E8E1E16613800EDFC3D /* NSMWebservice.framework in Frameworks */,
-				2CB635291F036D7200591B71 /* RxCocoa.framework in Frameworks */,
 				2CB635301F036D7600591B71 /* RxSwift.framework in Frameworks */,
+				2C6F0E8E20370F4F0058B6F4 /* SnapshotTesting.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -152,8 +149,8 @@
 		2C059F4F1E1798F500F18CD3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2C6F0E8D20370F4F0058B6F4 /* SnapshotTesting.framework */,
 				2CAA073E203262F200999270 /* Swifter.framework */,
-				2C2BFD8A1F03238400D8387E /* RxCocoa.framework */,
 				2C2BFD8B1F03238400D8387E /* RxSwift.framework */,
 				2C5C55F11EF31DB300941012 /* libz.tbd */,
 				2C7FFACE1E276A0800CD967B /* CFNetwork.framework */,
@@ -227,9 +224,9 @@
 			isa = PBXGroup;
 			children = (
 				2CE38E941E16613800EDFC3D /* Info.plist */,
-				2CECF4641EAA989700FE8BF0 /* JSONCodingTests.swift */,
 				2CA6C7EC1F083BD200F6591E /* KeychainTests.swift */,
 				2CE38E921E16613800EDFC3D /* NSMWebserviceTests.swift */,
+				2C6F0E8F20370F970058B6F4 /* RequestTests.swift */,
 				2CECF4671EAA9B6B00FE8BF0 /* Test Data */,
 			);
 			path = NSMWebserviceTests;
@@ -241,6 +238,7 @@
 				2C8F328C1EA9A5BB000150B1 /* HTTPError.swift */,
 				2CB2396C1E1A2B9600059072 /* HTTPStatus.swift */,
 				2C4027941E18DC480030E7C8 /* JSONCoder.swift */,
+				2C6F0E91203720880058B6F4 /* JSONCoders.swift */,
 				2CE38EA11E16614700EDFC3D /* Keychain.swift */,
 				2C7FFAC61E27667B00CD967B /* NSError+Webservice.swift */,
 				2C6F0E7D203439F70058B6F4 /* Request.swift */,
@@ -248,7 +246,6 @@
 				2C6F0E822034E8020058B6F4 /* Result.swift */,
 				2CE38EA51E16614700EDFC3D /* Session.swift */,
 				2C36FFFB1E23689000D37BF0 /* WebserviceSession.swift */,
-				2CECF48A1EAAEE9E00FE8BF0 /* Rx */,
 				2CE38EA61E16614700EDFC3D /* Transformers */,
 			);
 			path = Classes;
@@ -279,15 +276,6 @@
 				2CECF47C1EAACCDA00FE8BF0 /* value_transformer.json */,
 			);
 			path = "Test Data";
-			sourceTree = "<group>";
-		};
-		2CECF48A1EAAEE9E00FE8BF0 /* Rx */ = {
-			isa = PBXGroup;
-			children = (
-				2CECF4821EAAEE5F00FE8BF0 /* ActivityIndicator.swift */,
-				2CECF48B1EAAEEC200FE8BF0 /* ActivityIndicator+NSMWebservice.swift */,
-			);
-			name = Rx;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -459,8 +447,8 @@
 			);
 			inputPaths = (
 				"$(SRCROOT)/Carthage/Build/iOS/RxSwift.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/RxCocoa.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/Swifter.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/SnapshotTesting.framework",
 			);
 			name = Carthage;
 			outputPaths = (
@@ -486,18 +474,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				2CE38EAF1E16614700EDFC3D /* Session.swift in Sources */,
+				2C6F0E92203720880058B6F4 /* JSONCoders.swift in Sources */,
 				2C8F328D1EA9A5BB000150B1 /* HTTPError.swift in Sources */,
 				2CB2396D1E1A2B9600059072 /* HTTPStatus.swift in Sources */,
 				2C6F0E852034E8440058B6F4 /* Response.swift in Sources */,
 				2CE38EB01E16614700EDFC3D /* Formatter+NSMWebservice.swift in Sources */,
-				2CECF4831EAAEE5F00FE8BF0 /* ActivityIndicator.swift in Sources */,
 				2C6F0E832034E8020058B6F4 /* Result.swift in Sources */,
 				2C36FFFC1E23689000D37BF0 /* WebserviceSession.swift in Sources */,
 				2C6F0E7E203439F70058B6F4 /* Request.swift in Sources */,
 				2C5C55EA1EF31D7900941012 /* Data+Gzip.swift in Sources */,
 				2C4027951E18DC480030E7C8 /* JSONCoder.swift in Sources */,
 				2CE38EAB1E16614700EDFC3D /* Keychain.swift in Sources */,
-				2CECF48C1EAAEEC200FE8BF0 /* ActivityIndicator+NSMWebservice.swift in Sources */,
 				2CE38EB11E16614700EDFC3D /* ValueTransformer.swift in Sources */,
 				2C7FFAC71E27667B00CD967B /* NSError+Webservice.swift in Sources */,
 			);
@@ -507,6 +494,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C6F0E9020370F970058B6F4 /* RequestTests.swift in Sources */,
 				2CE38E931E16613800EDFC3D /* NSMWebserviceTests.swift in Sources */,
 				2CA6C7ED1F083BD200F6591E /* KeychainTests.swift in Sources */,
 			);
@@ -559,7 +547,6 @@
 				DEVELOPMENT_TEAM = EMF866L2YQ;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = TestHost/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.nesium.TestHost;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -580,7 +567,6 @@
 				DEVELOPMENT_TEAM = EMF866L2YQ;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = TestHost/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.nesium.TestHost;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -758,6 +744,7 @@
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = NSMWebserviceTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.nesium.NSMWebserviceTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -775,6 +762,7 @@
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = NSMWebserviceTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.nesium.NSMWebserviceTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";

@@ -10,6 +10,9 @@ import Foundation
 import RxSwift
 
 public protocol WebserviceSession {
-  func request<I>(_ request: Request<I>) -> Single<Result<Empty>>
-  func request<I, O>(_ type: O.Type, _ request: Request<I>) -> Single<Result<O>>
+  func request<I>(_ request: Request<I>) -> Single<Result<Void>>
+  func request<I, O: Decodable & JSONValue>(
+    _ type: O.Type,
+    _ request: Request<I>) -> Single<Result<O>>
+  func request<I, O: Decodable>(_ type: O.Type, _ request: Request<I>) -> Single<Result<O>>
 }

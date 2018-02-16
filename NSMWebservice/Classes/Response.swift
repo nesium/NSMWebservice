@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct Response<T: Decodable> {
+public struct Response<T> {
   public let data: T
   public let headerFields: [String: String]
   public let statusCode: HTTPStatus

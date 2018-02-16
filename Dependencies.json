@@ -2,7 +2,14 @@
   {
     "name": "RxSwift",
     "xcproj": "Rx.xcodeproj",
-    "schemes": ["RxSwift-iOS", "RxCocoa-iOS"], 
+    "schemes": ["RxSwift-iOS"], 
+    "type": "spm"
+  }, 
+  {
+    "name": "SnapshotTesting",
+    "xcproj": "SnapshotTesting.xcodeproj",
+    "schemes": ["SnapshotTesting (iOS)"],
+    "bitcode": false,
     "type": "spm"
   }, 
   {

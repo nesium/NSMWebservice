@@ -8,13 +8,7 @@
 
 import Foundation
 
-public struct Empty: Codable {
-  private init() {}
-
-  internal static let shared = Empty()
-}
-
-public enum Result<T: Decodable> {
+public enum Result<T> {
   case success(Response<T>)
   case error(Error)
 
@@ -64,5 +58,5 @@ internal extension Result {
   }
 }
 
-typealias ResponseParser<T: Decodable> = (Data?) throws -> T
+typealias ResponseParser<T> = (Data?) throws -> T
 

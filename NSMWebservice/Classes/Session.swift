@@ -21,15 +21,17 @@ final public class Session: WebserviceSession {
     self.session = URLSession(configuration: URLSessionConfiguration.default)
   }
 
-  public func request<I>(_ request: Request<I>) -> Single<Result<Empty>> {
-    return self.request(request) { _ in Empty.shared }
+  public func request<I>(_ request: Request<I>) -> Single<Result<Void>> {
+    return self.request(request) { _ in () }
   }
 
-  public func request<I, O: JSONValue>(_ type: O.Type, _ request: Request<I>) -> Single<Result<O>> {
+  public func request<I, O: Decodable & JSONValue>(
+    _ type: O.Type,
+    _ request: Request<I>) -> Single<Result<O>> {
     return self.request(request, parser: JSONFragmentResponseParser)
   }
 
-  public func request<I, O>(_ type: O.Type, _ request: Request<I>) -> Single<Result<O>> {
+  public func request<I, O: Decodable>(_ type: O.Type, _ request: Request<I>) -> Single<Result<O>> {
     return self.request(request, parser: JSONResponseParser)
   }
 
@@ -90,5 +92,5 @@ fileprivate func JSONFragmentResponseParser<T>(_ data: Data?) throws -> T {
 }
 
 fileprivate func JSONResponseParser<T: Decodable>(_ data: Data?) throws -> T {
-  return try JSONDecoder().decode(T.self, from: NonEmptyDataResponseParser(data))
+  return try WSJSONDecoder().decode(T.self, from: NonEmptyDataResponseParser(data))
 }

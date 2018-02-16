@@ -25,16 +25,5 @@ extension UInt64: JSONValue {}
 extension Double: JSONValue {}
 extension Float: JSONValue {}
 extension String: JSONValue {}
+extension Date: JSONValue {}
 
-extension NSString: JSONValue {}
-extension NSNumber: JSONValue {}
-
-public typealias JSONDictionary = [String: JSONValue]
-
-private let dateTransformer: ISO8601DateTimeTransformer = {
-  return ISO8601DateTimeTransformer()
-}()
-
-private let urlTransformer: URLTransformer = {
-  return URLTransformer()
-}()

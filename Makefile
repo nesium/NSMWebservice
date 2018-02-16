@@ -1,4 +1,4 @@
-# Version 1.0.0
+# Version 1.1.1
 
 # To build a single framework use `make NSMSyncKit.framework` (`edit` property must not be true).
 
@@ -54,9 +54,9 @@ endif
 
 %.framework:
 	$(eval lib = $(basename $*))
-	$(eval schemes = $(shell cat $(DEPENDENCIES_CFG) | $(JQ) -r '.[] | select(.name == "$(lib)") | (.schemes[])')) \
+	$(eval schemes = $(shell cat $(DEPENDENCIES_CFG) | $(JQ) -r '.[] | select(.name == "$(lib)") | (.schemes[])' | sed 's/ /%20/g')) \
 	$(eval xcproj = $(shell cat $(DEPENDENCIES_CFG) | $(JQ) -r '.[] | select(.name == "$(lib)") | (.xcproj)')) \
-	$(eval type = $(shell cat $(DEPENDENCIES_CFG) | $(JQ) -r '.[] | select(.name == "$(lib)") | (.type)')) 
+	$(eval type = $(shell cat $(DEPENDENCIES_CFG) | $(JQ) -r '.[] | select(.name == "$(lib)") | (.type)'))
 	$(eval bitcode_disabled = $(shell res=$$(cat $(DEPENDENCIES_CFG) | $(JQ) -r '.[] | select(.name == "$(lib)") | (.bitcode)'); [ "$${res}" == "false" ] && echo "1" || echo ""))
 
 	@if [ -z "$(schemes)" ]; then \
@@ -80,7 +80,12 @@ endif
 
 %.source:
 	$(eval lib = $(basename $*))
+	$(eval type = $(shell cat $(DEPENDENCIES_CFG) | $(JQ) -r '.[] | select(.name == "$(lib)") | (.type)'))
+	
 	$(call make_lib_editable,$(lib))
+	
+	$(eval subpath = $(shell $(call checkout_path_for_lib,$(lib),$(type))))
+	$(call link_build_dir,$(subpath))
 	
 
 .PHONY: checkout build_frameworks clean test
@@ -115,11 +120,12 @@ define checkout_path_for_lib
 endef
 
 define merge_frameworks
-	@echo "Creating a universal framework for $(2) ($3)…";
+	$(eval cleaned_scheme = $(shell echo "$(3)" | sed 's/%20/ /g'))
+	@echo "Creating a universal framework for $(2) ($cleaned_scheme)…";
 
 	@xcsettings=$$($(XCRUN) xcodebuild \
 		-project "$(1)/$(2)" \
-		-scheme "$(3)" \
+		-scheme "$(cleaned_scheme)" \
 		-derivedDataPath $(DERIVED_DATA_PATH) \
 		-showBuildSettings); \
 	OBJROOT=$$(echo "$$xcsettings" | grep -m 1 OBJROOT | cut -d'=' -f2 | xargs); \
@@ -142,33 +148,58 @@ define merge_frameworks
 endef
 
 define build_device_framework
-	@echo "Building device framework for $(2) ($3)…";
+	$(eval cleaned_scheme = $(shell echo "$(3)" | sed 's/%20/ /g'))
+	@echo "Building device framework for $(2) $(cleaned_scheme)…";
 
-	@params="-project $(1)/$(2) \
-		-scheme $(3) \
-		-configuration $(4) \
-		-sdk iphoneos \
-		-derivedDataPath $(DERIVED_DATA_PATH) \
-		-toolchain $(TOOLCHAIN) \
-		CODE_SIGNING_REQUIRED=NO \
-		CODE_SIGN_IDENTITY= \
-		CARTHAGE=YES \
-		ONLY_ACTIVE_ARCH=NO \
-		CLANG_ENABLE_CODE_COVERAGE=NO \
-		GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=NO \
-		SKIP_INSTALL=YES \
-		-archivePath $(DERIVED_DATA_PATH)/BuiltArchives"; \
-	[ -z "$(5)" ] && params="$${params} BITCODE_GENERATION_MODE=bitcode ENABLE_BITCODE=YES"; \
-	$(XCRUN) xcodebuild $$params archive | $(XC_PRETTY);
+	@if [ -z "$(5)" ]; then \
+		$(XCRUN) xcodebuild \
+			-project "$(1)/$(2)" \
+			-scheme "$(cleaned_scheme)" \
+			-configuration "$(4)" \
+			-sdk iphoneos \
+			-derivedDataPath $(DERIVED_DATA_PATH) \
+			-toolchain $(TOOLCHAIN) \
+			CODE_SIGNING_REQUIRED=NO \
+			CODE_SIGN_IDENTITY= \
+			CARTHAGE=YES \
+			ONLY_ACTIVE_ARCH=NO \
+			CLANG_ENABLE_CODE_COVERAGE=NO \
+			GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=NO \
+			SKIP_INSTALL=YES \
+			-archivePath "$(DERIVED_DATA_PATH)/BuiltArchives" \
+			BITCODE_GENERATION_MODE=bitcode \
+			ENABLE_BITCODE=YES \
+			archive \
+			| $(XC_PRETTY); \
+	else \
+		$(XCRUN) xcodebuild \
+			-project "$(1)/$(2)" \
+			-scheme "$(cleaned_scheme)" \
+			-configuration "$(4)" \
+			-sdk iphoneos \
+			-derivedDataPath $(DERIVED_DATA_PATH) \
+			-toolchain $(TOOLCHAIN) \
+			CODE_SIGNING_REQUIRED=NO \
+			CODE_SIGN_IDENTITY= \
+			CARTHAGE=YES \
+			ONLY_ACTIVE_ARCH=NO \
+			CLANG_ENABLE_CODE_COVERAGE=NO \
+			GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=NO \
+			SKIP_INSTALL=YES \
+			-archivePath "$(DERIVED_DATA_PATH)/BuiltArchives" \
+			archive \
+			| $(XC_PRETTY); \
+	fi;
 
 endef
 
 define build_simulator_framework
-	@echo "Building simulator framework for $(2) ($3)…";
+	$(eval cleaned_scheme = $(shell echo "$(3)" | sed 's/%20/ /g'))
+	@echo "Building simulator framework for $(2) ($cleaned_scheme)…";
 
 	@$(XCRUN) xcodebuild \
 		-project "$(1)/$(2)" \
-		-scheme "$(3)" \
+		-scheme "$(cleaned_scheme)" \
 		-configuration "$(4)" \
 		-sdk iphonesimulator \
 		-derivedDataPath $(DERIVED_DATA_PATH) \

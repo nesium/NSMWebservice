@@ -24,13 +24,15 @@ public enum HTTPMethod : String {
   }
 }
 
-public struct Request<T: Encodable> {
-  public var method: HTTPMethod
-  public var path: String
-  public var data: T?
-  public var parameters: [URLQueryItem]?
-  public var headerFields: [String: String]?
-  public var timeoutInterval: TimeInterval
+public struct Request<T> {
+  public let method: HTTPMethod
+  public let path: String
+  public let data: T?
+  public let parameters: [URLQueryItem]?
+  public let headerFields: [String: String]?
+  public let timeoutInterval: TimeInterval
+
+  private let bodyDataEncoder: (T) throws -> Data?
 
   private init(
     _ method: HTTPMethod,
@@ -38,31 +40,48 @@ public struct Request<T: Encodable> {
     data: T?,
     parameters: [URLQueryItem]? = nil,
     headerFields: [String: String]? = nil,
-    timeoutInterval: TimeInterval = 30) {
+    timeoutInterval: TimeInterval = 30,
+    bodyDataEncoder: @escaping (T) throws -> Data?) {
     self.method = method
     self.path = path
     self.data = data
     self.parameters = parameters
     self.headerFields = headerFields
     self.timeoutInterval = timeoutInterval
+    self.bodyDataEncoder = bodyDataEncoder
   }
 
   public static func get(
     _ path: String,
     parameters: [URLQueryItem]? = nil,
     headerFields: [String: String]? = nil,
-    timeoutInterval: TimeInterval = 30) -> Request<Empty> {
-    return Request<Empty>(
+    timeoutInterval: TimeInterval = 30) -> Request<Void> {
+    return Request<Void>(
       .get,
       path,
       data: nil,
       parameters: parameters,
       headerFields: headerFields,
       timeoutInterval: timeoutInterval
-    )
+    ) { _ in nil }
   }
 
-  public static func post<T>(
+  public static func delete(
+    _ path: String,
+    parameters: [URLQueryItem]? = nil,
+    headerFields: [String: String]? = nil,
+    timeoutInterval: TimeInterval = 30) -> Request<Void> {
+    return Request<Void>(
+      .delete,
+      path,
+      data: nil,
+      parameters: parameters,
+      headerFields: headerFields,
+      timeoutInterval: timeoutInterval
+    ) { _ in nil }
+  }
+
+  public static func post<T: Encodable & JSONValue>(
     _ data: T?,
     to path: String,
     parameters: [URLQueryItem]? = nil,
@@ -74,11 +93,29 @@ public struct Request<T: Encodable> {
       data: data,
       parameters: parameters,
       headerFields: headerFields,
-      timeoutInterval: timeoutInterval
+      timeoutInterval: timeoutInterval,
+      bodyDataEncoder: JSONFragmentBodyEncoder
     )
   }
 
-  public static func put<T>(
+  public static func post<T: Encodable>(
+    _ data: T?,
+    to path: String,
+    parameters: [URLQueryItem]? = nil,
+    headerFields: [String: String]? = nil,
+    timeoutInterval: TimeInterval = 30) -> Request<T> {
+    return Request<T>(
+      .post,
+      path,
+      data: data,
+      parameters: parameters,
+      headerFields: headerFields,
+      timeoutInterval: timeoutInterval,
+      bodyDataEncoder: JSONBodyEncoder
+    )
+  }
+
+  public static func put<T: Encodable>(
     _ data: T?,
     to path: String,
     parameters: [URLQueryItem]? = nil,
@@ -90,22 +127,25 @@ public struct Request<T: Encodable> {
       data: data,
       parameters: parameters,
       headerFields: headerFields,
-      timeoutInterval: timeoutInterval
+      timeoutInterval: timeoutInterval,
+      bodyDataEncoder: JSONBodyEncoder
     )
   }
 
-  public static func delete(
-    _ path: String,
+  public static func put<T: Encodable & JSONValue>(
+    _ data: T?,
+    to path: String,
     parameters: [URLQueryItem]? = nil,
     headerFields: [String: String]? = nil,
-    timeoutInterval: TimeInterval = 30) -> Request<Empty> {
-    return Request<Empty>(
-      .delete,
+    timeoutInterval: TimeInterval = 30) -> Request<T> {
+    return Request<T>(
+      .put,
       path,
-      data: nil,
+      data: data,
       parameters: parameters,
       headerFields: headerFields,
-      timeoutInterval: timeoutInterval
+      timeoutInterval: timeoutInterval,
+      bodyDataEncoder: JSONFragmentBodyEncoder
     )
   }
 }
@@ -129,17 +169,14 @@ internal extension Request {
 
     switch self.method {
       case .post, .put:
-        urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        if let data = self.data {
-          let coder = JSONEncoder()
-          let body = try coder.encode(data)
+        if let data = self.data, let body = try self.bodyDataEncoder(data) {
+          urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
-          switch gzip {
-            case true:
-              urlRequest.setValue("gzip", forHTTPHeaderField: "Content-Encoding")
-              urlRequest.httpBody = body
-            case false:
-              urlRequest.httpBody = body
+          if gzip {
+            urlRequest.setValue("gzip", forHTTPHeaderField: "Content-Encoding")
+            urlRequest.httpBody = try body.gzipped()
+          } else {
+            urlRequest.httpBody = body
           }
         }
 
@@ -152,4 +189,55 @@ internal extension Request {
 
     return urlRequest
   }
+}
+
+
+fileprivate func JSONFragmentBodyEncoder<T: JSONValue>(_ object: T) throws -> Data? {
+  let result: String
+
+  switch object {
+    case let value as Bool:
+      result = value ? "true" : "false"
+
+    case let value as Int:
+      result = String(value)
+    case let value as Int8:
+      result = String(value)
+    case let value as Int16:
+      result = String(value)
+    case let value as Int32:
+      result = String(value)
+    case let value as Int64:
+      result = String(value)
+
+    case let value as UInt:
+      result = String(value)
+    case let value as UInt8:
+      result = String(value)
+    case let value as UInt16:
+      result = String(value)
+    case let value as UInt32:
+      result = String(value)
+    case let value as UInt64:
+      result = String(value)
+
+    case let value as Double:
+      result = String(value)
+    case let value as Float:
+      result = String(value)
+
+    case let value as String:
+      result = "\"\(value)\""
+    case let value as Date:
+      result = "\"\(ISO8601DateTimeTransformer.formatter.string(from: value))\""
+
+    default:
+      fatalError("Unexpected type \(String(describing: object))")
+  }
+
+  return result.data(using: .utf8)
+}
+
+fileprivate func JSONBodyEncoder<T: Encodable>(_ object: T) throws -> Data? {
+  return try WSJSONEncoder().encode(object)
 }

@@ -45,7 +45,7 @@ public struct ISO8601DateTimeTransformer : ValueTransformer {
     return ISO8601DateTimeTransformer.formatter.string(from: value)
   }
 
-  fileprivate static var formatter: DateFormatter {
+  internal static var formatter: DateFormatter {
     let formatter = DateFormatter()
     formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
     formatter.timeZone = TimeZone(secondsFromGMT: 0)
