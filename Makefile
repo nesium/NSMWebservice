@@ -1,4 +1,4 @@
-# Version 2.0.0
+# Version 2.1.0
 
 # To build a single framework use `make PROJECT/TARGET`, eg. `make NSMSyncKit/NSMSyncKit`
 
@@ -45,9 +45,11 @@ endif
 
 
 # Temporary replacement for spaces in target names
-SPACE_REPLACEMENT = @@@
+SPACE_REPLACEMENT = @@20
+LPAREN_REPLACEMENT = @@28
+RPAREN_REPLACEMENT = @@29
 
-EXPAND_SCHEMES = $(shell TARGETS=$$(cat $(DEPENDENCIES_CFG) | $(JQ) -r '.[] | select(.name == "$(1)") | (.schemes[])' | sed 's/ /$(SPACE_REPLACEMENT)/g'); for target in $$TARGETS; do echo "$(1)/$${target}"; done;)
+EXPAND_SCHEMES = $(shell TARGETS=$$(cat $(DEPENDENCIES_CFG) | $(JQ) -r '.[] | select(.name == "$(1)") | (.schemes[])' | sed 's/ /$(SPACE_REPLACEMENT)/g' | sed 's/(/$(LPAREN_REPLACEMENT)/g' | sed 's/)/$(RPAREN_REPLACEMENT)/g'); for target in "$$TARGETS"; do echo "$(1)/$${target}"; done;)
 
 READ_XCPROJ = $(shell cat $(DEPENDENCIES_CFG) | $(JQ) -r '.[] | select(.name == "$(1)") | (.xcproj)')
 READ_TYPE = $(shell cat $(DEPENDENCIES_CFG) | $(JQ) -r '.[] | select(.name == "$(1)") | (.type)')
@@ -103,7 +105,7 @@ $(BINARY_DEPENDENCY_SCHEMES): $(SYMLINKED_BUILD_PATHS)
 	CHECKOUT_PATH=$(call LIBRARY_CHECKOUT_PATH,$(@D),$(call READ_TYPE,$(@D))) \
 	$(MAKE) build_target \
 		PROJ="$(@D)" \
-		SCHEME="$$(echo $(@F) | sed 's/$(SPACE_REPLACEMENT)/ /g')" \
+		SCHEME="$$(echo $(@F) | sed 's/$(SPACE_REPLACEMENT)/ /g' | sed 's/$(LPAREN_REPLACEMENT)/(/g' | sed 's/$(RPAREN_REPLACEMENT)/)/g')" \
 		XCPROJ="$(call READ_XCPROJ,$(@D))" \
 		TYPE="$${TYPE}" \
 		BITCODE_DISABLED="$(call READ_BITCODE_DISABLED_FLAG,$(@D))" \
