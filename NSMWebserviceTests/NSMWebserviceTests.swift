@@ -8,7 +8,7 @@
 
 import XCTest
 import Swifter
-import NSMWebservice
+@testable import NSMWebservice
 import RxSwift
 
 class MyClass: Codable {
@@ -26,6 +26,19 @@ class MyClass: Codable {
     self.a = a
     self.b = b
     self.c = nil
+  }
+}
+
+struct DateStruct: Decodable {
+  public let date: Date
+
+  enum CodingKeys: String, CodingKey {
+    case valueUpdatedAt = "value_updated_at"
+  }
+
+  init(from decoder: Decoder) throws {
+    let container = try decoder.container(keyedBy: CodingKeys.self)
+    self.date = try container.decode(Date.self, forKey: .valueUpdatedAt)
   }
 }
 
@@ -90,6 +103,16 @@ class NSMWebserviceTests: XCTestCase {
       }
 
       return HttpResponse.ok(.text(""))
+    }
+    server["/getDateArray"] = { req in
+      HttpResponse.raw(200, "OK", ["Content-Type": "application/json"]) {
+        try $0.write([UInt8]("[\"2017-01-01T20:30:19.123Z\"]".utf8))
+      }
+    }
+    server["/getDateStruct"] = { req in
+      HttpResponse.raw(200, "OK", ["Content-Type": "application/json"]) {
+        try $0.write([UInt8]("{\"value_updated_at\": \"2017-01-01T20:30:19.123Z\"}".utf8))
+      }
     }
 
     self.continueAfterFailure = false
@@ -221,6 +244,44 @@ class NSMWebserviceTests: XCTestCase {
     _ = session.request(.post(obj, to: "/testPostObject"))
       .subscribe(onSuccess: { result in
         XCTAssertTrue(self.methodCalled.testPostObject)
+        responseReceived = true
+        postExpectation.fulfill()
+      })
+
+    waitForExpectations(timeout: 1)
+    XCTAssertTrue(responseReceived)
+  }
+
+  func testGetDateArray() {
+    let postExpectation = expectation(description: "Post Item")
+
+    var responseReceived: Bool = false
+
+    _ = session.request([Date].self, .get("/getDateArray"))
+      .subscribe(onSuccess: { result in
+        XCTAssertEqual(
+          result.data!,
+          [ISO8601DateTimeTransformer.formatter.date(from: "2017-01-01T20:30:19.123Z")!]
+        )
+        responseReceived = true
+        postExpectation.fulfill()
+      })
+
+    waitForExpectations(timeout: 1)
+    XCTAssertTrue(responseReceived)
+  }
+
+  func testGetDateStruct() {
+    let postExpectation = expectation(description: "Post Item")
+
+    var responseReceived: Bool = false
+
+    _ = session.request(DateStruct.self, .get("/getDateStruct"))
+      .subscribe(onSuccess: { result in
+        XCTAssertEqual(
+          result.data!.date,
+          ISO8601DateTimeTransformer.formatter.date(from: "2017-01-01T20:30:19.123Z")!
+        )
         responseReceived = true
         postExpectation.fulfill()
       })
