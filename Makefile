@@ -1,34 +1,91 @@
-# Version 1.1.1
+# Version 2.0.0
 
-# To build a single framework use `make NSMSyncKit.framework` (`edit` property must not be true).
+# To build a single framework use `make PROJECT/TARGET`, eg. `make NSMSyncKit/NSMSyncKit`
 
-CONFIGURATION = Release
-
-CURRENT_DIR = $(shell pwd)
-
-SPM_CHECKOUT_PATH = .build/checkouts
-SPM_EDITABLE_CHECKOUT_PATH = Packages
-CARTHAGE_CHECKOUT_PATH = Carthage/Checkouts
-DERIVED_DATA_PATH = Carthage/DerivedData
-BUILD_PATH = Carthage/Build
-BUILD_DIR = $(BUILD_PATH)/iOS
-
+CONFIGURATION ?= Release
 TOOLCHAIN = com.apple.dt.toolchain.Swift_4
+
 XCRUN = /usr/bin/xcrun
 XC_PRETTY = /usr/local/Cellar/gems/1.8/bin/xcpretty
 JQ = /usr/local/bin/jq
 SPM = /usr/bin/swift package
 CARTHAGE = /usr/local/bin/carthage
 
+SPM_CHECKOUT_PATH = .build/checkouts
+SPM_EDITABLE_CHECKOUT_PATH = Packages
+CARTHAGE_CHECKOUT_PATH = Carthage/Checkouts
+
 DEPENDENCIES_CFG = Dependencies.json
+DERIVED_DATA_PATH = Carthage/DerivedData
+BUILD_PATH = Carthage/Build
+BUILD_DIR = $(BUILD_PATH)/iOS
 
-BINARY_DEPENDENCIES = $(shell cat $(DEPENDENCIES_CFG) | $(JQ) -r '.[] | select(.edit != true) | [.name] | map(. + ".framework") | (.[0])')
-SOURCE_DEPENDENCIES = $(shell cat $(DEPENDENCIES_CFG) | $(JQ) -r '.[] | select(.edit == true) | [.name] | map(. + ".source") | (.[0])')
+BITCODE_ARGS = BITCODE_GENERATION_MODE=bitcode ENABLE_BITCODE=YES
+SHARED_XCODEBUILD_ARGS := \
+	-configuration $(CONFIGURATION) \
+	-derivedDataPath $(DERIVED_DATA_PATH) \
+	-toolchain $(TOOLCHAIN) \
+	CODE_SIGNING_REQUIRED=NO \
+	CODE_SIGN_IDENTITY= \
+	CARTHAGE=YES \
+	ONLY_ACTIVE_ARCH=NO
 
-NUM_SPM_DEPS = $(shell cat $(DEPENDENCIES_CFG) | jq -r 'map(select(.type == "spm")) | length')
-NUM_CARTHAGE_DEPS = $(shell cat $(DEPENDENCIES_CFG) | jq -r 'map(select(.type == "carthage")) | length')
+XCODEBUILD_DEVICE_ARGS := $(SHARED_XCODEBUILD_ARGS) \
+	CLANG_ENABLE_CODE_COVERAGE=NO \
+	GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=NO \
+	SKIP_INSTALL=YES \
+	-sdk iphoneos \
+	-archivePath "$(DERIVED_DATA_PATH)/BuiltArchives"
 
-all: checkout build_frameworks
+XCODEBUILD_SIMULATOR_ARGS := $(SHARED_XCODEBUILD_ARGS) -sdk iphonesimulator
+
+ifneq ($(BITCODE_DISABLED),1)
+	XCODEBUILD_DEVICE_ARGS += $(BITCODE_ARGS)
+endif
+
+
+# Temporary replacement for spaces in target names
+SPACE_REPLACEMENT = @@@
+
+EXPAND_SCHEMES = $(shell TARGETS=$$(cat $(DEPENDENCIES_CFG) | $(JQ) -r '.[] | select(.name == "$(1)") | (.schemes[])' | sed 's/ /$(SPACE_REPLACEMENT)/g'); for target in $$TARGETS; do echo "$(1)/$${target}"; done;)
+
+READ_XCPROJ = $(shell cat $(DEPENDENCIES_CFG) | $(JQ) -r '.[] | select(.name == "$(1)") | (.xcproj)')
+READ_TYPE = $(shell cat $(DEPENDENCIES_CFG) | $(JQ) -r '.[] | select(.name == "$(1)") | (.type)')
+READ_BITCODE_DISABLED_FLAG = $(shell res=$$(cat $(DEPENDENCIES_CFG) | $(JQ) -r '.[] | select(.name == "$(1)") | (.bitcode)'); [ "$${res}" == "false" ] && echo "1" || echo "")
+
+BINARY_DEPENDENCIES := $(shell cat $(DEPENDENCIES_CFG) | $(JQ) -r '.[] | select(.edit != true) | [.name] | (.[0])')
+SOURCE_DEPENDENCIES := $(shell cat $(DEPENDENCIES_CFG) | $(JQ) -r '.[] | select(.edit == true) | [.name] | (.[0])')
+BINARY_DEPENDENCY_SCHEMES := $(foreach dep,$(BINARY_DEPENDENCIES),$(call EXPAND_SCHEMES,$(dep)))
+SYMLINKED_BUILD_PATHS := $(foreach dep,$(BINARY_DEPENDENCIES),$(dep)/$(BUILD_DIR)) $(foreach dep,$(SOURCE_DEPENDENCIES),$(dep)/$(BUILD_DIR))
+
+NUM_SPM_DEPS := $(shell cat $(DEPENDENCIES_CFG) | jq -r 'map(select(.type == "spm")) | length')
+NUM_CARTHAGE_DEPS := $(shell cat $(DEPENDENCIES_CFG) | jq -r 'map(select(.type == "carthage")) | length')
+
+SPM_DEPENDENCY_IS_EDITED = $$(cat .build/dependencies-state.json | $(JQ) -r '.object.dependencies[] | select(.name == "$(1)") | (.state) | select(.name == "edited") | (.name)');
+
+PRINT_STEP = @echo "\n\033[00;36m$(subst ",\",$(1))\033[0m\n"
+CURRENT_DIR = $(shell pwd)
+
+define LIBRARY_CHECKOUT_PATH
+$$(if [ "$(2)" == "carthage" ]; then \
+	echo "$(CARTHAGE_CHECKOUT_PATH)/$(1)"; \
+else \
+	SUBPATH=$$(cat .build/dependencies-state.json | $(JQ) -r '.object.dependencies[] | select(.name == "$(1)") | (.subpath)'); \
+	IS_EDITED=$(call SPM_DEPENDENCY_IS_EDITED,$(1)) \
+	[ -z "$${IS_EDITED}" ] && echo "$(SPM_CHECKOUT_PATH)/$${SUBPATH}" || echo "$(SPM_EDITABLE_CHECKOUT_PATH)/$${SUBPATH}"; \
+fi);
+endef
+
+all: checkout $(SOURCE_DEPENDENCIES) $(SYMLINKED_BUILD_PATHS) $(BINARY_DEPENDENCY_SCHEMES)
+
+checkout:
+ifneq ($(NUM_SPM_DEPS),0)
+	@$(SPM) update
+endif
+
+ifneq ($(NUM_CARTHAGE_DEPS),0)
+	@$(CARTHAGE) update --no-build
+endif
 
 clean:
 ifneq ($(NUM_SPM_DEPS),0)
@@ -41,174 +98,79 @@ endif
 test:
 	@bundle exec fastlane test
 
-build_frameworks: checkout $(BINARY_DEPENDENCIES) $(SOURCE_DEPENDENCIES)
+$(BINARY_DEPENDENCY_SCHEMES): $(SYMLINKED_BUILD_PATHS)
+	@TYPE=$(call READ_TYPE,$(@D)); \
+	CHECKOUT_PATH=$(call LIBRARY_CHECKOUT_PATH,$(@D),$(call READ_TYPE,$(@D))) \
+	$(MAKE) build_target \
+		PROJ="$(@D)" \
+		SCHEME="$$(echo $(@F) | sed 's/$(SPACE_REPLACEMENT)/ /g')" \
+		XCPROJ="$(call READ_XCPROJ,$(@D))" \
+		TYPE="$${TYPE}" \
+		BITCODE_DISABLED="$(call READ_BITCODE_DISABLED_FLAG,$(@D))" \
+		CHECKOUT_PATH="$${CHECKOUT_PATH}"
 
-checkout:
-ifneq ($(NUM_SPM_DEPS),0)
-	@$(SPM) update
-endif
+$(SOURCE_DEPENDENCIES):
+	@is_edited=$(call SPM_DEPENDENCY_IS_EDITED,$@) \
+	[ -z "$${is_edited}" ] && $(SPM) edit $@ || true;
 
-ifneq ($(NUM_CARTHAGE_DEPS),0)
-	@$(CARTHAGE) update --no-build
-endif
-
-%.framework:
-	$(eval lib = $(basename $*))
-	$(eval schemes = $(shell cat $(DEPENDENCIES_CFG) | $(JQ) -r '.[] | select(.name == "$(lib)") | (.schemes[])' | sed 's/ /%20/g')) \
-	$(eval xcproj = $(shell cat $(DEPENDENCIES_CFG) | $(JQ) -r '.[] | select(.name == "$(lib)") | (.xcproj)')) \
-	$(eval type = $(shell cat $(DEPENDENCIES_CFG) | $(JQ) -r '.[] | select(.name == "$(lib)") | (.type)'))
-	$(eval bitcode_disabled = $(shell res=$$(cat $(DEPENDENCIES_CFG) | $(JQ) -r '.[] | select(.name == "$(lib)") | (.bitcode)'); [ "$${res}" == "false" ] && echo "1" || echo ""))
-
-	@if [ -z "$(schemes)" ]; then \
-		echo "No Schemes defined in $(DEPENDENCIES_CFG) for target $(lib)."; \
-		exit 1; \
-	fi;
-
-	@if [ -z "$(xcproj)" ]; then \
-		echo "No xcproj defined in $(DEPENDENCIES_CFG) for target $(lib)."; \
-		exit 1; \
-	fi;
-
-	@if [[ "$(type)" != "spm" && "$(type)" != "carthage" ]]; then \
-		echo "Unknown type '$(type)' for target $(lib). Must be either 'spm' (Swift Package Manager) or 'carthage'."; \
-		exit 1; \
-	fi;
-
-	$(eval subpath = $(shell $(call checkout_path_for_lib,$(lib),$(type))))
-	$(call link_build_dir,$(subpath))
-	$(foreach scheme,$(schemes),$(call build_fat_framework,$(subpath),$(xcproj),$(scheme),$(CONFIGURATION),$(bitcode_disabled)))
-
-%.source:
-	$(eval lib = $(basename $*))
-	$(eval type = $(shell cat $(DEPENDENCIES_CFG) | $(JQ) -r '.[] | select(.name == "$(lib)") | (.type)'))
-	
-	$(call make_lib_editable,$(lib))
-	
-	$(eval subpath = $(shell $(call checkout_path_for_lib,$(lib),$(type))))
-	$(call link_build_dir,$(subpath))
-	
-
-.PHONY: checkout build_frameworks clean test
-
-define build_fat_framework
-	$(call build_device_framework,$(1),$(2),$(3),$(4),$(5))
-	$(call build_simulator_framework,$(1),$(2),$(3),$(4),$(5))
-	$(call merge_frameworks,$(1),$(2),$(3),$(4),$(5))
-endef
-
-define link_build_dir
-	@if [[ -f "$(1)/$(DEPENDENCIES_CFG)" || -f "$(1)/Cartfile" ]]; then \
-		[ -h "$(1)/Carthage/Build" ] && rm "$(1)/Carthage/Build" || true; \
-		[ ! -d "$(1)/Carthage" ] && mkdir -p "$(1)/Carthage"; \
-		ln -s "$(CURRENT_DIR)/$(BUILD_PATH)" "$(1)/Carthage"; \
+$(SYMLINKED_BUILD_PATHS): $(SOURCE_DEPENDENCIES)
+	@CHECKOUT_PATH=$(call LIBRARY_CHECKOUT_PATH,$(firstword $(subst /, ,$(@D))),$(call READ_TYPE,$(firstword $(subst /, ,$(@D))))) \
+	if [[ -f "$${CHECKOUT_PATH}/$(DEPENDENCIES_CFG)" || -f "$${CHECKOUT_PATH}/Cartfile" ]]; then \
+		[ -h "$${CHECKOUT_PATH}/Carthage/Build" ] && rm "$${CHECKOUT_PATH}/Carthage/Build" || true; \
+		[ ! -d "$${CHECKOUT_PATH}/Carthage" ] && mkdir -p "$${CHECKOUT_PATH}/Carthage"; \
+		ln -s "$(CURRENT_DIR)/$(BUILD_PATH)" "$${CHECKOUT_PATH}/Carthage"; \
 	fi
-endef
 
-define make_lib_editable
-	@is_edited=$$(cat .build/dependencies-state.json | $(JQ) -r '.object.dependencies[] | select(.name == "$(1)") | (.state) | select(.name == "edited") | (.name)'); \
-	[ -z "$${is_edited}" ] && $(SPM) edit $(lib) || true;
-endef
+build_target:
+	@if [ -z "$(PROJ)" ]; then \
+		echo "No project specified."; \
+		exit 1; \
+	fi;
 
-define checkout_path_for_lib
-	if [ "$(2)" == "carthage" ]; then \
-		echo "$(CARTHAGE_CHECKOUT_PATH)/$(1)"; \
-	else \
-		subpath=$$(cat .build/dependencies-state.json | $(JQ) -r '.object.dependencies[] | select(.name == "$(1)") | (.subpath)'); \
-		is_edited=$$(cat $(DEPENDENCIES_CFG) | $(JQ) -r '.[] | select(.name == "$(lib)") | select(.edit == true) | (.edit)'); \
-		[ -z "$${is_edited}" ] && echo "$(SPM_CHECKOUT_PATH)/$${subpath}" || echo "$(SPM_EDITABLE_CHECKOUT_PATH)/$${subpath}"; \
-	fi
-endef
+	@if [ ! -d "$(CHECKOUT_PATH)" ]; then \
+		echo "Invalid checkout path '$(CHECKOUT_PATH)' for library $(PROJ)"; \
+		exit 1; \
+	fi;
 
-define merge_frameworks
-	$(eval cleaned_scheme = $(shell echo "$(3)" | sed 's/%20/ /g'))
-	@echo "Creating a universal framework for $(2) ($cleaned_scheme)…";
+	@if [ -z "$(SCHEME)" ]; then \
+		echo "No scheme specified for library $(PROJ)."; \
+		exit 1; \
+	fi;
 
-	@xcsettings=$$($(XCRUN) xcodebuild \
-		-project "$(1)/$(2)" \
-		-scheme "$(cleaned_scheme)" \
+	@if [ -z "$(XCPROJ)" ]; then \
+		echo "No Xcode project defined in $(DEPENDENCIES_CFG) for library $(PROJ)."; \
+		exit 1; \
+	fi;
+
+	@if [[ "$(TYPE)" != "spm" && "$(TYPE)" != "carthage" ]]; then \
+		echo "Unknown type '$(TYPE)' for library $(PROJ). Must be either 'spm' (Swift Package Manager) or 'carthage'."; \
+		exit 1; \
+	fi;
+
+	$(call PRINT_STEP,Building device framework for $(PROJ) ($(SCHEME))…)
+	@$(XCRUN) xcodebuild -project "$(CHECKOUT_PATH)/$(XCPROJ)" -scheme "$(SCHEME)" $(XCODEBUILD_DEVICE_ARGS) archive | $(XC_PRETTY);
+
+	$(call PRINT_STEP,Building simulator framework for $(PROJ) ($(SCHEME))…)
+	@$(XCRUN) xcodebuild -project "$(CHECKOUT_PATH)/$(XCPROJ)" -scheme "$(SCHEME)" $(XCODEBUILD_SIMULATOR_ARGS) build | $(XC_PRETTY);
+
+	$(call PRINT_STEP,Creating a universal framework for $(PROJ) ($(SCHEME))…)
+	@XC_SETTINGS=$$($(XCRUN) xcodebuild \
+		-project "$(CHECKOUT_PATH)/$(XCPROJ)" \
+		-scheme "$(SCHEME)" \
 		-derivedDataPath $(DERIVED_DATA_PATH) \
 		-showBuildSettings); \
-	OBJROOT=$$(echo "$$xcsettings" | grep -m 1 OBJROOT | cut -d'=' -f2 | xargs); \
-	TARGET_NAME=$$(echo "$$xcsettings" | grep -m 1 TARGET_NAME | cut -d'=' -f2 | xargs); \
-	FULL_PRODUCT_NAME=$$(echo "$$xcsettings" | grep -m 1 FULL_PRODUCT_NAME | cut -d'=' -f2 | xargs); \
-	EXECUTABLE_NAME=$$(echo "$$xcsettings" | grep -m 1 EXECUTABLE_NAME | cut -d'=' -f2 | xargs); \
-	OS_SOURCE_PATH=$$(readlink "$${OBJROOT}/ArchiveIntermediates/$${TARGET_NAME}/BuildProductsPath/$(4)-iphoneos/$${FULL_PRODUCT_NAME}"); \
-	SIM_SOURCE_PATH="$(DERIVED_DATA_PATH)/Build/Products/$(4)-iphonesimulator/$${FULL_PRODUCT_NAME}"; \
+	OBJROOT=$$(echo "$$XC_SETTINGS" | grep -m 1 OBJROOT | cut -d'=' -f2 | xargs); \
+	TARGET_NAME=$$(echo "$$XC_SETTINGS" | grep -m 1 TARGET_NAME | cut -d'=' -f2 | xargs); \
+	FULL_PRODUCT_NAME=$$(echo "$$XC_SETTINGS" | grep -m 1 FULL_PRODUCT_NAME | cut -d'=' -f2 | xargs); \
+	EXECUTABLE_NAME=$$(echo "$$XC_SETTINGS" | grep -m 1 EXECUTABLE_NAME | cut -d'=' -f2 | xargs); \
+	OS_SOURCE_PATH=$$(readlink "$${OBJROOT}/ArchiveIntermediates/$${TARGET_NAME}/BuildProductsPath/$(CONFIGURATION)-iphoneos/$${FULL_PRODUCT_NAME}"); \
+	SIM_SOURCE_PATH="$(DERIVED_DATA_PATH)/Build/Products/$(CONFIGURATION)-iphonesimulator/$${FULL_PRODUCT_NAME}"; \
 	TARGET_PATH="$(BUILD_DIR)/$${FULL_PRODUCT_NAME}"; \
 	SWIFT_MODULE_PATH="$${SIM_SOURCE_PATH}/Modules/$${EXECUTABLE_NAME}.swiftmodule"; \
 	[ -d "$${TARGET_PATH}" ] && rm -rf $${TARGET_PATH}; \
 	[ ! -d "$${BUILD_DIR}" ] && mkdir -p "$(BUILD_DIR)"; \
-	echo "Copying $${OS_SOURCE_PATH} to $${TARGET_PATH}"; \
 	cp -r "$${OS_SOURCE_PATH}" "$${TARGET_PATH}"; \
 	$(XCRUN) lipo -create "$${OS_SOURCE_PATH}/$${EXECUTABLE_NAME}" "$${SIM_SOURCE_PATH}/$${EXECUTABLE_NAME}" -output "$${TARGET_PATH}/$${EXECUTABLE_NAME}"; \
 	if [ -d "$$SWIFT_MODULE_PATH" ]; then \
 		cp -r "$${SWIFT_MODULE_PATH}/" "$${TARGET_PATH}/Modules/$${EXECUTABLE_NAME}.swiftmodule"; \
 	fi;
-
-endef
-
-define build_device_framework
-	$(eval cleaned_scheme = $(shell echo "$(3)" | sed 's/%20/ /g'))
-	@echo "Building device framework for $(2) $(cleaned_scheme)…";
-
-	@if [ -z "$(5)" ]; then \
-		$(XCRUN) xcodebuild \
-			-project "$(1)/$(2)" \
-			-scheme "$(cleaned_scheme)" \
-			-configuration "$(4)" \
-			-sdk iphoneos \
-			-derivedDataPath $(DERIVED_DATA_PATH) \
-			-toolchain $(TOOLCHAIN) \
-			CODE_SIGNING_REQUIRED=NO \
-			CODE_SIGN_IDENTITY= \
-			CARTHAGE=YES \
-			ONLY_ACTIVE_ARCH=NO \
-			CLANG_ENABLE_CODE_COVERAGE=NO \
-			GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=NO \
-			SKIP_INSTALL=YES \
-			-archivePath "$(DERIVED_DATA_PATH)/BuiltArchives" \
-			BITCODE_GENERATION_MODE=bitcode \
-			ENABLE_BITCODE=YES \
-			archive \
-			| $(XC_PRETTY); \
-	else \
-		$(XCRUN) xcodebuild \
-			-project "$(1)/$(2)" \
-			-scheme "$(cleaned_scheme)" \
-			-configuration "$(4)" \
-			-sdk iphoneos \
-			-derivedDataPath $(DERIVED_DATA_PATH) \
-			-toolchain $(TOOLCHAIN) \
-			CODE_SIGNING_REQUIRED=NO \
-			CODE_SIGN_IDENTITY= \
-			CARTHAGE=YES \
-			ONLY_ACTIVE_ARCH=NO \
-			CLANG_ENABLE_CODE_COVERAGE=NO \
-			GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=NO \
-			SKIP_INSTALL=YES \
-			-archivePath "$(DERIVED_DATA_PATH)/BuiltArchives" \
-			archive \
-			| $(XC_PRETTY); \
-	fi;
-
-endef
-
-define build_simulator_framework
-	$(eval cleaned_scheme = $(shell echo "$(3)" | sed 's/%20/ /g'))
-	@echo "Building simulator framework for $(2) ($cleaned_scheme)…";
-
-	@$(XCRUN) xcodebuild \
-		-project "$(1)/$(2)" \
-		-scheme "$(cleaned_scheme)" \
-		-configuration "$(4)" \
-		-sdk iphonesimulator \
-		-derivedDataPath $(DERIVED_DATA_PATH) \
-		-toolchain $(TOOLCHAIN) \
-		CODE_SIGNING_REQUIRED=NO \
-		CODE_SIGN_IDENTITY= \
-		CARTHAGE=YES \
-		ONLY_ACTIVE_ARCH=NO \
-		build \
-		| $(XC_PRETTY);
-
-endef
