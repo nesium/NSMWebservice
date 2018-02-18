@@ -141,7 +141,7 @@ class NSMWebserviceTests: XCTestCase {
         fetchExpectation.fulfill()
       })
 
-    waitForExpectations(timeout: 1)
+    waitForExpectations(timeout: 3)
     XCTAssertTrue(responseReceived)
   }
 
@@ -158,7 +158,7 @@ class NSMWebserviceTests: XCTestCase {
           fetchExpectation.fulfill()
         })
 
-    waitForExpectations(timeout: 1)
+    waitForExpectations(timeout: 3)
     XCTAssertTrue(responseReceived)
   }
 
@@ -176,7 +176,7 @@ class NSMWebserviceTests: XCTestCase {
           fetchExpectation.fulfill()
         })
 
-    waitForExpectations(timeout: 1)
+    waitForExpectations(timeout: 3)
     XCTAssertTrue(responseReceived)
   }
 
@@ -193,7 +193,7 @@ class NSMWebserviceTests: XCTestCase {
         fetchExpectation.fulfill()
       })
 
-    waitForExpectations(timeout: 1)
+    waitForExpectations(timeout: 3)
     XCTAssertTrue(responseReceived)
   }
 
@@ -210,7 +210,7 @@ class NSMWebserviceTests: XCTestCase {
         fetchExpectation.fulfill()
       })
       
-    waitForExpectations(timeout: 1)
+    waitForExpectations(timeout: 3)
     XCTAssertTrue(responseReceived)
   }
   
@@ -231,7 +231,7 @@ class NSMWebserviceTests: XCTestCase {
         fetchExpectation.fulfill()
       })
 
-    waitForExpectations(timeout: 1)
+    waitForExpectations(timeout: 3)
     XCTAssertTrue(responseReceived)
   }
 
@@ -248,7 +248,7 @@ class NSMWebserviceTests: XCTestCase {
         postExpectation.fulfill()
       })
 
-    waitForExpectations(timeout: 1)
+    waitForExpectations(timeout: 3)
     XCTAssertTrue(responseReceived)
   }
 
@@ -267,7 +267,7 @@ class NSMWebserviceTests: XCTestCase {
         postExpectation.fulfill()
       })
 
-    waitForExpectations(timeout: 1)
+    waitForExpectations(timeout: 3)
     XCTAssertTrue(responseReceived)
   }
 
@@ -286,7 +286,7 @@ class NSMWebserviceTests: XCTestCase {
         postExpectation.fulfill()
       })
 
-    waitForExpectations(timeout: 1)
+    waitForExpectations(timeout: 3)
     XCTAssertTrue(responseReceived)
   }
 }
