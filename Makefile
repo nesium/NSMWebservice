@@ -1,4 +1,4 @@
-# Version 2.1.0
+# Version 2.1.1
 
 # To build a single framework use `make PROJECT/TARGET`, eg. `make NSMSyncKit/NSMSyncKit`
 
@@ -49,7 +49,13 @@ SPACE_REPLACEMENT = @@20
 LPAREN_REPLACEMENT = @@28
 RPAREN_REPLACEMENT = @@29
 
-EXPAND_SCHEMES = $(shell TARGETS=$$(cat $(DEPENDENCIES_CFG) | $(JQ) -r '.[] | select(.name == "$(1)") | (.schemes[])' | sed 's/ /$(SPACE_REPLACEMENT)/g' | sed 's/(/$(LPAREN_REPLACEMENT)/g' | sed 's/)/$(RPAREN_REPLACEMENT)/g'); for target in "$$TARGETS"; do echo "$(1)/$${target}"; done;)
+EXPAND_SCHEMES = $(shell \
+	SCHEMES=$$(cat $(DEPENDENCIES_CFG) | $(JQ) -r '.[] | select(.name == "$(1)") | (.schemes[])'); \
+	for SCHEME in $$SCHEMES; do \
+		CLEANED_SCHEME=$$(echo "$$SCHEME" | sed 's/ /$(SPACE_REPLACEMENT)/g' | sed 's/(/$(LPAREN_REPLACEMENT)/g' | sed 's/)/$(RPAREN_REPLACEMENT)/g'); \
+		echo "$(1)/$${CLEANED_SCHEME}"; \
+	done; \
+)
 
 READ_XCPROJ = $(shell cat $(DEPENDENCIES_CFG) | $(JQ) -r '.[] | select(.name == "$(1)") | (.xcproj)')
 READ_TYPE = $(shell cat $(DEPENDENCIES_CFG) | $(JQ) -r '.[] | select(.name == "$(1)") | (.type)')
