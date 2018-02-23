@@ -1,5 +1,5 @@
 //
-//  Result.swift
+//  ResponseResult.swift
 //  NSMWebservice
 //
 //  Created by Marc Bauer on 14.02.18.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum Result<T> {
+public enum ResponseResult<T> {
   case success(Response<T>)
   case error(Error)
 
@@ -34,7 +34,7 @@ public enum Result<T> {
     return self.response?.data
   }
 
-  public func map<U>(_ transform: (Response<T>) throws -> (U)) -> Result<U> {
+  public func map<U>(_ transform: (Response<T>) throws -> (U)) -> ResponseResult<U> {
     switch self {
       case let .success(response):
         do {
@@ -52,7 +52,7 @@ public enum Result<T> {
   }
 }
 
-internal extension Result {
+internal extension ResponseResult {
   init(urlResponse: URLResponse?, data: Data?, parser: ResponseParser<T>) throws {
     var headers: [String: String]? = nil
     var statusCode: HTTPStatus = .Ok

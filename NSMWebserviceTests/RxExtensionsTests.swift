@@ -13,7 +13,7 @@ import XCTest
 
 class RxExtensionsTests: XCTestCase {
   func testMapToThrowingObservableSuccess() {
-    let result = Result.success(Response(data: "ABC", headerFields: [:], statusCode: .Ok))
+    let result = ResponseResult.success(Response(data: "ABC", headerFields: [:], statusCode: .Ok))
     let observable = Single.just(result)
 
     let exp = expectation(description: "Waiting…")
@@ -39,7 +39,7 @@ class RxExtensionsTests: XCTestCase {
   }
 
   func testMapToThrowingObservableError() {
-    let result = Result<String>.error(NSError(
+    let result = ResponseResult<String>.error(NSError(
       domain: "TestDomain",
       code: -1,
       userInfo: [NSLocalizedDescriptionKey: "TestError"]

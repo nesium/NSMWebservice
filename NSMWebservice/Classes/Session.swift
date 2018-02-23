@@ -21,24 +21,24 @@ final public class Session: WebserviceSession {
     self.session = URLSession(configuration: URLSessionConfiguration.default)
   }
 
-  public func request<I>(_ request: Request<I>) -> Single<Result<Void>> {
+  public func request<I>(_ request: Request<I>) -> Single<ResponseResult<Void>> {
     return self.request(request) { _ in () }
   }
 
   public func request<I, O: Decodable & JSONValue>(
     _ type: O.Type,
-    _ request: Request<I>) -> Single<Result<O>> {
+    _ request: Request<I>) -> Single<ResponseResult<O>> {
     return self.request(request, parser: JSONFragmentResponseParser)
   }
 
-  public func request<I, O: Decodable>(_ type: O.Type, _ request: Request<I>) -> Single<Result<O>> {
+  public func request<I, O: Decodable>(_ type: O.Type, _ request: Request<I>) -> Single<ResponseResult<O>> {
     return self.request(request, parser: JSONResponseParser)
   }
 
   private func request<I, O>(
     _ request: Request<I>,
-    parser: @escaping ResponseParser<O>) -> Single<Result<O>> {
-    return Single<Result<O>>.create { [unowned self] observer in
+    parser: @escaping ResponseParser<O>) -> Single<ResponseResult<O>> {
+    return Single<ResponseResult<O>>.create { [unowned self] observer in
       var task: URLSessionDataTask?
 
       DispatchQueue.global().async {
@@ -46,24 +46,24 @@ final public class Session: WebserviceSession {
         do {
           urlRequest = try request.urlRequest(with: self.baseURL, gzip: self.gzipRequests)
         } catch {
-          observer(.success(Result.error(error)))
+          observer(.success(ResponseResult.error(error)))
           return
         }
 
         task = self.session.dataTask(with: urlRequest) { (data, response, error) in
           if let error = error {
-            observer(.success(Result.error(error)))
+            observer(.success(ResponseResult.error(error)))
             return
           }
 
           do {
-            try observer(.success(Result(
+            try observer(.success(ResponseResult(
               urlResponse: response,
               data: data,
               parser: parser
             )))
           } catch {
-            observer(.success(Result.error(error)))
+            observer(.success(ResponseResult.error(error)))
           }
         }
         task!.resume()
