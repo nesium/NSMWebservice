@@ -307,4 +307,33 @@ class NSMWebserviceTests: XCTestCase {
     waitForExpectations(timeout: 3)
     XCTAssertTrue(responseReceived)
   }
+
+  func testResponseMapDoesNotRethrow() {
+    let fetchExpectation = expectation(description: "Fetch Item")
+    var responseReceived: Bool = false
+
+    _ = session.request(String.self, .get("/testReturnString"))
+      .map { result in
+        result.map { _ in
+          throw NSError(
+            domain: "TestDomain",
+            code: -1,
+            userInfo: [NSLocalizedDescriptionKey: "TestError"]
+          )
+        }
+      }
+      .subscribe(onSuccess: { result in
+        switch result {
+          case .success(_):
+            XCTFail()
+          case .error(let error):
+            XCTAssertEqual(error.localizedDescription, "TestError")
+        }
+        responseReceived = true
+        fetchExpectation.fulfill()
+      })
+
+    waitForExpectations(timeout: 3)
+    XCTAssertTrue(responseReceived)
+  }
 }

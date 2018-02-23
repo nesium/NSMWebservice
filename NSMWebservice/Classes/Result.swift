@@ -34,14 +34,18 @@ public enum Result<T> {
     return self.response?.data
   }
 
-  public func map<U>(_ transform: (Response<T>) throws -> (U)) rethrows -> Result<U> {
+  public func map<U>(_ transform: (Response<T>) throws -> (U)) -> Result<U> {
     switch self {
       case let .success(response):
-        return try .success(Response(
-          data: transform(response),
-          headerFields: response.headerFields,
-          statusCode: response.statusCode
-        ))
+        do {
+          return try .success(Response(
+            data: transform(response),
+            headerFields: response.headerFields,
+            statusCode: response.statusCode
+          ))
+        } catch {
+          return .error(error)
+        }
       case let .error(err):
         return .error(err)
     }
