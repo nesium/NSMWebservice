@@ -33,6 +33,19 @@ public enum Result<T> {
   public var data: T? {
     return self.response?.data
   }
+
+  public func map<U>(_ transform: (Response<T>) throws -> (U)) rethrows -> Result<U> {
+    switch self {
+      case let .success(response):
+        return try .success(Response(
+          data: transform(response),
+          headerFields: response.headerFields,
+          statusCode: response.statusCode
+        ))
+      case let .error(err):
+        return .error(err)
+    }
+  }
 }
 
 internal extension Result {

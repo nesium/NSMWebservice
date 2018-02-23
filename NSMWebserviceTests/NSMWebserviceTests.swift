@@ -289,4 +289,22 @@ class NSMWebserviceTests: XCTestCase {
     waitForExpectations(timeout: 3)
     XCTAssertTrue(responseReceived)
   }
+
+  func testResponseMap() {
+    let fetchExpectation = expectation(description: "Fetch Item")
+    var responseReceived: Bool = false
+
+    _ = session.request(String.self, .get("/testReturnString"))
+      .map { $0.map { [$0.data, $0.data] } }
+      .subscribe(onSuccess: { result in
+        XCTAssertEqual(result.data!.count, 2)
+        XCTAssertEqual(result.data!.first!, "Hello World")
+        XCTAssertEqual(result.data!.last!, "Hello World")
+        responseReceived = true
+        fetchExpectation.fulfill()
+      })
+
+    waitForExpectations(timeout: 3)
+    XCTAssertTrue(responseReceived)
+  }
 }
