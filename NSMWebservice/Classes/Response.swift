@@ -12,6 +12,12 @@ public struct Response<T> {
   public let data: T
   public let headerFields: [String: String]
   public let statusCode: HTTPStatus
+
+  public init(data: T, headerFields: [String: String], statusCode: HTTPStatus) {
+    self.data = data
+    self.headerFields = headerFields
+    self.statusCode = statusCode
+  }
 }
 
 public enum ResponseError: LocalizedError, CustomStringConvertible {
