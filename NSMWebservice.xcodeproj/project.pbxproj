@@ -188,6 +188,14 @@
 			path = GzipSwift;
 			sourceTree = "<group>";
 		};
+		2C72F8B22040094900ECFCDA /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				2C7FFAC61E27667B00CD967B /* NSError+Webservice.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		2CE38E7A1E16613800EDFC3D = {
 			isa = PBXGroup;
 			children = (
@@ -240,12 +248,12 @@
 				2C4027941E18DC480030E7C8 /* JSONCoder.swift */,
 				2C6F0E91203720880058B6F4 /* JSONCoders.swift */,
 				2CE38EA11E16614700EDFC3D /* Keychain.swift */,
-				2C7FFAC61E27667B00CD967B /* NSError+Webservice.swift */,
 				2C6F0E7D203439F70058B6F4 /* Request.swift */,
 				2C6F0E842034E8440058B6F4 /* Response.swift */,
 				2C6F0E822034E8020058B6F4 /* Result.swift */,
 				2CE38EA51E16614700EDFC3D /* Session.swift */,
 				2C36FFFB1E23689000D37BF0 /* WebserviceSession.swift */,
+				2C72F8B22040094900ECFCDA /* Extensions */,
 				2CE38EA61E16614700EDFC3D /* Transformers */,
 			);
 			path = Classes;
