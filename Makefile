@@ -1,4 +1,4 @@
-# Version 2.1.2
+# Version 2.2.0
 
 # To build a single framework use `make PROJECT/TARGET`, eg. `make NSMSyncKit/NSMSyncKit`
 
@@ -68,7 +68,7 @@ SYMLINKED_BUILD_PATHS := $(foreach dep,$(BINARY_DEPENDENCIES),$(dep)/$(BUILD_DIR
 NUM_SPM_DEPS := $(shell cat $(DEPENDENCIES_CFG) | jq -r 'map(select(.type == "spm")) | length')
 NUM_CARTHAGE_DEPS := $(shell cat $(DEPENDENCIES_CFG) | jq -r 'map(select(.type == "carthage")) | length')
 
-SPM_DEPENDENCY_IS_EDITED = $$(cat .build/dependencies-state.json | $(JQ) -r '.object.dependencies[] | select(.name == "$(1)") | (.state) | select(.name == "edited") | (.name)');
+SPM_DEPENDENCY_IS_EDITED = $$(cat .build/dependencies-state.json | $(JQ) -r '.object.dependencies[] | select(.packageRef.name == "$(1)") | (.state) | select(.name == "edited") | (.name)');
 
 PRINT_STEP = @echo "\n\033[00;36m$(subst ",\",$(1))\033[0m\n"
 CURRENT_DIR = $(shell pwd)
@@ -77,7 +77,7 @@ define LIBRARY_CHECKOUT_PATH
 $$(if [ "$(2)" == "carthage" ]; then \
 	echo "$(CARTHAGE_CHECKOUT_PATH)/$(1)"; \
 else \
-	SUBPATH=$$(cat .build/dependencies-state.json | $(JQ) -r '.object.dependencies[] | select(.name == "$(1)") | (.subpath)'); \
+	SUBPATH=$$(cat .build/dependencies-state.json | $(JQ) -r '.object.dependencies[] | select(.packageRef.name == "$(1)") | (.subpath)'); \
 	IS_EDITED=$(call SPM_DEPENDENCY_IS_EDITED,$(1)) \
 	[ -z "$${IS_EDITED}" ] && echo "$(SPM_CHECKOUT_PATH)/$${SUBPATH}" || echo "$(SPM_EDITABLE_CHECKOUT_PATH)/$${SUBPATH}"; \
 fi);
