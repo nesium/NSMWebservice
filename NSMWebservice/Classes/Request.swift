@@ -81,6 +81,21 @@ public struct Request<T> {
     ) { _ in nil }
   }
 
+  public static func post(
+    to path: String,
+    parameters: [URLQueryItem]? = nil,
+    headerFields: [String: String]? = nil,
+    timeoutInterval: TimeInterval = 30) -> Request<Void> {
+    return Request<Void>(
+      .post,
+      path,
+      data: nil,
+      parameters: parameters,
+      headerFields: headerFields,
+      timeoutInterval: timeoutInterval
+    ) { _ in nil }
+  }
+
   public static func post<T: Encodable & JSONValue>(
     _ data: T?,
     to path: String,
@@ -113,6 +128,21 @@ public struct Request<T> {
       timeoutInterval: timeoutInterval,
       bodyDataEncoder: JSONBodyEncoder
     )
+  }
+
+  public static func put(
+    to path: String,
+    parameters: [URLQueryItem]? = nil,
+    headerFields: [String: String]? = nil,
+    timeoutInterval: TimeInterval = 30) -> Request<Void> {
+    return Request<Void>(
+      .put,
+      path,
+      data: nil,
+      parameters: parameters,
+      headerFields: headerFields,
+      timeoutInterval: timeoutInterval
+    ) { _ in nil }
   }
 
   public static func put<T: Encodable>(

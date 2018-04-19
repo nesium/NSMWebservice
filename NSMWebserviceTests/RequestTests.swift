@@ -78,6 +78,24 @@ class RequestTests: XCTestCase {
       with: URL(string: "http://www.example.com")!, gzip: false).snapshottableObject)
   }
 
+  func testEmptyPostRequest() {
+    let req = Request<Void>.post(
+      to: "/hello",
+      parameters: [
+        URLQueryItem(name: "a", value: "1"),
+        URLQueryItem(name: "b", value: "2")
+      ],
+      headerFields: [
+        "Authorization": "Bearer TOKEN",
+        "X-My-Header": "Value"
+      ],
+      timeoutInterval: 10
+    )
+
+    assertSnapshot(matching: try! req.urlRequest(
+      with: URL(string: "http://www.example.com")!, gzip: false).snapshottableObject)
+  }
+
   func testPostRequestWithGzip() {
     let req = Request<[String]>.post(
       ["foo", "bar", "baz"],
@@ -100,6 +118,24 @@ class RequestTests: XCTestCase {
   func testPutRequest() {
     let req = Request<[String]>.put(
       ["foo", "bar", "baz"],
+      to: "/hello",
+      parameters: [
+        URLQueryItem(name: "a", value: "1"),
+        URLQueryItem(name: "b", value: "2")
+      ],
+      headerFields: [
+        "Authorization": "Bearer TOKEN",
+        "X-My-Header": "Value"
+      ],
+      timeoutInterval: 10
+    )
+
+    assertSnapshot(matching: try! req.urlRequest(
+      with: URL(string: "http://www.example.com")!, gzip: false).snapshottableObject)
+  }
+
+  func testEmptyPutRequest() {
+    let req = Request<Void>.put(
       to: "/hello",
       parameters: [
         URLQueryItem(name: "a", value: "1"),
