@@ -31,6 +31,7 @@
 		2CAA073F203262F200999270 /* Swifter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CAA073E203262F200999270 /* Swifter.framework */; };
 		2CB2396D1E1A2B9600059072 /* HTTPStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB2396C1E1A2B9600059072 /* HTTPStatus.swift */; };
 		2CB635301F036D7600591B71 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C2BFD8B1F03238400D8387E /* RxSwift.framework */; };
+		2CCC88F6209382F8003383DC /* JSONValueCodableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCC88F5209382F8003383DC /* JSONValueCodableTests.swift */; };
 		2CE38E8E1E16613800EDFC3D /* NSMWebservice.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CE38E841E16613800EDFC3D /* NSMWebservice.framework */; };
 		2CE38E931E16613800EDFC3D /* NSMWebserviceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE38E921E16613800EDFC3D /* NSMWebserviceTests.swift */; };
 		2CE38E951E16613800EDFC3D /* NSMWebservice.h in Headers */ = {isa = PBXBuildFile; fileRef = 2CE38E871E16613800EDFC3D /* NSMWebservice.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -96,6 +97,7 @@
 		2CA6C7EC1F083BD200F6591E /* KeychainTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainTests.swift; sourceTree = "<group>"; };
 		2CAA073E203262F200999270 /* Swifter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Swifter.framework; path = Carthage/Build/iOS/Swifter.framework; sourceTree = "<group>"; };
 		2CB2396C1E1A2B9600059072 /* HTTPStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPStatus.swift; sourceTree = "<group>"; };
+		2CCC88F5209382F8003383DC /* JSONValueCodableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONValueCodableTests.swift; sourceTree = "<group>"; };
 		2CE38E841E16613800EDFC3D /* NSMWebservice.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NSMWebservice.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2CE38E871E16613800EDFC3D /* NSMWebservice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NSMWebservice.h; sourceTree = "<group>"; };
 		2CE38E881E16613800EDFC3D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -237,6 +239,7 @@
 			isa = PBXGroup;
 			children = (
 				2CE38E941E16613800EDFC3D /* Info.plist */,
+				2CCC88F5209382F8003383DC /* JSONValueCodableTests.swift */,
 				2CA6C7EC1F083BD200F6591E /* KeychainTests.swift */,
 				2CE38E921E16613800EDFC3D /* NSMWebserviceTests.swift */,
 				2C6F0E8F20370F970058B6F4 /* RequestTests.swift */,
@@ -511,6 +514,7 @@
 			files = (
 				2C6F0E9020370F970058B6F4 /* RequestTests.swift in Sources */,
 				2CE38E931E16613800EDFC3D /* NSMWebserviceTests.swift in Sources */,
+				2CCC88F6209382F8003383DC /* JSONValueCodableTests.swift in Sources */,
 				2CA6C7ED1F083BD200F6591E /* KeychainTests.swift in Sources */,
 				2C72F8B820400BF300ECFCDA /* RxExtensionsTests.swift in Sources */,
 			);
