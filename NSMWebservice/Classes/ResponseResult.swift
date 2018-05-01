@@ -50,6 +50,15 @@ public enum ResponseResult<T> {
         return .error(err)
     }
   }
+
+  public func mapHTTPError(_ transform: (HTTPError) -> Error) -> ResponseResult<T> {
+    switch self {
+      case let .error(error) where error is HTTPError:
+        return .error(transform(error as! HTTPError))
+      case .success, .error:
+        return self
+    }
+  }
 }
 
 internal extension ResponseResult {
