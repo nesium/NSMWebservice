@@ -15,6 +15,35 @@ public enum KeychainError: Error {
 }
 
 public struct Keychain {
+  public enum Accessibility {
+    case whenUnlocked
+    case whenUnlockedThisDeviceOnly
+    case afterFirstUnlock
+    case afterFirstUnlockThisDeviceOnly
+    case always
+    case alwaysThisDeviceOnly
+    case whenPasscodeSetThisDeviceOnly
+
+    fileprivate var keychainValue: CFString {
+      switch self {
+        case .whenUnlocked:
+          return kSecAttrAccessibleWhenUnlocked
+        case .whenUnlockedThisDeviceOnly:
+          return kSecAttrAccessibleWhenUnlockedThisDeviceOnly
+        case .afterFirstUnlock:
+          return kSecAttrAccessibleAfterFirstUnlock
+        case .afterFirstUnlockThisDeviceOnly:
+          return kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly
+        case .always:
+          return kSecAttrAccessibleAlways
+        case .alwaysThisDeviceOnly:
+          return kSecAttrAccessibleAlwaysThisDeviceOnly
+        case .whenPasscodeSetThisDeviceOnly:
+          return kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly
+      }
+    }
+  }
+
   public struct Item {
     public let account: String
     public let password: String?
@@ -25,7 +54,8 @@ public struct Keychain {
       account: String,
       password: String?,
       token: String?,
-      refreshToken: String?) {
+      refreshToken: String?
+    ) {
       self.account = account
       self.password = password
       self.token = token
@@ -37,7 +67,8 @@ public struct Keychain {
 
   public static func fetchItem(
     for serviceURL: URL,
-    accessGroup: String? = nil) throws -> Keychain.Item? {
+    accessGroup: String? = nil
+  ) throws -> Keychain.Item? {
     var query = try self.query(for: serviceURL, accessGroup: accessGroup)
     query[(kSecMatchLimit as String)] = kSecMatchLimitOne
     query[(kSecReturnAttributes as String)] = true
@@ -71,7 +102,9 @@ public struct Keychain {
   public static func put(
     item: Keychain.Item,
     for serviceURL: URL,
-    accessGroup: String? = nil) throws {
+    accessibility: Accessibility = .whenUnlocked,
+    accessGroup: String? = nil
+  ) throws {
     var fetchQuery = try self.query(for: serviceURL, accessGroup: accessGroup)
     fetchQuery[(kSecMatchLimit as String)] = kSecMatchLimitOne
 
@@ -79,7 +112,10 @@ public struct Keychain {
 
     if SecItemCopyMatching(fetchQuery as CFDictionary, nil) == errSecSuccess {
       let query = try self.query(for: serviceURL, accessGroup: accessGroup)
-      let attributesToUpdate = [(kSecValueData as String): itemData]
+      let attributesToUpdate: [String: Any] = [
+        (kSecValueData as String): itemData,
+        (kSecAttrAccessible as String): accessibility.keychainValue
+      ]
       let status = SecItemUpdate(query as CFDictionary, attributesToUpdate as CFDictionary)
 
       guard status == noErr else {
@@ -88,6 +124,7 @@ public struct Keychain {
     } else {
       var query = try self.query(for: serviceURL, accessGroup: accessGroup)
       query[(kSecValueData as String)] = itemData
+      query[(kSecAttrAccessible as String)] = accessibility.keychainValue
       let status = SecItemAdd(query as CFDictionary, nil)
 
       guard status == noErr else {
