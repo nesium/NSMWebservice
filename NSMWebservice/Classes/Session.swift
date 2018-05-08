@@ -9,17 +9,50 @@
 import Foundation
 import RxSwift
 
-final public class Session: WebserviceSession {
+final public class Session: NSObject, WebserviceSession, URLSessionDelegate {
   public let baseURL: URL
   public let gzipRequests: Bool
 
-  private let session: URLSession
+  private var session: URLSession!
+  private let certificates: [SecCertificate]?
+
+  // MARK: - Initialization -
 
   public init(baseURL: URL, gzipRequests: Bool = true) {
     self.baseURL = baseURL
     self.gzipRequests = gzipRequests
     self.session = URLSession(configuration: URLSessionConfiguration.default)
+    self.certificates = nil
+
+    super.init()
   }
+
+  public init(baseURL: URL, gzipRequests: Bool = true, certificateURLs: [URL]) throws {
+    self.baseURL = baseURL
+    self.gzipRequests = gzipRequests
+    self.certificates = try certificateURLs.map { url in
+      guard let certificate = try SecCertificateCreateWithData(
+        nil, Data(contentsOf: url) as CFData
+      ) else {
+        throw NSError(
+          domain: "SessionErrorDomain",
+          code: 1,
+          userInfo: [NSLocalizedDescriptionKey: "Certificate at path '\(url)' could not be read."]
+        )
+      }
+      return certificate
+    }
+
+    super.init()
+
+    self.session = URLSession(
+      configuration: URLSessionConfiguration.default,
+      delegate: self,
+      delegateQueue: nil
+    )
+  }
+
+  // MARK: - WebserviceSession Protocol -
 
   public func request<I>(_ request: Request<I>) -> Single<ResponseResult<Void>> {
     return self.request(request) { _ in () }
@@ -31,9 +64,13 @@ final public class Session: WebserviceSession {
     return self.request(request, parser: JSONFragmentResponseParser)
   }
 
-  public func request<I, O: Decodable>(_ type: O.Type, _ request: Request<I>) -> Single<ResponseResult<O>> {
+  public func request<I, O: Decodable>(
+    _ type: O.Type, _ request: Request<I>
+  ) -> Single<ResponseResult<O>> {
     return self.request(request, parser: JSONResponseParser)
   }
+
+  // MARK: - Private Methods -
 
   private func request<I, O>(
     _ request: Request<I>,
@@ -71,6 +108,48 @@ final public class Session: WebserviceSession {
 
       return Disposables.create { task?.cancel() }
     }
+  }
+
+  // MARK: - URLSessionDelegate Protocol -
+
+  public func urlSession(
+    _ session: URLSession,
+    didReceive challenge: URLAuthenticationChallenge,
+    completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+    guard let certificates = self.certificates else {
+      completionHandler(.performDefaultHandling, nil)
+      return
+    }
+
+    guard
+      let trust = challenge.protectionSpace.serverTrust,
+      SecTrustGetCertificateCount(trust) > 0 else
+    {
+      completionHandler(.cancelAuthenticationChallenge, nil)
+      return
+    }
+
+    SecTrustSetPolicies(
+      trust,
+      SecPolicyCreateSSL(true, challenge.protectionSpace.host as CFString)
+    )
+
+    SecTrustSetAnchorCertificates(trust, certificates as CFArray)
+    SecTrustSetAnchorCertificatesOnly(trust, true)
+
+    var isValid = false
+    var result = SecTrustResultType.invalid
+
+    if SecTrustEvaluate(trust, &result) == errSecSuccess {
+      isValid = result == .unspecified || result == .proceed
+    }
+
+    guard isValid else {
+      completionHandler(.cancelAuthenticationChallenge, nil)
+      return
+    }
+
+    completionHandler(.useCredential, URLCredential(trust: trust))
   }
 }
 
