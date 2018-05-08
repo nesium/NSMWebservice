@@ -26,6 +26,7 @@ extension Double: JSONValue {}
 extension Float: JSONValue {}
 extension String: JSONValue {}
 extension Date: JSONValue {}
+extension Data: JSONValue {}
 
 
 
@@ -67,6 +68,8 @@ extension KeyedEncodingContainer {
         try self.encode(value, forKey: key)
       case let value as String:
         try self.encode(value, forKey: key)
+      case let value as Data:
+        try self.encode(value, forKey: key)
       case is Date:
         fatalError("Date is not supported yet")
       default:
@@ -107,6 +110,8 @@ extension KeyedDecodingContainer {
         return try self.decodeIfPresent(Float.self, forKey: key) as? T
       case is String.Type:
         return try self.decodeIfPresent(String.self, forKey: key) as? T
+      case is Data.Type:
+        return try self.decodeIfPresent(Data.self, forKey: key) as? T
       case is Date.Type:
         fatalError("Date is not supported yet")
       default:
@@ -144,6 +149,8 @@ extension KeyedDecodingContainer {
         return try self.decode(Float.self, forKey: key) as! T
       case is String.Type:
         return try self.decode(String.self, forKey: key) as! T
+      case is Data.Type:
+        return try self.decode(Data.self, forKey: key) as! T
       case is Date.Type:
         fatalError("Date is not supported yet")
       default:
