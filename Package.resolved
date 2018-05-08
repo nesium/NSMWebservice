@@ -14,8 +14,8 @@
         "package": "SnapshotTesting",
         "repositoryURL": "https://github.com/pointfreeco/swift-snapshot-testing.git",
         "state": {
-          "branch": null,
-          "revision": "e14c1a3f423196c443fef25f5d306bc9106cd557",
+          "branch": "master",
+          "revision": "0a86107bae064e8429413dbedde1be1218fb683c",
           "version": null
         }
       }
