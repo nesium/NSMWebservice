@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2C03D2AF20B4313100C52BD4 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C03D2AE20B4313100C52BD4 /* Reachability.swift */; };
+		2C03D2B120B4325C00C52BD4 /* ReachabilityService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C03D2B020B4325C00C52BD4 /* ReachabilityService.swift */; };
 		2C2BFD8D1F0323AD00D8387E /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C2BFD8B1F03238400D8387E /* RxSwift.framework */; };
 		2C36FFFC1E23689000D37BF0 /* WebserviceSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C36FFFB1E23689000D37BF0 /* WebserviceSession.swift */; };
 		2C4027951E18DC480030E7C8 /* JSONCoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4027941E18DC480030E7C8 /* JSONCoder.swift */; };
@@ -70,6 +72,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2C03D2AE20B4313100C52BD4 /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
+		2C03D2B020B4325C00C52BD4 /* ReachabilityService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReachabilityService.swift; sourceTree = "<group>"; };
 		2C2BFD8B1F03238400D8387E /* RxSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxSwift.framework; path = Carthage/Build/iOS/RxSwift.framework; sourceTree = "<group>"; };
 		2C36FFFB1E23689000D37BF0 /* WebserviceSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebserviceSession.swift; sourceTree = "<group>"; };
 		2C4027941E18DC480030E7C8 /* JSONCoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONCoder.swift; sourceTree = "<group>"; };
@@ -152,6 +156,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2C03D2AD20B4311F00C52BD4 /* Reachability.swift */ = {
+			isa = PBXGroup;
+			children = (
+				2C03D2AE20B4313100C52BD4 /* Reachability.swift */,
+			);
+			path = Reachability.swift;
+			sourceTree = "<group>";
+		};
 		2C059F4F1E1798F500F18CD3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -181,6 +193,7 @@
 		2C5C55E01EF2F76800941012 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				2C03D2AD20B4311F00C52BD4 /* Reachability.swift */,
 				2C5C55E11EF2F76800941012 /* GzipSwift */,
 			);
 			path = Libraries;
@@ -257,6 +270,7 @@
 				2C4027941E18DC480030E7C8 /* JSONCoder.swift */,
 				2C6F0E91203720880058B6F4 /* JSONCoders.swift */,
 				2CE38EA11E16614700EDFC3D /* Keychain.swift */,
+				2C03D2B020B4325C00C52BD4 /* ReachabilityService.swift */,
 				2C6F0E7D203439F70058B6F4 /* Request.swift */,
 				2C6F0E842034E8440058B6F4 /* Response.swift */,
 				2C6F0E822034E8020058B6F4 /* ResponseResult.swift */,
@@ -499,11 +513,13 @@
 				2C6F0E832034E8020058B6F4 /* ResponseResult.swift in Sources */,
 				2C36FFFC1E23689000D37BF0 /* WebserviceSession.swift in Sources */,
 				2C72F8B620400A5D00ECFCDA /* PrimitiveSequence+Webservice.swift in Sources */,
+				2C03D2B120B4325C00C52BD4 /* ReachabilityService.swift in Sources */,
 				2C6F0E7E203439F70058B6F4 /* Request.swift in Sources */,
 				2C5C55EA1EF31D7900941012 /* Data+Gzip.swift in Sources */,
 				2C4027951E18DC480030E7C8 /* JSONCoder.swift in Sources */,
 				2CE38EAB1E16614700EDFC3D /* Keychain.swift in Sources */,
 				2CE38EB11E16614700EDFC3D /* ValueTransformer.swift in Sources */,
+				2C03D2AF20B4313100C52BD4 /* Reachability.swift in Sources */,
 				2C7FFAC71E27667B00CD967B /* NSError+Webservice.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
