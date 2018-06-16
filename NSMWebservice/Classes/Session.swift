@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import os.log
 import RxSwift
 
 final public class Session: NSObject, WebserviceSession, URLSessionDelegate {
@@ -16,18 +17,34 @@ final public class Session: NSObject, WebserviceSession, URLSessionDelegate {
   private var session: URLSession!
   private let certificates: [SecCertificate]?
 
+  private let requestLogger: ((URLRequest) -> ())?
+  private let responseLogger: ((URL?, Data?, URLResponse?, Error?) -> ())?
+
   // MARK: - Initialization -
 
-  public init(baseURL: URL, gzipRequests: Bool = true) {
+  public init(
+    baseURL: URL,
+    gzipRequests: Bool = true,
+    requestLogger: ((URLRequest) -> ())? = nil,
+    responseLogger: ((URL?, Data?, URLResponse?, Error?) -> ())? = nil
+  ) {
     self.baseURL = baseURL
     self.gzipRequests = gzipRequests
     self.session = URLSession(configuration: URLSessionConfiguration.default)
     self.certificates = nil
+    self.requestLogger = requestLogger
+    self.responseLogger = responseLogger
 
     super.init()
   }
 
-  public init(baseURL: URL, gzipRequests: Bool = true, certificateURLs: [URL]) throws {
+  public init(
+    baseURL: URL,
+    gzipRequests: Bool = true,
+    certificateURLs: [URL],
+    requestLogger: ((URLRequest) -> ())? = nil,
+    responseLogger: ((URL?, Data?, URLResponse?, Error?) -> ())? = nil
+  ) throws {
     self.baseURL = baseURL
     self.gzipRequests = gzipRequests
     self.certificates = try certificateURLs.map { url in
@@ -42,6 +59,8 @@ final public class Session: NSObject, WebserviceSession, URLSessionDelegate {
       }
       return certificate
     }
+    self.requestLogger = requestLogger
+    self.responseLogger = responseLogger
 
     super.init()
 
@@ -87,11 +106,16 @@ final public class Session: NSObject, WebserviceSession, URLSessionDelegate {
           return
         }
 
+        let url = urlRequest.url
+        self.requestLogger?(urlRequest)
+
         task = self.session.dataTask(with: urlRequest) { (data, response, error) in
           if let error = error {
             observer(.success(ResponseResult.error(error)))
             return
           }
+
+          self.responseLogger?(url, data, response, error)
 
           do {
             try observer(.success(ResponseResult(
