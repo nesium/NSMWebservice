@@ -194,6 +194,6 @@ fileprivate func JSONFragmentResponseParser<T>(_ data: Data?) throws -> T {
   return decodedData
 }
 
-fileprivate func JSONResponseParser<T: Decodable>(_ data: Data?) throws -> T {
+internal func JSONResponseParser<T: Decodable>(_ data: Data?) throws -> T {
   return try WSJSONDecoder().decode(T.self, from: NonEmptyDataResponseParser(data))
 }

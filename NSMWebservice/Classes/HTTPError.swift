@@ -11,10 +11,19 @@ import Foundation
 public struct HTTPError: LocalizedError, CustomStringConvertible {
   public let headerFields: [String: String]
   public let statusCode: HTTPStatus
+  public let response: URLResponse?
+  public let data: Data?
 
-  public init(headerFields: [String: String], statusCode: HTTPStatus) {
+  public init(
+    headerFields: [String: String],
+    statusCode: HTTPStatus,
+    response: URLResponse?,
+    data: Data?
+  ) {
     self.headerFields = headerFields
     self.statusCode = statusCode
+    self.response = response
+    self.data = data
   }
 
   public var description: String {
@@ -23,5 +32,9 @@ public struct HTTPError: LocalizedError, CustomStringConvertible {
 
   public var errorDescription: String? {
     return self.description
+  }
+
+  public func decodedData<T: Decodable>() throws -> T {
+    return try JSONResponseParser(self.data)
   }
 }

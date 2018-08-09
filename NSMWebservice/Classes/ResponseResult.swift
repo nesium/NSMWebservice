@@ -72,7 +72,12 @@ internal extension ResponseResult {
     }
 
     guard statusCode.isSuccess else {
-      self = .error(HTTPError(headerFields: headers ?? [:], statusCode: statusCode))
+      self = .error(HTTPError(
+        headerFields: headers ?? [:],
+        statusCode: statusCode,
+        response: urlResponse,
+        data: data
+      ))
       return
     }
 
