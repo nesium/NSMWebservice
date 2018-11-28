@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		2C03D2AF20B4313100C52BD4 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C03D2AE20B4313100C52BD4 /* Reachability.swift */; };
 		2C03D2B120B4325C00C52BD4 /* ReachabilityService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C03D2B020B4325C00C52BD4 /* ReachabilityService.swift */; };
+		2C19EB3921AEBF1C00C17BB6 /* ResponseHeadersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C19EB3821AEBF1C00C17BB6 /* ResponseHeadersTests.swift */; };
 		2C2BFD8D1F0323AD00D8387E /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C2BFD8B1F03238400D8387E /* RxSwift.framework */; };
 		2C36FFFC1E23689000D37BF0 /* WebserviceSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C36FFFB1E23689000D37BF0 /* WebserviceSession.swift */; };
 		2C4027951E18DC480030E7C8 /* JSONCoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4027941E18DC480030E7C8 /* JSONCoder.swift */; };
@@ -74,6 +75,7 @@
 /* Begin PBXFileReference section */
 		2C03D2AE20B4313100C52BD4 /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		2C03D2B020B4325C00C52BD4 /* ReachabilityService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReachabilityService.swift; sourceTree = "<group>"; };
+		2C19EB3821AEBF1C00C17BB6 /* ResponseHeadersTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseHeadersTests.swift; sourceTree = "<group>"; };
 		2C2BFD8B1F03238400D8387E /* RxSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxSwift.framework; path = Carthage/Build/iOS/RxSwift.framework; sourceTree = "<group>"; };
 		2C36FFFB1E23689000D37BF0 /* WebserviceSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebserviceSession.swift; sourceTree = "<group>"; };
 		2C4027941E18DC480030E7C8 /* JSONCoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONCoder.swift; sourceTree = "<group>"; };
@@ -256,6 +258,7 @@
 				2CA6C7EC1F083BD200F6591E /* KeychainTests.swift */,
 				2CE38E921E16613800EDFC3D /* NSMWebserviceTests.swift */,
 				2C6F0E8F20370F970058B6F4 /* RequestTests.swift */,
+				2C19EB3821AEBF1C00C17BB6 /* ResponseHeadersTests.swift */,
 				2C72F8B720400BF300ECFCDA /* RxExtensionsTests.swift */,
 				2CECF4671EAA9B6B00FE8BF0 /* Test Data */,
 			);
@@ -530,6 +533,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2C6F0E9020370F970058B6F4 /* RequestTests.swift in Sources */,
+				2C19EB3921AEBF1C00C17BB6 /* ResponseHeadersTests.swift in Sources */,
 				2CE38E931E16613800EDFC3D /* NSMWebserviceTests.swift in Sources */,
 				2CCC88F6209382F8003383DC /* JSONValueCodableTests.swift in Sources */,
 				2CA6C7ED1F083BD200F6591E /* KeychainTests.swift in Sources */,

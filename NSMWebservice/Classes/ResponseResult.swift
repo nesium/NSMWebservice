@@ -40,7 +40,7 @@ public enum ResponseResult<T> {
         do {
           return try .success(Response(
             data: transform(response),
-            headerFields: response.headerFields,
+            responseHeaders: response.headerFields,
             statusCode: response.statusCode
           ))
         } catch {
