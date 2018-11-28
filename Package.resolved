@@ -6,8 +6,8 @@
         "repositoryURL": "https://github.com/ReactiveX/RxSwift.git",
         "state": {
           "branch": null,
-          "revision": "3e848781c7756accced855a6317a4c2ff5e8588b",
-          "version": "4.1.2"
+          "revision": "e8aa1d892a0d8a153a28b74cbad25be534926f49",
+          "version": "4.4.0"
         }
       },
       {
@@ -15,7 +15,7 @@
         "repositoryURL": "https://github.com/pointfreeco/swift-snapshot-testing.git",
         "state": {
           "branch": "master",
-          "revision": "0a86107bae064e8429413dbedde1be1218fb683c",
+          "revision": "c3ba842f97db50b09d9382b88298654cc511a435",
           "version": null
         }
       }

@@ -37,8 +37,10 @@ class RequestTests: XCTestCase {
       timeoutInterval: 10
     )
 
-    assertSnapshot(matching: try! req.urlRequest(
-      with: URL(string: "http://www.example.com")!, gzip: false).snapshottableObject)
+    assertSnapshot(
+      matching: try! req.urlRequest(with: URL(string: "http://www.example.com")!, gzip: false),
+      as: .dump
+    )
   }
 
   func testDeleteRequest() {
@@ -55,8 +57,10 @@ class RequestTests: XCTestCase {
       timeoutInterval: 10
     )
 
-    assertSnapshot(matching: try! req.urlRequest(
-      with: URL(string: "http://www.example.com")!, gzip: false).snapshottableObject)
+    assertSnapshot(
+      matching: try! req.urlRequest(with: URL(string: "http://www.example.com")!, gzip: false),
+      as: .dump
+    )
   }
 
   func testPostRequest() {
@@ -74,8 +78,10 @@ class RequestTests: XCTestCase {
       timeoutInterval: 10
     )
 
-    assertSnapshot(matching: try! req.urlRequest(
-      with: URL(string: "http://www.example.com")!, gzip: false).snapshottableObject)
+    assertSnapshot(
+      matching: try! req.urlRequest(with: URL(string: "http://www.example.com")!, gzip: false),
+      as: .dump
+    )
   }
 
   func testEmptyPostRequest() {
@@ -92,8 +98,10 @@ class RequestTests: XCTestCase {
       timeoutInterval: 10
     )
 
-    assertSnapshot(matching: try! req.urlRequest(
-      with: URL(string: "http://www.example.com")!, gzip: false).snapshottableObject)
+    assertSnapshot(
+      matching: try! req.urlRequest(with: URL(string: "http://www.example.com")!, gzip: false),
+      as: .dump
+    )
   }
 
   func testPostRequestWithGzip() {
@@ -111,8 +119,10 @@ class RequestTests: XCTestCase {
       timeoutInterval: 10
     )
 
-    assertSnapshot(matching: try! req.urlRequest(
-      with: URL(string: "http://www.example.com")!, gzip: true).snapshottableObject)
+    assertSnapshot(
+      matching: try! req.urlRequest(with: URL(string: "http://www.example.com")!, gzip: true),
+      as: .dump
+    )
   }
 
   func testPutRequest() {
@@ -130,8 +140,10 @@ class RequestTests: XCTestCase {
       timeoutInterval: 10
     )
 
-    assertSnapshot(matching: try! req.urlRequest(
-      with: URL(string: "http://www.example.com")!, gzip: false).snapshottableObject)
+    assertSnapshot(
+      matching: try! req.urlRequest(with: URL(string: "http://www.example.com")!, gzip: false),
+      as: .dump
+    )
   }
 
   func testEmptyPutRequest() {
@@ -148,8 +160,10 @@ class RequestTests: XCTestCase {
       timeoutInterval: 10
     )
 
-    assertSnapshot(matching: try! req.urlRequest(
-      with: URL(string: "http://www.example.com")!, gzip: false).snapshottableObject)
+    assertSnapshot(
+      matching: try! req.urlRequest(with: URL(string: "http://www.example.com")!, gzip: false),
+      as: .dump
+    )
   }
 
   func testDateFragmentEncoding() {
@@ -158,8 +172,10 @@ class RequestTests: XCTestCase {
       to: "/hello"
     )
 
-    assertSnapshot(matching: try! req.urlRequest(
-      with: URL(string: "http://www.example.com")!, gzip: false).snapshottableObject)
+    assertSnapshot(
+      matching: try! req.urlRequest(with: URL(string: "http://www.example.com")!, gzip: false),
+      as: .dump
+    )
   }
 
   func testDateEncoding() {
@@ -168,8 +184,9 @@ class RequestTests: XCTestCase {
       to: "/hello"
     )
 
-    assertSnapshot(matching: try! req.urlRequest(
-      with: URL(string: "http://www.example.com")!, gzip: false).snapshottableObject)
+    assertSnapshot(
+      matching: try! req.urlRequest(with: URL(string: "http://www.example.com")!, gzip: false),
+      as: .dump
+    )
   }
-
 }

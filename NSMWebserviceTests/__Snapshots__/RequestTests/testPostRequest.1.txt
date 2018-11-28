@@ -1,28 +1,29 @@
-▿ 5 key/value pairs
-  ▿ (2 elements)
-    - key: "headerFields"
-    ▿ value: 4 key/value pairs
+▿ http://www.example.com/hello?a=1&b=2
+  ▿ url: Optional<URL>
+    - some: http://www.example.com/hello?a=1&b=2
+  - cachePolicy: 0
+  - timeoutInterval: 10.0
+  - mainDocumentURL: Optional<URL>.none
+  - networkServiceType: NSURLRequestNetworkServiceType.NSURLRequestNetworkServiceType
+  - allowsCellularAccess: true
+  ▿ httpMethod: Optional<String>
+    - some: "POST"
+  ▿ allHTTPHeaderFields: Optional<Dictionary<String, String>>
+    ▿ some: 4 key/value pairs
       ▿ (2 elements)
-        - key: "Content-Type"
+        - key: "Accept"
         - value: "application/json"
       ▿ (2 elements)
         - key: "Authorization"
         - value: "Bearer TOKEN"
       ▿ (2 elements)
-        - key: "Accept"
+        - key: "Content-Type"
         - value: "application/json"
       ▿ (2 elements)
         - key: "X-My-Header"
         - value: "Value"
-  ▿ (2 elements)
-    - key: "method"
-    - value: "POST"
-  ▿ (2 elements)
-    - key: "httpBody"
-    - value: "WyJmb28iLCJiYXIiLCJiYXoiXQ=="
-  ▿ (2 elements)
-    - key: "url"
-    - value: "http://www.example.com/hello?a=1&b=2"
-  ▿ (2 elements)
-    - key: "timeoutInterval"
-    - value: 10.0
+  ▿ httpBody: Optional<Data>
+    - some: 19 bytes
+  - httpBodyStream: Optional<NSInputStream>.none
+  - httpShouldHandleCookies: true
+  - httpShouldUsePipelining: false
