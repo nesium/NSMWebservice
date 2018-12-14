@@ -1,1 +1,3 @@
-github "httpswift/swifter" "9c25524169b725128d6b5db719875faf771a96b2"
+github "ReactiveX/RxSwift" "4.4.0"
+github "httpswift/swifter" "febcee7cab4b623480f9660fdd980a0cbbdea380"
+github "pointfreeco/swift-snapshot-testing" "1.0.0"
