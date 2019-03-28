@@ -5,7 +5,7 @@
 /*
  The MIT License (MIT)
  
- © 2014-2017 1024jp <wolfrosch.com>
+ © 2014-2019 1024jp <wolfrosch.com>
  
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -27,11 +27,14 @@
  */
 
 import Foundation
-import zlib
 
-/**
- Compression level whose rawValue is based on the zlib's constants.
- */
+#if os(Linux)
+    import zlibLinux
+#else
+    import zlib
+#endif
+
+/// Compression level whose rawValue is based on the zlib's constants.
 public struct CompressionLevel: RawRepresentable {
     
     /// Compression level in the range of `0` (no compression) to `9` (maximum compression).
@@ -39,9 +42,9 @@ public struct CompressionLevel: RawRepresentable {
     
     public static let noCompression = CompressionLevel(Z_NO_COMPRESSION)
     public static let bestSpeed = CompressionLevel(Z_BEST_SPEED)
-    public static let bestCompression =  CompressionLevel(Z_BEST_COMPRESSION)
+    public static let bestCompression = CompressionLevel(Z_BEST_COMPRESSION)
     
-    public static let defaultCompression =  CompressionLevel(Z_DEFAULT_COMPRESSION)
+    public static let defaultCompression = CompressionLevel(Z_DEFAULT_COMPRESSION)
     
     
     public init(rawValue: Int32) {
@@ -58,53 +61,40 @@ public struct CompressionLevel: RawRepresentable {
 }
 
 
-/**
- Errors on gzipping/gunzipping based on the zlib error codes.
- */
+/// Errors on gzipping/gunzipping based on the zlib error codes.
 public struct GzipError: Swift.Error {
     // cf. http://www.zlib.net/manual.html
     
-    public enum Kind {
-        /**
-         The stream structure was inconsistent.
-         
-         - underlying zlib error: `Z_STREAM_ERROR` (-2)
-         */
+    public enum Kind: Equatable {
+        /// The stream structure was inconsistent.
+        ///
+        /// - underlying zlib error: `Z_STREAM_ERROR` (-2)
         case stream
         
-        /**
-         The input data was corrupted (input stream not conforming to the zlib format or incorrect check value).
-         
-         - underlying zlib error: `Z_DATA_ERROR` (-3)
-         */
+        /// The input data was corrupted
+        /// (input stream not conforming to the zlib format or incorrect check value).
+        ///
+        /// - underlying zlib error: `Z_DATA_ERROR` (-3)
         case data
         
-        /**
-         There was not enough memory.
-         
-         - underlying zlib error: `Z_MEM_ERROR` (-4)
-         */
+        /// There was not enough memory.
+        ///
+        /// - underlying zlib error: `Z_MEM_ERROR` (-4)
         case memory
         
-        /**
-         No progress is possible or there was not enough room in the output buffer.
-         
-         - underlying zlib error: `Z_BUF_ERROR` (-5)
-         */
+        /// No progress is possible or there was not enough room in the output buffer.
+        ///
+        /// - underlying zlib error: `Z_BUF_ERROR` (-5)
         case buffer
         
-        /**
-         The zlib library version is incompatible with the version assumed by the caller.
-         
-         - underlying zlib error: `Z_VERSION_ERROR` (-6)
-         */
+        /// The zlib library version is incompatible with the version assumed by the caller.
+        ///
+        /// - underlying zlib error: `Z_VERSION_ERROR` (-6)
         case version
         
-        /**
-         An unknown error occurred.
-         
-         - parameter code: return error by zlib
-         */
+        /// An unknown error occurred.
+        ///
+        /// - parameter code: return error by zlib
         case unknown(code: Int)
     }
     
@@ -151,36 +141,33 @@ public struct GzipError: Swift.Error {
 }
 
 
-public extension Data {
+extension Data {
     
-    /**
-     Whether the data is compressed in gzip format.
-     */
+    /// Whether the receiver is compressed in gzip format.
     public var isGzipped: Bool {
         
         return self.starts(with: [0x1f, 0x8b])  // check magic number
     }
     
     
-    /**
-    Create a new `Data` object by compressing the receiver using zlib.
-    Throws an error if compression failed.
-     
-    - parameters:
-        - level: Compression level.
-    
-    - throws: `GzipError`
-    - returns: Gzip-compressed `Data` object.
-    */
+    /// Create a new `Data` object by compressing the receiver using zlib.
+    /// Throws an error if compression failed.
+    ///
+    /// - Parameter level: Compression level.
+    /// - Returns: Gzip-compressed `Data` object.
+    /// - Throws: `GzipError`
     public func gzipped(level: CompressionLevel = .defaultCompression) throws -> Data {
         
         guard !self.isEmpty else {
             return Data()
         }
-        
-        var stream = self.createZStream()
+
+        let contiguousData = self.withUnsafeBytes { (ptr: UnsafeRawBufferPointer) in
+          Data(bytes: ptr.baseAddress!, count: self.count)
+        }
+        var stream = contiguousData.createZStream()
         var status: Int32
-        
+
         status = deflateInit2_(&stream, level.rawValue, Z_DEFLATED, MAX_WBITS + 16, MAX_MEM_LEVEL, Z_DEFAULT_STRATEGY, ZLIB_VERSION, Int32(DataSize.stream))
 
         guard status == Z_OK else {
@@ -188,45 +175,43 @@ public extension Data {
             // Z_VERSION_ERROR  The zlib library version is incompatible with the version assumed by the caller.
             // Z_MEM_ERROR      There was not enough memory.
             // Z_STREAM_ERROR   A parameter is invalid.
-            
+
             throw GzipError(code: status, msg: stream.msg)
         }
-        
+
         var data = Data(capacity: DataSize.chunk)
+        // create buffer
+        var compressBuffer = [Bytef](repeating: 0, count: DataSize.chunk)
+        // new part of the while loop
         while stream.avail_out == 0 {
-            if Int(stream.total_out) >= data.count {
-                data.count += DataSize.chunk
-            }
-            
-            data.withUnsafeMutableBytes { (bytes: UnsafeMutablePointer<Bytef>) in
-                stream.next_out = bytes.advanced(by: Int(stream.total_out))
-            }
-            stream.avail_out = uInt(data.count) - uInt(stream.total_out)
-            
+            stream.next_out = UnsafeMutableRawPointer(mutating: compressBuffer).assumingMemoryBound(to: Bytef.self)
+            stream.avail_out = uint(DataSize.chunk)
+
             deflate(&stream, Z_FINISH)
+
+            data.append(&compressBuffer, count: DataSize.chunk-Int(stream.avail_out))
         }
-        
+
         deflateEnd(&stream)
         data.count = Int(stream.total_out)
-        
+
         return data
     }
     
     
-    /**
-    Create a new `Data` object by decompressing the receiver using zlib.
-    Throws an error if decompression failed.
-    
-    - throws: `GzipError`
-    - returns: Gzip-decompressed `Data` object.
-    */
+    /// Create a new `Data` object by decompressing the receiver using zlib.
+    /// Throws an error if decompression failed.
+    ///
+    /// - Returns: Gzip-decompressed `Data` object.
+    /// - Throws: `GzipError`
     public func gunzipped() throws -> Data {
         
         guard !self.isEmpty else {
             return Data()
         }
-        
-        var stream = self.createZStream()
+
+        let contiguousData = self.withUnsafeBytes { Data(bytes: $0, count: self.count) }
+        var stream = contiguousData.createZStream()
         var status: Int32
         
         status = inflateInit2_(&stream, MAX_WBITS + 32, ZLIB_VERSION, Int32(DataSize.stream))
@@ -240,11 +225,11 @@ public extension Data {
             throw GzipError(code: status, msg: stream.msg)
         }
         
-        var data = Data(capacity: self.count * 2)
+        var data = Data(capacity: contiguousData.count * 2)
         
         repeat {
             if Int(stream.total_out) >= data.count {
-                data.count += self.count / 2
+                data.count += contiguousData.count / 2
             }
             
             data.withUnsafeMutableBytes { (bytes: UnsafeMutablePointer<Bytef>) in

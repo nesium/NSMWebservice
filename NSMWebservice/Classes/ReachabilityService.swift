@@ -73,7 +73,7 @@ public class ReachabilityService: ReachabilityServiceType {
   }
 
   private func remove(observer: ConnectionObserver) {
-    guard let idx = self.observers.index(where: { $0 === observer }) else {
+    guard let idx = self.observers.firstIndex(where: { $0 === observer }) else {
       return
     }
 
