@@ -2,6 +2,64 @@
 Change Log
 ==========================
 
+5.0.0
+--------------------------
+
+### Changes
+
+- Update for Swift 5.0
+
+
+4.1.0
+--------------------------
+
+### Changes
+
+- Support Bitcode.
+- Update for Swift 4.2.
+- Conform GzipError to Equatable.
+
+
+4.0.4
+--------------------------
+
+### Fixes
+
+- Fix CocoaPods distribution.
+
+
+4.0.3
+--------------------------
+
+### Fixes
+
+- Fix running on Linux.
+- Fix a runtime crash with Xcode 9.1.
+
+
+4.0.2
+--------------------------
+
+### Fixes
+
+- Fix disabling code coverage support.
+
+
+4.0.1
+--------------------------
+
+### Changes
+
+- Disable code coverage test.
+
+
+4.0.0
+--------------------------
+
+No change since 4.0.0-beta.2.
+
+
+
 4.0.0-beta.2
 --------------------------
 
