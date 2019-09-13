@@ -45,10 +45,10 @@ public struct Keychain {
   }
 
   public struct Item {
-    public let account: String
-    public let password: String?
-    public let token: String?
-    public let refreshToken: String?
+    public var account: String
+    public var password: String?
+    public var token: String?
+    public var refreshToken: String?
 
     public init(
       account: String,
@@ -63,17 +63,151 @@ public struct Keychain {
     }
   }
 
+  public struct GenericItem {
+    public var account: String
+    public var username: String?
+    public var email: String?
+    public var password: String?
+
+    public init(account: String, username: String?, email: String?, password: String?) {
+      self.account = account
+      self.username = username
+      self.email = email
+      self.password = password
+    }
+  }
+
   // MARK: - Public Methods -
 
   public static func fetchItem(
     for serviceURL: URL,
+    account: String? = nil,
     accessGroup: String? = nil
   ) throws -> Keychain.Item? {
-    var query = try self.query(for: serviceURL, accessGroup: accessGroup)
+    var query = try self.internetPasswordQuery(
+      for: serviceURL,
+      account: account,
+      accessGroup: accessGroup
+    )
     query[(kSecMatchLimit as String)] = kSecMatchLimitOne
     query[(kSecReturnAttributes as String)] = true
     query[(kSecReturnData as String)] = true
 
+    return try self.fetch(with: query)
+  }
+
+  public static func fetchItem(
+    for service: String,
+    account: String,
+    accessGroup: String? = nil
+  ) throws -> Keychain.GenericItem? {
+    var query = try self.genericPasswordQuery(
+      for: service,
+      account: account,
+      accessGroup: accessGroup
+    )
+    query[(kSecMatchLimit as String)] = kSecMatchLimitOne
+    query[(kSecReturnAttributes as String)] = true
+    query[(kSecReturnData as String)] = true
+
+    return try self.fetch(with: query)
+  }
+
+  public static func put(
+    item: Keychain.Item,
+    for serviceURL: URL,
+    account: String? = nil,
+    accessibility: Accessibility = .whenUnlocked,
+    accessGroup: String? = nil
+  ) throws {
+    try self.put(
+      item: item,
+      query: try self.internetPasswordQuery(
+        for: serviceURL,
+        account: account,
+        accessGroup: accessGroup
+      ),
+      accessibility: accessibility
+    )
+  }
+
+  public static func put(
+    item: Keychain.GenericItem,
+    for service: String,
+    account: String? = nil,
+    accessibility: Accessibility = .whenUnlocked,
+    accessGroup: String? = nil
+  ) throws {
+    try self.put(
+      item: item,
+      query: try self.genericPasswordQuery(
+        for: service,
+        account: account,
+        accessGroup: accessGroup
+      ),
+      accessibility: accessibility
+    )
+  }
+
+  public static func deleteItem(
+    for serviceURL: URL,
+    account: String? = nil,
+    accessGroup: String? = nil
+  ) throws {
+    try self.delete(
+      with: try self.internetPasswordQuery(
+        for: serviceURL,
+        account: account,
+        accessGroup: accessGroup
+      )
+    )
+  }
+
+  public static func deleteItem(
+    for service: String,
+    account: String? = nil,
+    accessGroup: String? = nil
+  ) throws {
+    try self.delete(
+      with: try self.genericPasswordQuery(for: service, account: account, accessGroup: accessGroup)
+    )
+  }
+
+  // MARK: - Private Methods -
+
+  private static func put<T: Encodable>(
+    item: T,
+    query: [String: Any],
+    accessibility: Accessibility
+  ) throws {
+    var fetchQuery = query
+    fetchQuery[(kSecMatchLimit as String)] = kSecMatchLimitOne
+
+    let itemData = try JSONEncoder().encode(item)
+
+    if SecItemCopyMatching(fetchQuery as CFDictionary, nil) == errSecSuccess {
+      let attributesToUpdate: [String: Any] = [
+        (kSecValueData as String): itemData,
+        (kSecAttrAccessible as String): accessibility.keychainValue
+      ]
+      let status = SecItemUpdate(query as CFDictionary, attributesToUpdate as CFDictionary)
+
+      guard status == noErr else {
+        throw KeychainError.unhandledError(status: status)
+      }
+    } else {
+      var putQuery = query
+      putQuery[(kSecValueData as String)] = itemData
+      putQuery[(kSecAttrAccessible as String)] = accessibility.keychainValue
+      let status = SecItemAdd(putQuery as CFDictionary, nil)
+
+      guard status == noErr else {
+        throw KeychainError.unhandledError(status: status)
+      }
+    }
+  }
+
+  private static func fetch<T: Decodable>(with query: [String: Any]) throws -> T? {
     var queryResult: AnyObject?
     let status = withUnsafeMutablePointer(to: &queryResult) {
       SecItemCopyMatching(query as CFDictionary, UnsafeMutablePointer($0))
@@ -93,48 +227,13 @@ public struct Keychain {
     }
 
     do {
-      return try JSONDecoder().decode(Keychain.Item.self, from: data)
+      return try JSONDecoder().decode(T.self, from: data)
     } catch {
       throw KeychainError.unexpectedPasswordData
     }
   }
 
-  public static func put(
-    item: Keychain.Item,
-    for serviceURL: URL,
-    accessibility: Accessibility = .whenUnlocked,
-    accessGroup: String? = nil
-  ) throws {
-    var fetchQuery = try self.query(for: serviceURL, accessGroup: accessGroup)
-    fetchQuery[(kSecMatchLimit as String)] = kSecMatchLimitOne
-
-    let itemData = try JSONEncoder().encode(item)
-
-    if SecItemCopyMatching(fetchQuery as CFDictionary, nil) == errSecSuccess {
-      let query = try self.query(for: serviceURL, accessGroup: accessGroup)
-      let attributesToUpdate: [String: Any] = [
-        (kSecValueData as String): itemData,
-        (kSecAttrAccessible as String): accessibility.keychainValue
-      ]
-      let status = SecItemUpdate(query as CFDictionary, attributesToUpdate as CFDictionary)
-
-      guard status == noErr else {
-        throw KeychainError.unhandledError(status: status)
-      }
-    } else {
-      var query = try self.query(for: serviceURL, accessGroup: accessGroup)
-      query[(kSecValueData as String)] = itemData
-      query[(kSecAttrAccessible as String)] = accessibility.keychainValue
-      let status = SecItemAdd(query as CFDictionary, nil)
-
-      guard status == noErr else {
-        throw KeychainError.unhandledError(status: status)
-      }
-    }
-  }
-
-  public static func deleteItem(for serviceURL: URL, accessGroup: String? = nil) throws {
-    let query = try self.query(for: serviceURL, accessGroup: accessGroup)
+  private static func delete(with query: [String: Any]) throws {
     let status = SecItemDelete(query as CFDictionary)
 
     guard status == noErr || status == errSecItemNotFound else {
@@ -142,23 +241,43 @@ public struct Keychain {
     }
   }
 
-  // MARK: - Private Methods -
-
-  private static func query(for serviceURL: URL, accessGroup: String?) throws -> [String: Any] {
+  private static func internetPasswordQuery(
+    for serviceURL: URL,
+    account: String?,
+    accessGroup: String?
+  ) throws -> [String: Any] {
     guard let host = serviceURL.host else {
       throw KeychainError.missingHostInServiceURL
     }
-
     var query: [String: Any] = [
       (kSecClass as String): kSecClassInternetPassword,
       (kSecAttrServer as String): host,
       (kSecAttrPath as String): serviceURL.path
     ]
-
+    if let account = account {
+      query[(kSecAttrAccount as String)] = account
+    }
     if let accessGroup = accessGroup {
       query[(kSecAttrAccessGroup as String)] = accessGroup
     }
+    return query
+  }
 
+  private static func genericPasswordQuery(
+    for service: String,
+    account: String?,
+    accessGroup: String?
+  ) throws -> [String: Any] {
+    var query: [String: Any] = [
+      (kSecClass as String): kSecClassGenericPassword,
+      (kSecAttrService as String): service
+    ]
+    if let account = account {
+      query[kSecAttrAccount as String] = account
+    }
+    if let accessGroup = accessGroup {
+      query[(kSecAttrAccessGroup as String)] = accessGroup
+    }
     return query
   }
 }
@@ -170,29 +289,16 @@ extension Keychain.Item: Codable {
     case token = "tok"
     case refreshToken = "rtok"
   }
+}
+extension Keychain.Item: Equatable {}
 
-  public init(from decoder: Decoder) throws {
-    let container = try decoder.container(keyedBy: CodingKeys.self)
-    self.account = try container.decode(String.self, forKey: .account)
-    self.password = try container.decodeIfPresent(String.self, forKey: .password)
-    self.token = try container.decodeIfPresent(String.self, forKey: .token)
-    self.refreshToken = try container.decodeIfPresent(String.self, forKey: .refreshToken)
-  }
 
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(self.account, forKey: .account)
-    try container.encode(self.password, forKey: .password)
-    try container.encode(self.token, forKey: .token)
-    try container.encode(self.refreshToken, forKey: .refreshToken)
+extension Keychain.GenericItem: Codable {
+  enum CodingKeys: String, CodingKey {
+    case account = "acc"
+    case username = "un"
+    case email = "em"
+    case password = "pw"
   }
 }
-
-extension Keychain.Item: Equatable {
-  public static func ==(lhs: Keychain.Item, rhs: Keychain.Item) -> Bool {
-    return lhs.account == rhs.account &&
-      lhs.password == rhs.password &&
-      lhs.token == rhs.token &&
-      lhs.refreshToken == rhs.refreshToken
-  }
-}
+extension Keychain.GenericItem: Equatable {}

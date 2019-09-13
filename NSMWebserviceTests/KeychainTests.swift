@@ -31,6 +31,32 @@ class KeychainTests: XCTestCase {
     }
   }
 
+  func testPutGenericItem() {
+    let item1 = Keychain.GenericItem(
+      account: "account1",
+      username: "John Doe",
+      email: "john@email.com",
+      password: "secret"
+    )
+    let item2 = Keychain.GenericItem(
+      account: "account2",
+      username: "Mike Smith",
+      email: "mike@email.com",
+      password: "supersecret"
+    )
+
+    do {
+      try Keychain.put(item: item1, for: "myservice", account: item1.account)
+      try Keychain.put(item: item2, for: "myservice", account: item2.account)
+      let fetchedItem1 = try Keychain.fetchItem(for: "myservice", account: item1.account)
+      let fetchedItem2 = try Keychain.fetchItem(for: "myservice", account: item2.account)
+      XCTAssertEqual(fetchedItem1, item1)
+      XCTAssertEqual(fetchedItem2, item2)
+    } catch {
+      XCTFail(error.localizedDescription)
+    }
+  }
+
   func testUpdate() {
     let savedItem = Keychain.Item(
       account: "hello@world.com",
@@ -57,6 +83,39 @@ class KeychainTests: XCTestCase {
     }
   }
 
+  func testUpdateGenericItem() {
+    let item1 = Keychain.GenericItem(
+      account: "account1",
+      username: "John Doe",
+      email: "john@email.com",
+      password: "secret"
+    )
+    let item2 = Keychain.GenericItem(
+      account: "account2",
+      username: "Mike Smith",
+      email: "mike@email.com",
+      password: "supersecret"
+    )
+    let updatedItem2 = Keychain.GenericItem(
+      account: "account2",
+      username: "Mike Smithers",
+      email: "mikes@email.com",
+      password: "supersecrets"
+    )
+
+    do {
+      try Keychain.put(item: item1, for: "myservice", account: item1.account)
+      try Keychain.put(item: item2, for: "myservice", account: item2.account)
+      try Keychain.put(item: updatedItem2, for: "myservice", account: item2.account)
+      let fetchedItem1 = try Keychain.fetchItem(for: "myservice", account: item1.account)
+      let fetchedItem2 = try Keychain.fetchItem(for: "myservice", account: item2.account)
+      XCTAssertEqual(fetchedItem1, item1)
+      XCTAssertEqual(fetchedItem2, updatedItem2)
+    } catch {
+      XCTFail(error.localizedDescription)
+    }
+  }
+
   func testDelete() {
     let savedItem = Keychain.Item(
       account: "hello@world.com",
@@ -71,6 +130,33 @@ class KeychainTests: XCTestCase {
       try Keychain.deleteItem(for: url)
       let fetchedItem = try Keychain.fetchItem(for: url)
       XCTAssertNil(fetchedItem)
+    } catch {
+      XCTFail(error.localizedDescription)
+    }
+  }
+
+  func testDeleteGenericItem() {
+    let item1 = Keychain.GenericItem(
+      account: "account1",
+      username: "John Doe",
+      email: "john@email.com",
+      password: "secret"
+    )
+    let item2 = Keychain.GenericItem(
+      account: "account2",
+      username: "Mike Smith",
+      email: "mike@email.com",
+      password: "supersecret"
+    )
+
+    do {
+      try Keychain.put(item: item1, for: "myservice", account: item1.account)
+      try Keychain.put(item: item2, for: "myservice", account: item2.account)
+      try Keychain.deleteItem(for: "myservice", account: item1.account)
+      let fetchedItem1 = try Keychain.fetchItem(for: "myservice", account: item1.account)
+      let fetchedItem2 = try Keychain.fetchItem(for: "myservice", account: item2.account)
+      XCTAssertNil(fetchedItem1)
+      XCTAssertEqual(fetchedItem2, item2)
     } catch {
       XCTFail(error.localizedDescription)
     }
