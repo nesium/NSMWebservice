@@ -1,0 +1,23 @@
+▿ http://www.example.com/hello
+  ▿ url: Optional<URL>
+    - some: http://www.example.com/hello
+  - cachePolicy: 0
+  - timeoutInterval: 30.0
+  - mainDocumentURL: Optional<URL>.none
+  - networkServiceType: NSURLRequestNetworkServiceType.NSURLRequestNetworkServiceType
+  - allowsCellularAccess: true
+  ▿ httpMethod: Optional<String>
+    - some: "POST"
+  ▿ allHTTPHeaderFields: Optional<Dictionary<String, String>>
+    ▿ some: 2 key/value pairs
+      ▿ (2 elements)
+        - key: "Accept"
+        - value: "application/json"
+      ▿ (2 elements)
+        - key: "Content-Type"
+        - value: "application/json"
+  ▿ httpBody: Optional<Data>
+    - some: 28 bytes
+  - httpBodyStream: Optional<NSInputStream>.none
+  - httpShouldHandleCookies: true
+  - httpShouldUsePipelining: false

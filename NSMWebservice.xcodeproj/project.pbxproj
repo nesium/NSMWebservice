@@ -224,11 +224,24 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		2CA63034232CE0200057E681 /* NSMWebserviceTests */ = {
+			isa = PBXGroup;
+			children = (
+				2CCC88F5209382F8003383DC /* JSONValueCodableTests.swift */,
+				2CA6C7EC1F083BD200F6591E /* KeychainTests.swift */,
+				2CE38E921E16613800EDFC3D /* NSMWebserviceTests.swift */,
+				2C6F0E8F20370F970058B6F4 /* RequestTests.swift */,
+				2C19EB3821AEBF1C00C17BB6 /* ResponseHeadersTests.swift */,
+				2C72F8B720400BF300ECFCDA /* RxExtensionsTests.swift */,
+			);
+			path = NSMWebserviceTests;
+			sourceTree = "<group>";
+		};
 		2CE38E7A1E16613800EDFC3D = {
 			isa = PBXGroup;
 			children = (
-				2CE38E861E16613800EDFC3D /* NSMWebservice */,
-				2CE38E911E16613800EDFC3D /* NSMWebserviceTests */,
+				2CE38E861E16613800EDFC3D /* Sources */,
+				2CE38E911E16613800EDFC3D /* Tests */,
 				2C5A09C51F0849DB00660E6A /* TestHost */,
 				2CE38E851E16613800EDFC3D /* Products */,
 				2C059F4F1E1798F500F18CD3 /* Frameworks */,
@@ -245,33 +258,27 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		2CE38E861E16613800EDFC3D /* NSMWebservice */ = {
+		2CE38E861E16613800EDFC3D /* Sources */ = {
 			isa = PBXGroup;
 			children = (
 				2CE38E871E16613800EDFC3D /* NSMWebservice.h */,
 				2CE38E881E16613800EDFC3D /* Info.plist */,
-				2CE38E9E1E16614700EDFC3D /* Classes */,
-				2C5C55E01EF2F76800941012 /* Libraries */,
+				2CE38E9E1E16614700EDFC3D /* NSMWebservice */,
 			);
-			path = NSMWebservice;
+			path = Sources;
 			sourceTree = "<group>";
 		};
-		2CE38E911E16613800EDFC3D /* NSMWebserviceTests */ = {
+		2CE38E911E16613800EDFC3D /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				2CE38E941E16613800EDFC3D /* Info.plist */,
-				2CCC88F5209382F8003383DC /* JSONValueCodableTests.swift */,
-				2CA6C7EC1F083BD200F6591E /* KeychainTests.swift */,
-				2CE38E921E16613800EDFC3D /* NSMWebserviceTests.swift */,
-				2C6F0E8F20370F970058B6F4 /* RequestTests.swift */,
-				2C19EB3821AEBF1C00C17BB6 /* ResponseHeadersTests.swift */,
-				2C72F8B720400BF300ECFCDA /* RxExtensionsTests.swift */,
 				2CECF4671EAA9B6B00FE8BF0 /* Test Data */,
+				2CA63034232CE0200057E681 /* NSMWebserviceTests */,
+				2CE38E941E16613800EDFC3D /* Info.plist */,
 			);
-			path = NSMWebserviceTests;
+			path = Tests;
 			sourceTree = "<group>";
 		};
-		2CE38E9E1E16614700EDFC3D /* Classes */ = {
+		2CE38E9E1E16614700EDFC3D /* NSMWebservice */ = {
 			isa = PBXGroup;
 			children = (
 				2C8F328C1EA9A5BB000150B1 /* HTTPError.swift */,
@@ -287,8 +294,9 @@
 				2C36FFFB1E23689000D37BF0 /* WebserviceSession.swift */,
 				2C72F8B22040094900ECFCDA /* Extensions */,
 				2CE38EA61E16614700EDFC3D /* Transformers */,
+				2C5C55E01EF2F76800941012 /* Libraries */,
 			);
-			path = Classes;
+			path = NSMWebservice;
 			sourceTree = "<group>";
 		};
 		2CE38EA61E16614700EDFC3D /* Transformers */ = {
@@ -769,7 +777,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
-				INFOPLIST_FILE = NSMWebservice/Info.plist;
+				INFOPLIST_FILE = Sources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -793,7 +801,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
-				INFOPLIST_FILE = NSMWebservice/Info.plist;
+				INFOPLIST_FILE = Sources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -812,7 +820,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
-				INFOPLIST_FILE = NSMWebserviceTests/Info.plist;
+				INFOPLIST_FILE = Tests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.nesium.NSMWebserviceTests;
@@ -830,7 +838,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
-				INFOPLIST_FILE = NSMWebserviceTests/Info.plist;
+				INFOPLIST_FILE = Tests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.nesium.NSMWebserviceTests;
