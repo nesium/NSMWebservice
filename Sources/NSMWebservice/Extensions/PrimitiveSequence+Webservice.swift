@@ -9,7 +9,8 @@
 import RxSwift
 
 extension PrimitiveSequence {
-  public func mapToThrowingObservable<T>() -> Observable<Response<T>> where E == ResponseResult<T> {
+  public func mapToThrowingObservable<T>()
+    -> Observable<Response<T>> where Element == ResponseResult<T> {
     return self.asObservable().map { result in
       switch result {
         case let .success(response):

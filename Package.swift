@@ -11,7 +11,7 @@ let package = Package(
     .library(name: "NSMWebservice", targets: ["NSMWebservice"]),
   ],
   dependencies: [
-    .package(url: "https://github.com/ReactiveX/RxSwift.git", .upToNextMinor(from: "4.4.2"))
+    .package(url: "https://github.com/ReactiveX/RxSwift.git", .upToNextMinor(from: "5.0.1"))
   ],
   targets: [
     .target(name: "NSMWebservice", dependencies: ["RxSwift"])
